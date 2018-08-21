@@ -1,0 +1,279 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+html,body{
+	width: 100%;
+	height: 100%;
+}
+body.wait *, body.wait
+{
+	cursor: progress !important;
+}
+.tooltip:after{
+	content: "";
+	top: -9px;
+    left: 10%;
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent ;
+
+}
+.emailAlert.active{
+	opacity: 1;
+	visibility: visible;
+	
+
+}
+.emailAlert{
+	opacity: 0;
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 10;
+	visibility: hidden;
+}
+.tooltip.active{
+	visibility: visible;
+	opacity: 1;
+}
+.tooltip{
+	visibility: hidden;
+}
+.tooltip .tooltiptext{
+	
+	background-color: #555;
+	border-radius: 6px;
+	display: block;
+	width: 135px;
+	height: 29px;
+	color: white;
+	text-align: center;
+}
+.SoanEmail.active{
+	opacity: 1;
+	visibility: visible;
+}
+.SoanEmail{
+	opacity: 0;
+	visibility: hidden;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	width: 600px;
+	background-color: white;
+	z-index: 10;
+	border: 0.5px solid black;
+}
+.SoanEmail .head-email{
+
+	background-color: #404040;
+	color: white;
+}
+.SoanEmail .head-email p{
+	padding: 5px;	
+}
+.SoanEmail .head-email .nut-remove{
+	position: absolute;
+	top: 0;
+	right: 3%;
+	cursor: pointer;
+}
+.SoanEmail .head-email .nut-remove:hover{
+
+	color: red;
+}
+p.btnDowload:hover{
+	color: #0c0ce4;
+}
+.wrap-giaoxu p{
+	font-size: 20px;
+}
+.btnDowload{
+	cursor: pointer;
+}
+.left{
+	background-color: #222D32;
+	position: fixed;
+	height: 100%;
+	width: 17%;
+	left: 0;
+	top: 0;
+}
+.btnGX{
+	color: white;
+	width: 100%;
+	height: 50px;
+	display: block;
+	cursor: pointer;
+}
+
+.btnGX:hover{
+	background: #2C3B41;
+	border-left: 3px solid green;
+}
+.contain-menu{
+	margin-top: 25px;
+}
+.contain-menu a{
+	color: white;
+	text-decoration: none;
+}
+
+.contain-menu i {
+	width: 30px;
+	margin-left: 20px;
+}
+.navbar{
+	background: #3C8DBC;
+	border-radius: 0;
+}
+.wrap-thongtin{
+	margin-top: 35%;
+	margin-left: 15px;
+}
+.wrap-thongtin p{
+	cursor: pointer;
+	font-size: 17px;
+}
+
+.wrap-thongtin p:hover{
+	color: #0275D8;
+}
+.loading{
+}
+#giaoxu-info-form .text-danger{
+	display: none;
+}
+.brand{
+	background: #3C8DBC;
+	height: 52px;
+	width: 100%;
+	text-align: center;
+}
+.brand h4{
+	line-height: 2;
+}
+.wrap-content.active{
+	opacity: 1;
+	visibility: visible;
+}
+.wrap-giaoxu2{
+	height: 408px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.wrap-giaoxu2 .txtWeb{
+	word-wrap: break-word;
+}
+.container{
+	margin-top: 50px;
+	padding-left: 50px;
+}
+.wrap-content{
+	z-index: 5;
+	opacity: 0;
+	visibility: hidden;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+.wrap-content .den{
+	background-color: #000000a8;
+	width: 100%;
+	height: 100%;
+}
+
+.wrap-content .content{
+	z-index: 10;
+	border-radius: 10px;
+	background-color: white;
+	max-width: 900px;
+	max-height: 550px;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translateX(-50%) translateY(-50%);
+
+
+}
+.wrap-content .content .btnCancel{
+	position: absolute;
+	right: 1%;
+	cursor: pointer;
+}
+.wrap-content .content .btnCancel:hover{
+	color: red;
+}
+.ani_in{
+	animation: ani_in_1 1s forwards;
+}
+.footer{
+	width: 100%;
+	height: 7%;
+	background: #FFFFFF;
+}
+.footer h6{
+	float: right;
+	text-align: center;
+	margin: 10px 20px 0 0;
+}
+.wrap-trum{
+	background: #ECF0F5;
+	width: 83%;
+	float: right;
+	height: 90%;
+}
+.child-menu{
+	margin-left: 12%;
+	width: 88%;
+}
+.down-management{
+	float: right;
+	margin-top: 5px;
+}
+.top{
+	width: 83%;
+	float: right;
+}
+
+@keyframes ani_in_1{
+	from{
+		top: -100%;
+	}
+	to{
+		top: 50%;
+	}
+}
+@media (max-width: 576px) {
+	*{}
+	.wrap-title-giaoxu p{
+		font-size: 12px;
+	}
+	.bocFind{
+		padding: 0;
+	}
+	.btnFind{
+		width: 10px;
+		overflow: hidden;
+		/*! padding: 13px; */
+	}
+	.tieude h2{
+		font-size: 16px;
+	}
+	.wrap-trum{
+		margin: 0!important;
+		padding: 0!important;
+		background: #ECF0F5;
+	}
+	.wrap-trum .container{
+		margin: 0!important;
+		padding: 0!important;
+	}
+}

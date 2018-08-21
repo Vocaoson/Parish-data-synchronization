@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <button data-toggle="modal" data-target="#request-modal" >Click</button>
+        <!-- Modal content-->
+        <div id="edit-modal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="overflow: auto;">
+              
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Danh sách yêu cầu</h4>
+                    </div>
+                    <div class="modal-body">
+                       <form action="">
+                            <div  class="form-group">
+                                    <label for="txt-giaophan-name">Thuộc giáo phận: </label>
+                                    <input type="text" class="form-control" id="txt-giaophan-name" name="txt-giaophan-name">
+                               </div>
+                               <div  class="form-group">
+                                    <label for="txt-giaohat-name">Thuộc giáo hạt: </label>
+                                    <input type="text" class="form-control" id="txt-giaohat-name" name="txt-giaohat-name">
+                               </div>
+                               <div  class="form-group">
+                                    <label for="txt-giaoxu-name">Tên giáo xứ: </label>
+                                    <input type="text" class="form-control" id="txt-giaoxu-name" name="txt-giaoxu-name">
+                               </div>
+                               <div  class="form-group">
+                                    <label for="txt-email">Email: </label>
+                                    <input type="text" class="form-control" id="txt-email" name="txt-email">
+                               </div>
+                               <div  class="form-group">
+                                    <label for="txt-sdt">Số diện thoại: </label>
+                                    <input type="text" class="form-control" id="txt-sdt" name="txt-sdt">
+                               </div>
+                               <div  class="form-group">
+                                    <label for="txt-website">Website: </label>
+                                    <input type="text" class="form-control" id="txt-website" name="txt-website">
+                               </div>
+
+                               <div  class="form-group">
+                                    <label for="txt-diachi">Địa chỉ: </label>
+                                    <input type="text" class="form-control" id="txt-diachi" name="txt-diachi">
+                               </div>
+                               <div  class="form-group">
+                                    <label for="image-giaoxu">Hình giáo xứ: </label>
+                                    <input type="file" class="form-control" id="image-giaoxu" name="image-giaoxu">
+                               </div>
+                               <input type="submit" name="submit" value="Lưu" class="form-control btn btn-primary" id="submit">
+                       </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
+                    </div>
+                  </div>
+              
+                </div>
+              </div>
+</body>
+</html>
