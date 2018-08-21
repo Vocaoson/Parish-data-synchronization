@@ -111,18 +111,18 @@ class GiaoXuCL extends CI_Controller {
 		}
 	}
 	public function getGiaoXusRequest(){
-			if (!$this->getPassWord()) {
-				return false;
-			}
-			$rs=$this->GiaoXuMD->getGxsRequest();
-			if (count($rs)>0) {
-				echo json_encode($rs);	
-				return;		
-			}
-			else {
-				echo -1;
-				return;
-			}
+		if (!$this->getPassWord()) {
+			return false;
+		}
+		$rs=$this->GiaoXuMD->getGxsRequest();
+		if (count($rs)>0) {
+			echo json_encode($rs);	
+			return;		
+		}
+		else {
+			echo -1;
+			return;
+		}
 	}
 	public function getGXjson()
 	{
@@ -225,21 +225,21 @@ class GiaoXuCL extends CI_Controller {
 					return json_encode(array('success'=>'error'));
 				}
 			}
-				$id=$this->input->post('txt-giaoxu-id');
-				$name=$this->input->post('txt-giaoxu-name');
-				$address = $this->input->post('txt-diachi');
-				$phone = $this->input->post('txt-sdt');
-				$email = $this->input->post('txt-email');
-				$website = $this->input->post('txt-website');
-				$img = '';
-				$note = '';
-				$magiaohat = $this->input->post('cb-giaohat-name');
-				$result = $this->GiaoXuMD->update($id,$name,$address,$phone,$email,$website,$img,$note,$magiaohat);
-				if($result >= 0){
-					$json = json_encode(array('success'=>'success'));
-					die($json);
-				}
-				die(json_encode(array('success'=>'error')));
+			$id=$this->input->post('txt-giaoxu-id');
+			$name=$this->input->post('txt-giaoxu-name');
+			$address = $this->input->post('txt-diachi');
+			$phone = $this->input->post('txt-sdt');
+			$email = $this->input->post('txt-email');
+			$website = $this->input->post('txt-website');
+			$img = '';
+			$note = '';
+			$magiaohat = $this->input->post('cb-giaohat-name');
+			$result = $this->GiaoXuMD->update($id,$name,$address,$phone,$email,$website,$img,$note,$magiaohat);
+			if($result >= 0){
+				$json = json_encode(array('success'=>'success'));
+				die($json);
+			}
+			die(json_encode(array('success'=>'error')));
 			//insert giao xu
 		}
 
@@ -248,70 +248,66 @@ class GiaoXuCL extends CI_Controller {
 	public function insert()
 	{
 		if (isset($_POST)&&count($_POST)>0) {
-			//insert Giao Phan
+			
 			$allID=array();
-			$allID["IDGH"]=1;
+			//insert Giao Phan
 			if (isset($_POST["GiaoPhan"])) {
 				$rs=$this->GiaoPhanMD->insertMD(
 					$this->input->post('GiaoPhanTenGiaoPhan'),
 					$this->input->post('GiaoPhanGhiChu'));
-				$allID["IDGP"]=$rs;
-			}
-			if ($rs>0) {
-				
-				//insert giao hat voi id gp=$rs
-				if (isset($_POST["GiaoHat"])) {
-					$rs=$this->GiaoHatMD->insertMD(
-						$allID["IDGP"],
-						$this->input->post('GiaoHatTenGiaoHat'),
-						$this->input->post('GiaoHatGhiChu'));
-					$allID["IDGH"]=$rs;
-				}
 				if ($rs>0) {
-					//insert Giao Xu
-					if (isset($_POST["GiaoXu"])) {
-						$rs=$this->GiaoXuMD->insertMD(
-							$allID["IDGH"],
-							$this->input->post('GiaoXuTenGiaoXu'),
-							$this->input->post('GiaoXuDiaChi'),
-							$this->input->post('GiaoXuDienThoai'),
-							$this->input->post('GiaoXuEmail'),
-							$this->input->post('GiaoXuWebsite'),
-							$this->input->post('GiaoXuHinh'),
-							$this->input->post('GiaoXuGhiChu'));
-					}
-					if ($rs>0) {
-						$allID["IDGX"]=$rs;
-					}
+					$allID["IDGP"]=$rs;
+				}
+				else{
+					echo -1;
+					return;
 				}
 			}
-			if (count($allID)>0) {
+			else {
+				$allID["IDGP"]=$this->input->post('GiaoPhanId');
+			}
+			//insert giao hat
+			if (isset($_POST["GiaoHat"])) {
+				$rs=$this->GiaoHatMD->insertMD(
+					$allID["IDGP"],
+					$this->input->post('GiaoHatTenGiaoHat'),
+					$this->input->post('GiaoHatGhiChu'));
+				if ($rs>0) {
+					$allID["IDGH"]=$rs;
+				}	
+				else{
+					echo -1;
+					return;
+				}
+			}
+			else {
+				$allID["IDGH"]=$this->input->post('GiaoHatId');	
+			}
+			if (isset($_POST["GiaoXu"])) {
+				$rs=$this->GiaoXuMD->insertMD(
+					$allID["IDGH"],
+					$this->input->post('GiaoXuTenGiaoXu'),
+					$this->input->post('GiaoXuDiaChi'),
+					$this->input->post('GiaoXuDienThoai'),
+					$this->input->post('GiaoXuEmail'),
+					$this->input->post('GiaoXuWebsite'),
+					$this->input->post('GiaoXuHinh'),
+					$this->input->post('GiaoXuGhiChu'));
+				if ($rs>0) {
+					$allID["IDGX"]=$rs;
+				}
+			}
+			if (count($allID)==3) {
 				echo json_encode($allID);
 				return;
 			}
 			else {
-				echo -1;return;
+				echo -1;
+				return;
 			}
 		}
 		echo -1;
 		return;
-	}
-	public function insertGiaoXu()
-	{
-		if (isset($_POST)) {
-			$rs=$this->GiaoXuMD->insertGiaoXuMD(
-				$_POST["ID"],$_POST["Name"],$_POST["Address"],$_POST["Phone"],$_POST["Email"],$_POST["Web"],$_POST["Img"],$_POST["Note"],$_POST["MaGiaoHat"]);
-			if ($rs>0) {
-				echo 1;
-			}
-			else {
-				echo 0;
-			}
-
-		}
-		else {
-			echo -1;
-		}
 	}
 	public function checkMaGiaoXuRieng($id=-1)
 	{
