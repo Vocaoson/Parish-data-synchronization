@@ -19,7 +19,13 @@ class GiaoPhanMD extends CI_Model {
 	public function getGPjsonMD()
 	{
 		$this->db->select('MaGiaoPhan,TenGiaoPhan,status');
-		$this->db->where('status = 1');
+		$this->db->where("status = 1");
+		$query=$this->db->get($this->table);
+		return $query->result();
+	}
+	public function getGPjsonMDWeb()
+	{
+		$this->db->select('MaGiaoPhan,TenGiaoPhan,status');
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}

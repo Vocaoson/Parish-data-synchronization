@@ -24,7 +24,14 @@ class GiaoHatMD extends CI_Model {
 	{
 		$this->db->select('MaGiaoHat,TenGiaoHat,status');
 		$this->db->where('MaGiaoPhan', $idGP);
-		$this->db->where('status = 1');
+		$this->db->where("status = 1");
+		$query=$this->db->get($this->table);
+		return $query->result();
+	}
+	public function getGHjsonMDWeb($idGP)
+	{
+		$this->db->select('MaGiaoHat,TenGiaoHat,status');
+		$this->db->where('MaGiaoPhan', $idGP);
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}

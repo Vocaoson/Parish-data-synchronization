@@ -119,7 +119,7 @@
 	}
 	function getGiaoHat(giaoPhanId,giaoHatCurrentId){
 		//getGHByIdGP
-		let url = `GiaoHatCL/getGHByIdGP/${giaoPhanId}`;
+		let url = `GiaoHatCL/getGHByIdGP/${giaoPhanId}/web`;
 		$.ajax({
 			url: path+url,
 			type: 'post',
@@ -150,7 +150,7 @@
 		getGiaoXu(giaoXuId);
 	}
 	function getGiaoPhan(maGiaoPhanCurrent,maGiaoHatCurrent){
-		let giaoPhanUrl = `GiaoPhanCL/getGPjson`;
+		let giaoPhanUrl = `GiaoPhanCL/getGPjson/web`;
 		$.ajax({
 			url: path+giaoPhanUrl,
 			type: 'post',

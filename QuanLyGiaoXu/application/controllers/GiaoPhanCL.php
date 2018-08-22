@@ -25,12 +25,16 @@ class GiaoPhanCL extends CI_Controller {
 			}
 		}
 	}
-	public function getGPjson()
+	public function getGPjson($status)
 	{
 		if (!$this->getPassWord()) {
 			return false;
 		}
-		$rs=$this->GiaoPhanMD->getGPjsonMD();
+		if($status == 'web'){	
+			$rs=$this->GiaoPhanMD->getGPjsonMDWeb();
+		} else {
+			$rs=$this->GiaoPhanMD->getGPjsonMD();
+		}
 		if (count($rs)>0) {
 			echo json_encode($rs);
 			return;

@@ -12,9 +12,13 @@ class GiaoHatCL extends CI_Controller {
 	{
 		
 	}
-	public function getGHByIdGP($idGP)
+	public function getGHByIdGP($idGP,$status = '')
 	{
-		$rs=$this->GiaoHatMD->getGHjsonMD($idGP);
+		if($status == "web"){
+			$rs=$this->GiaoHatMD->getGHjsonMDWeb($idGP);
+		} else {
+			$rs=$this->GiaoHatMD->getGHjsonMD($idGP);
+		}
 		if (count($rs)>0) {
 			echo json_encode($rs);
 			return;
