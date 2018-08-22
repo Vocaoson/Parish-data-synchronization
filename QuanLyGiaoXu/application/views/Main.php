@@ -24,5 +24,7 @@
 		$this->load->view($subview);
 	}
 	?>
+	<script type="text/javascript" src="<?= base_url() ?>SupportWeb/vendor/bootstrap.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>SupportWeb/1.js"></script>
 </body>
 </html>
