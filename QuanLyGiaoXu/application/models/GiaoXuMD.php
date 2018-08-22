@@ -10,6 +10,14 @@ class GiaoXuMD extends CI_Model {
 	//Do your magic here
 		$this->table="giaoxu";
 	}
+
+	public function checkStatus($id)
+	{
+		$this->db->select('status');
+		$this->db->where('Id', $id);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
 	public function downloadImgMD($id)
 	{
 		$this->db->select('Hinh');
@@ -82,12 +90,14 @@ class GiaoXuMD extends CI_Model {
 	}
 	public function getPhanTrang($numPage,$offset)
 	{
+		$this->db->where('status',1);
 		$query=$this->db->get($this->table,$numPage,$offset);
 		return $query->result();
 	}
 	public function countRow()
 	{
-		return $this->db->count_all($this->table);
+		$this->db->where('status',1);
+		return $this->db->count_all_results($this->table);
 	}
 	public function getNameSDTAll()
 	{

@@ -176,7 +176,7 @@
 				$(".giaophan-note").css('display','none');
 			}
 			getGiaoHat(maGiaoPhanCurrent,maGiaoHatCurrent);
-			})
+		})
 	}
 	function showData(nameSS,urlCL,title) {
 		$('.TieuDeShow').text(title);
@@ -394,32 +394,32 @@
 		$("#hidden-giaophan").val(selectd.attr('status'));
 		let giaoPhanId = selectd.val();
 		getGiaoHat(giaoPhanId);
-});
-$("#submit-giaoxu-info").click(function(){
-	$.ajax({
-		url: path+'GiaoXuCL/insertInfo',
-		type: 'post',
-		dataType: 'json',
-		data: {
-			'txt-giaoxu-id':$("#txt-giaoxu-id").val(),
-			'cb-giaophan-name':$("#cb-giaophan-name").val(),
-			'cb-giaophan-name':$("#cb-giaophan-name").val(),
-			'hidden-giaophan':$("#hidden-giaophan").val(),
-			'cb-giaohat-name':$("#cb-giaohat-name").val(),
-			'hidden-giaohat':$("#hidden-giaohat").val(),
-			'txt-giaoxu-name':$("#txt-giaoxu-name").val(),
-			'txt-email':$("#txt-email").val(),
-			'txt-sdt':$("#txt-sdt").val(),
-			'txt-website':$("#txt-website").val(),
-			'txt-diachi':$("#txt-diachi").val()
-		}
-	}).done(function(data){
-		if(data.success == 'success'){
-			alert('Cập nhật thông tin thành công');
-			getGiaoXuEdit(("#txt-giaoxu-id").val(),$("#txt-giaoxu-name").val());
-		} else {
-			alert('Cập nhật thông tin không thành công');
-		}
+	});
+	$("#submit-giaoxu-info").click(function(){
+		$.ajax({
+			url: path+'GiaoXuCL/insertInfo',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				'txt-giaoxu-id':$("#txt-giaoxu-id").val(),
+				'cb-giaophan-name':$("#cb-giaophan-name").val(),
+				'cb-giaophan-name':$("#cb-giaophan-name").val(),
+				'hidden-giaophan':$("#hidden-giaophan").val(),
+				'cb-giaohat-name':$("#cb-giaohat-name").val(),
+				'hidden-giaohat':$("#hidden-giaohat").val(),
+				'txt-giaoxu-name':$("#txt-giaoxu-name").val(),
+				'txt-email':$("#txt-email").val(),
+				'txt-sdt':$("#txt-sdt").val(),
+				'txt-website':$("#txt-website").val(),
+				'txt-diachi':$("#txt-diachi").val()
+			}
+		}).done(function(data){
+			if(data.success == 'success'){
+				alert('Cập nhật thông tin thành công');
+				getGiaoXuEdit(("#txt-giaoxu-id").val(),$("#txt-giaoxu-name").val());
+			} else {
+				alert('Cập nhật thông tin không thành công');
+			}
+		})
 	})
-})
 });

@@ -8,6 +8,7 @@ class BackupCL extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('BackupMD');
+		$this->load->model('GiaoXuMD');
 		date_default_timezone_set('Asia/Ho_Chi_Minh');
 		$this->vartest=$this->config->item('numfile');
 	//Do your magic here
@@ -63,6 +64,11 @@ class BackupCL extends CI_Controller {
 	public function uploadFile($maGiaoXuRieng)
 	{
 		if (isset($_FILES)) {
+			$status=$this->GiaoXuMD->checkStatus($maGiaoXuRieng);
+			if ($status->status==0) {
+				echo 0;
+				return;
+			}
 			$this->checkNumFileBackup($maGiaoXuRieng);
 			//kiem tra duong dan
 			$serverPath='files/'.$maGiaoXuRieng;
