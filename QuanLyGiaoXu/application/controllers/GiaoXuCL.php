@@ -12,10 +12,17 @@ class GiaoXuCL extends CI_Controller {
 	//Do your magic here
 	}
 	private $numrow;
-	public function testSyn()
+	public function checkStatus($idgx=-1)
 	{
-		
+		if ($idgx!=-1) {
+			echo $this->GiaoXuMD->checkStatus($idgx)->status;
+			return;
+		}
+		echo null;
+		return;
+
 	}
+
 	public function getGXByIdGH($idGH)
 	{
 		$rs=$this->GiaoXuMD->getGXjsonMDIDGH($idGH);
