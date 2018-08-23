@@ -12,6 +12,10 @@ class GiaoXuCL extends CI_Controller {
 	//Do your magic here
 	}
 	private $numrow;
+	public function testSyn()
+	{
+		
+	}
 	public function getGXByIdGH($idGH)
 	{
 		$rs=$this->GiaoXuMD->getGXjsonMDIDGH($idGH);
