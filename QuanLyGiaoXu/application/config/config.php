@@ -31,7 +31,7 @@ $config["numrow"]=4;
 |
 */
 
-$config['base_url'] = 'http://localhost:8080/PHP/ThucTap/ServerQlgx2/QuanLyGiaoXu/';
+$config['base_url'] = 'http://localhost:8080/PHP/ThucTap/ServerQlgx3/QuanLyGiaoXu/';
 
 /*
 |--------------------------------------------------------------------------
