@@ -46,7 +46,7 @@ class GiaoDanMD extends CI_Model {
             SELECT `last_time` FROM (
                 SELECT MAX(UpdateDate) AS last_time FROM giaodan WHERE MaNhanDang='$maNhanDang'
             )  AS temp
-        ) AND ManhanDang = '$maNhanDang'";
+        ) AND ManhanDang = '$maNhanDang' AND MaNhanDang != ''";
         $rs = $this->db->query($sql);
     }
     public function deleteByInfo($name,$tenThanh,$birthdate) {

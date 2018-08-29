@@ -64,7 +64,7 @@ class SynJobCL extends CI_Controller
             }
         }
     }
-    public function compareGiaDinh($data){
+    public function compareGiaDinh($datas){
 
     }
     

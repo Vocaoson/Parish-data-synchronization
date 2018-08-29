@@ -8,7 +8,7 @@ class CsvImport
     private $delimiter; 
     private $length; 
     //-------------------------------------------------------------------- 
-    function __construct($parse_header=false, $delimiter=",", $length=8000) 
+    function __construct($parse_header=false, $delimiter=";", $length=8000) 
     {
         $this->parse_header = $parse_header; 
         $this->delimiter = $delimiter; 
