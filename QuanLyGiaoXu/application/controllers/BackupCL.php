@@ -63,7 +63,7 @@ class BackupCL extends CI_Controller {
 	}
 	public function uploadFile($maGiaoXuRieng)
 	{
-		if (isset($_FILES)) {
+		if (isset($_FILES) && count($_FILES) > 0) {
 			$status=$this->GiaoXuMD->checkStatus($maGiaoXuRieng);
 			if ($status->status==0) {
 				echo 0;

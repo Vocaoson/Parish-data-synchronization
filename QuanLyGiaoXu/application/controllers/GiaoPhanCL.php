@@ -25,7 +25,7 @@ class GiaoPhanCL extends CI_Controller {
 			}
 		}
 	}
-	public function getGPjson($status)
+	public function getGPjson($status='')
 	{
 		if (!$this->getPassWord()) {
 			return false;
