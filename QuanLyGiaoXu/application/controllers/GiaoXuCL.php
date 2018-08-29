@@ -20,7 +20,6 @@ class GiaoXuCL extends CI_Controller {
 		}
 		echo null;
 		return;
-
 	}
 
 	public function getGXByIdGH($idGH)

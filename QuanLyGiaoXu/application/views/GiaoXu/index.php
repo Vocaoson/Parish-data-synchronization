@@ -128,11 +128,11 @@
 				<form id="giaoxu-info-form">
 					<input type="hidden" id="isEdit" name="isEdit">
 					<input type="hidden" id="txt-giaoxu-id" name="txt-giaoxu-id">
-					
+
 					<div  class="form-group cb">
 						<label for="cb-giaophan-name">Thuộc giáo phận: </label>
 						<select name="cb-giaophan-name" class="form-control" id="cb-giaophan-name">
-							
+
 						</select>
 						<input type="hidden" id='hidden-giaophan' name="hidden-giaophan">
 						<p class="text-danger giaophan-note">Lưu ý : Tác vụ sẽ tạo ra 1 giáo phận mới, hãy kiểm tra lại danh sách giáo phận và chọn ra giáo phận phù hợp nếu có.</p>
@@ -176,7 +176,7 @@
                         	<button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -220,7 +220,6 @@
         		</div>
         		<div class="form-group row">
         			<b class="btn btn-primary" id="btnSendEmail" data-path="">Gửi</b>
-
         		</div>
         	</div>
         </div>
