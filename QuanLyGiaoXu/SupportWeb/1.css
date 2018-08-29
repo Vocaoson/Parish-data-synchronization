@@ -172,6 +172,10 @@ p.btnDowload:hover{
 	margin-top: 50px;
 	padding-left: 50px;
 }
+.SoanEmail .container{
+	margin: auto;
+	padding: auto;
+}
 .wrap-content{
 	z-index: 5;
 	opacity: 0;

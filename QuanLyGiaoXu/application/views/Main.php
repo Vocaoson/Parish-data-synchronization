@@ -24,5 +24,8 @@
 		$this->load->view($subview);
 	}
 	?>
+	<input type="hidden" name="" id="baseURL" value="<?= base_url()?>">
+	<script type="text/javascript" src="<?= base_url() ?>SupportWeb/vendor/bootstrap.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>SupportWeb/1.js"></script>
 </body>
 </html>

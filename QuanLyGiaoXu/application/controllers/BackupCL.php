@@ -13,7 +13,12 @@ class BackupCL extends CI_Controller {
 		$this->vartest=$this->config->item('numfile');
 	//Do your magic here
 	}
-
+	public function uploadFileSyn($id=1)
+	{
+		if ($_FILES) {
+			
+		}
+	}
 	public function dowloadFile($id=-1)
 	{
 		if ($id!=-1) {
