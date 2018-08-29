@@ -1,0 +1,2 @@
+ID,username,password,firstname,lastname,email,deleted,course1,role1,group1,cohort1,course2,role2,group2,cohort2,course3,role3,group3,cohort3,course4,role4,group4,cohort4,course5,role5,group5,cohort5,course6,role6,group6,cohort6 
+980052051@twinriversusd.org,980052051@twinriversusd.org,twinrivers,Isidro,Lugo,980052051@twinriversusd.org,,Simpson-Grade5-(590-960),student,,5,,,,0,,,,,,,,,,,,,,,,
