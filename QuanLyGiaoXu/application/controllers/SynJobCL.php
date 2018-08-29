@@ -42,7 +42,7 @@ class SynJobCL extends CI_Controller
             $giaoDans = $this->GiaoDanMD->getById($data['MaGiaoDan']);
             if(isset($giaoDans) && count($giaoDans) > 0){ //=> đã tồn tại giáo dân
                 $giaoDan = $giaoDans[0];
-                if(strtotime($giaoDan->LastTimeChange) < strtotime($data['LastTimeChange'])){
+                if(strtotime($giaoDan->UpdateDate) < strtotime($data['UpdateDate'])){
                     $this->GiaoDanMD->update($data);
                 }
                         //else => insert

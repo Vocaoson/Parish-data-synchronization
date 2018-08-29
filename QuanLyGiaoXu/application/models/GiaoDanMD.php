@@ -42,18 +42,18 @@ class GiaoDanMD extends CI_Model {
     }
     public function deleteByMaNhanDang($maNhanDang){
         $sql = "DELETE FROM giaodan
-        WHERE LastTimeChange NOT IN (
+        WHERE UpdateDate NOT IN (
             SELECT `last_time` FROM (
-                SELECT MAX(LastTimeChange) AS last_time FROM giaodan WHERE MaNhanDang='$maNhanDang'
+                SELECT MAX(UpdateDate) AS last_time FROM giaodan WHERE MaNhanDang='$maNhanDang'
             )  AS temp
         ) AND ManhanDang = '$maNhanDang'";
         $rs = $this->db->query($sql);
     }
     public function deleteByInfo($name,$tenThanh,$birthdate) {
         $sql = "DELETE FROM giaodan
-        WHERE LastTimeChange NOT IN (
+        WHERE UpdateDate NOT IN (
             SELECT `last_time` FROM (
-                SELECT MAX(LastTimeChange) AS last_time FROM giaodan WHERE `HoTen` = '$name' AND `TenThanh`='$tenThanh' AND `NgaySinh` = '$birthdate'
+                SELECT MAX(UpdateDate) AS last_time FROM giaodan WHERE `HoTen` = '$name' AND `TenThanh`='$tenThanh' AND `NgaySinh` = '$birthdate'
             )  AS temp
         ) AND `HoTen` = '$name' AND `TenThanh`='$tenThanh' AND `NgaySinh` = '$birthdate'";
           $rs = $this->db->query($sql);
