@@ -20,14 +20,18 @@ class SynJobCL extends CI_Controller
             $syn = $syns[0];
             // set status = 1
             $this->execute($syn);
+            $this->setStatusExe($syn);
         }
+    }
+    public function setStatusExe($syn) {
+        $this->SynFileMD->setExe($syn->ID);
     }
     public function execute($syn) {
         // GiaoDan
         $dir = $this->dirData . $syn->MaGiaoXuSyn . '/' . $syn->ID;
         require_once('GiaoDanCompareCL.php');
         $giaoDanCompare = new GiaoDanCompareCL("GiaoDan.csv",$dir);
-        $giaoDanCompare->compare();
+        //$giaoDanCompare->compare();
         // GiaDinh -> ThanhVienGiaDinh
         
         // $files = array_diff(scandir($dir), array('.', '..'));

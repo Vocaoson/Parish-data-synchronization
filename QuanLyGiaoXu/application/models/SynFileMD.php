@@ -24,5 +24,8 @@ class SynFileMD extends CI_Model
 		$query=$this->db->get();
 		return $query->result();
     }
+    public function setExe($id) {
+        $this->db->query("UPDATE syn_info SET Status = 1 WHERE ID = $id");
+    }
 }
 ?>
