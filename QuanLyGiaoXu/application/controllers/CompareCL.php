@@ -15,18 +15,23 @@ abstract class CompareCL extends CI_Controller {
         $this->data = $this->getData();
     }
     abstract public function compare();
-    public function toBool(&$data){
-        foreach ($data as $key => $value) {
-            if($value === "False") {
-                $data[$key] = 0;
-            } else if($value === "True") {
-                $data[$key] = -1;
+    public function toBool($data){
+        $datas = $data;
+        foreach ($datas as $key => &$value) {
+            foreach($value as $subKey => $subValue) {
+                if($subValue === "False") {
+                    $value[$subKey] = 0;
+                } else if($subValue === "True") {
+                    $value[$key] = -1;
+                }
             }
         }
+        return $datas;
     }
     public function getData() {
         $this->csvimport->setFileName($this->dir . '/' . $this->file);
         $data = $this->csvimport->get();
+        $data = $this->toBool($data);
         return $data;
     }
 }
