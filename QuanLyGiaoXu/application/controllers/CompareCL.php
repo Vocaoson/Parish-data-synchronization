@@ -22,7 +22,7 @@ abstract class CompareCL extends CI_Controller {
                 if($subValue === "False") {
                     $value[$subKey] = 0;
                 } else if($subValue === "True") {
-                    $value[$key] = -1;
+                    $value[$subKey] = -1;
                 }
             }
         }
