@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 include_once('CompareCL.php');
 
 class GiaoDanCompareCL extends CompareCL {
-    public function __construct() {
-        parent::__construct();
+    public function __construct($file,$syn) {
+        parent::__construct($file,$syn);
         $this->load->model('GiaoDanMD');
     }
-    public function compare($datas){
-        foreach($datas as $data){
+    public function compare(){
+        foreach($this->data as $data){
             $this->toBool($data);
             // by id, if same id => change
             // get last time change
