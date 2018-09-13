@@ -31,6 +31,7 @@ class SynJobCL extends CI_Controller
         $dir = $this->dirData . $syn->MaGiaoXuSyn . '/' . $syn->ID;
         require_once('GiaoDanCompareCL.php');
         $giaoDanCompare = new GiaoDanCompareCL("GiaoDan.csv",$dir);
+        $giaoDanCompare->compare();
         //$giaoDanCompare->compare();
         // GiaDinh -> ThanhVienGiaDinh
         

@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class GiaoDanMD extends CI_Model {
     public $giaoDanModel;
-    private $table;
+    private $table; 
 	public function __construct()
 	{
 		parent::__construct();

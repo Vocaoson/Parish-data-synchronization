@@ -9,33 +9,38 @@ class GiaoDanCompareCL extends CompareCL {
     }
     public function compare(){
         foreach($this->data as $data){
-            // $this->toBool($data);
-            // // by id, if same id => change
-            // // get last time change
-            // $giaoDans = $this->GiaoDanMD->getById($data['MaGiaoDan']);
-            // if(isset($giaoDans) && count($giaoDans) > 0){ //=> đã tồn tại giáo dân
-            //     $giaoDan = $giaoDans[0];
-            //     if(strtotime($giaoDan->UpdateDate) < strtotime($data['UpdateDate'])){
-            //         $this->GiaoDanMD->update($data);
-            //     }
-            //             //else => insert
-            // } else {
-            //     $this->GiaoDanMD->insert($data);
-            // }
-            $this->GiaoDanMD->insert($data);
-            // merge
-            // by MaNhanDang
-            $giaoDans = $this->GiaoDanMD->getByMaNhanDang($data['MaNhanDang']);
-            if(isset($giaoDans) && count($giaoDans) > 1){ //=> trùng
-                $this->GiaoDanMD->deleteByMaNhanDang($data['MaNhanDang']);
+            $updated = false;
+            $track = new stdClass();
+            if(!empty($data['MaNhanDang']) || (!empty($data['HoTen']) && !empty($data['NgaySinh']) && !empty($data['TenThanh']))) {
+                $giaoDans = !empty($data['MaNhanDang']) ? $this->GiaoDanMD->getByMaNhanDang($data['MaNhanDang']):$this->GiaoDanMD->getByInfo($data['HoTen'],$data['TenThanh'],$data['NgaySinh']);
+                if(isset($giaoDans) && count($giaoDans) > 0) { //=> trùng
+                    $updated =  true;
+                    if($data['UpdateDate'] > $giaoDans[0]->UpdateDate) {
+                        $track->oldIdIsCsv = false;
+                        $track->oldId = $giaoDans[0]->MaGiaoDan;
+                        $track->newId = $data['MaGiaoDan'];
+                    } else {
+                        $track->oldIdIsCsv = true;
+                        $track->oldId = $data['MaGiaoDan'];
+                        $track->newId = $giaoDans[0]->MaGiaoDan;
+                        $this->GiaoDanMD->update($data);
+                    }
+                } else {
+                    //create
+                    $idNew = $this->GiaoDanMD->insert($data);
+                    $track->oldIdIsCsv = true;
+                    $track->oldId = $data['MaGiaoDan'];
+                    $track->newId = $idNew;
+                }
+                $this->tracks[] = $track;
             }
             // by name +  tenthanh + ngaysinh
-            if(!empty($data['HoTen']) && !empty($data['NgaySinh']) && !empty($data['TenThanh'])) {
-                $giaoDans = $this->GiaoDanMD->getByInfo($data['HoTen'],$data['TenThanh'],$data['NgaySinh']);
-                if(isset($giaoDans) && count($giaoDans) > 1){ //=> trùng
-                    $this->GiaoDanMD->deleteByInfo($data['HoTen'],$data['TenThanh'],$data['NgaySinh']);
-                }
-            }
+            // if(!empty($data['HoTen']) && !empty($data['NgaySinh']) && !empty($data['TenThanh'])) {
+            //     $giaoDans = $this->GiaoDanMD->getByInfo($data['HoTen'],$data['TenThanh'],$data['NgaySinh']);
+            //     if(isset($giaoDans) && count($giaoDans) > 1){ //=> trùng
+            //         $this->GiaoDanMD->deleteByInfo($data['HoTen'],$data['TenThanh'],$data['NgaySinh']);
+            //     }
+            // }
         }
     }
 }

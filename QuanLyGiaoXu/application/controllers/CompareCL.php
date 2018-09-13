@@ -10,8 +10,8 @@ abstract class CompareCL extends CI_Controller {
     //strclass->oldId;stdclass->newId;stdclass->oldIdIsCsv
     public function __construct($file,$dir) {
         parent::__construct();
-        $dataImport = array('header'=>true);
-        $this->load->library('CsvImport',$dataImport);
+        $dataImport = array('parse_header'=>true);
+        $this->load->library('CsvImport');
         $this->file = $file;
         $this->dir = $dir;
         $this->data = $this->getData();
