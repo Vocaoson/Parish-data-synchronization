@@ -6,6 +6,8 @@ abstract class CompareCL extends CI_Controller {
     public $file;
     public $data;
     public $dir;
+    public $tracks;//array(stdClass)
+    //strclass->oldId;stdclass->newId;stdclass->oldIdIsCsv
     public function __construct($file,$dir) {
         parent::__construct();
         $dataImport = array('header'=>true);

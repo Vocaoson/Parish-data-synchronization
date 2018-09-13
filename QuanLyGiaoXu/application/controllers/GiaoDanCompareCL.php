@@ -9,19 +9,20 @@ class GiaoDanCompareCL extends CompareCL {
     }
     public function compare(){
         foreach($this->data as $data){
-            $this->toBool($data);
-            // by id, if same id => change
-            // get last time change
-            $giaoDans = $this->GiaoDanMD->getById($data['MaGiaoDan']);
-            if(isset($giaoDans) && count($giaoDans) > 0){ //=> đã tồn tại giáo dân
-                $giaoDan = $giaoDans[0];
-                if(strtotime($giaoDan->UpdateDate) < strtotime($data['UpdateDate'])){
-                    $this->GiaoDanMD->update($data);
-                }
-                        //else => insert
-            } else {
-                $this->GiaoDanMD->insert($data);
-            }
+            // $this->toBool($data);
+            // // by id, if same id => change
+            // // get last time change
+            // $giaoDans = $this->GiaoDanMD->getById($data['MaGiaoDan']);
+            // if(isset($giaoDans) && count($giaoDans) > 0){ //=> đã tồn tại giáo dân
+            //     $giaoDan = $giaoDans[0];
+            //     if(strtotime($giaoDan->UpdateDate) < strtotime($data['UpdateDate'])){
+            //         $this->GiaoDanMD->update($data);
+            //     }
+            //             //else => insert
+            // } else {
+            //     $this->GiaoDanMD->insert($data);
+            // }
+            $this->GiaoDanMD->insert($data);
             // merge
             // by MaNhanDang
             $giaoDans = $this->GiaoDanMD->getByMaNhanDang($data['MaNhanDang']);
