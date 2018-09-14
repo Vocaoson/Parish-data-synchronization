@@ -9,20 +9,22 @@ class GiaoDanCompareCL extends CompareCL {
     }
     public function compare(){
         foreach($this->data as $data){
-            $updated = false;
             $track = new stdClass();
+            $track->updated = false;
             if(!empty($data['MaNhanDang']) || (!empty($data['HoTen']) && !empty($data['NgaySinh']) && !empty($data['TenThanh']))) {
                 $giaoDans = !empty($data['MaNhanDang']) ? $this->GiaoDanMD->getByMaNhanDang($data['MaNhanDang']):$this->GiaoDanMD->getByInfo($data['HoTen'],$data['TenThanh'],$data['NgaySinh']);
                 if(isset($giaoDans) && count($giaoDans) > 0) { //=> trùng
-                    $updated =  true;
+                    $track->updated = true;
                     if($data['UpdateDate'] > $giaoDans[0]->UpdateDate) {
                         $track->oldIdIsCsv = false;
                         $track->oldId = $giaoDans[0]->MaGiaoDan;
                         $track->newId = $data['MaGiaoDan'];
+                        $track->nowId = $giaoDans[0]->MaGiaoDan;
                     } else {
                         $track->oldIdIsCsv = true;
                         $track->oldId = $data['MaGiaoDan'];
                         $track->newId = $giaoDans[0]->MaGiaoDan;
+                        $track->nowId = $giaoDans[0]->MaGiaoDan;
                         $this->GiaoDanMD->update($data);
                     }
                 } else {
@@ -31,6 +33,7 @@ class GiaoDanCompareCL extends CompareCL {
                     $track->oldIdIsCsv = true;
                     $track->oldId = $data['MaGiaoDan'];
                     $track->newId = $idNew;
+                    $track->nowId = $idNew;
                 }
                 $this->tracks[] = $track;
             }
