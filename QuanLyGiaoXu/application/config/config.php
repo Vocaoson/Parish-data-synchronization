@@ -31,7 +31,7 @@ $config["numrow"]=4;
 |
 */
 
-$config['base_url'] = 'http://localhost:81/qlgx_web/QuanLyGiaoXu/';
+$config['base_url'] = 'http://localhost:8080/PHP/ThucTap/ServerQlgx12/QuanLyGiaoXu';
 
 /*
 |--------------------------------------------------------------------------
@@ -533,4 +533,4 @@ $config['proxy_ips'] = '';
 /**
  * Variable store directory file csv
  */
-$config['data_dir'] = 'C:/wamp64/www/qlgx_web/data';
+$config['data_dir'] = 'http://localhost:8080/PHP/ThucTap/ServerQlgx12/data';

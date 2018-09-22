@@ -29,9 +29,21 @@ class SynJobCL extends CI_Controller
     public function execute($syn) {
         // GiaoDan
         $dir = $this->dirData . $syn->MaGiaoXuSyn . '/' . $syn->ID;
+        //2018/09/22 Gia add start
+        require_once('GiaoHoCompareCL.php');
+        $giaoHoCompare=new GiaoHoCompareCL('GiaoHo.csv',$dir);
+        $giaoHoCompare->compare();
+        //2018/09/22 Gia add end
         require_once('GiaoDanCompareCL.php');
         $giaoDanCompare = new GiaoDanCompareCL("GiaoDan.csv",$dir);
+        $giaoDanCompare->getListGiaoHoTracks($giaoHoCompare->tracks);
         $giaoDanCompare->compare();
+        require_once('GiaDinhCompareCL.php');
+        $giaDinhComapre=new GiaDinhCompareCL('GiaDinh.csv',$dir);
+        $giaDinhComapre->getListGiaoDanTracks($giaoDanCompare->tracks);
+        $giaDinhComapre->getListGiaoHoTracks($giaoHoCompare->tracks);
+        $giaDinhComapre->compare();
+        $giaDinhComapre->deleteGiaDinh($syn->MaGiaoXuSyn);
         //$giaoDanCompare->compare();
         // GiaDinh -> ThanhVienGiaDinh
         

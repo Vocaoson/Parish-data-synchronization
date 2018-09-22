@@ -10,6 +10,9 @@ class GiaoDanMD extends CI_Model {
 		$this->table="giaodan";
     }
     public function insert($giaoDanArray){
+        //2018-09-17 Gia add start
+        unset($giaoDanArray['MaGiaoDan']);
+        //2018-09-17 Gia add end
 		$this->db->insert($this->table, $giaoDanArray);
 		return $this->db->insert_id();	
     }

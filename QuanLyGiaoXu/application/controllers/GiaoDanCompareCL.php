@@ -7,25 +7,40 @@ class GiaoDanCompareCL extends CompareCL {
         parent::__construct($file,$syn);
         $this->load->model('GiaoDanMD');
     }
+    //2018/09/22 Gia add start
+    private $listGHThayDoi;
+    public function getListGiaoHoTracks($tracks)
+    {
+        $this->listGHThayDoi=$track;
+    }
+    //2018/09/22 Gia add end
     public function compare(){
         foreach($this->data as $data){
             $track = new stdClass();
             $track->updated = false;
             if(!empty($data['MaNhanDang']) || (!empty($data['HoTen']) && !empty($data['NgaySinh']) && !empty($data['TenThanh']))) {
                 $giaoDans = !empty($data['MaNhanDang']) ? $this->GiaoDanMD->getByMaNhanDang($data['MaNhanDang']):$this->GiaoDanMD->getByInfo($data['HoTen'],$data['TenThanh'],$data['NgaySinh']);
+
+                //2018/09/22 Gia add start
+                $data['MaGiaoHo']=$this->findIdObjectSV($this->listGHThayDoi,$data['MaGiaoHo']);
+                //2018/09/22 Gia add end
                 if(isset($giaoDans) && count($giaoDans) > 0) { //=> trùng
+                    //2018/09/20 Gia add start
+                    $data=$this->processDataNull($giaoDans[0],$data);
+                    //2118/09/20 Gia add end
                     $track->updated = true;
                     if($data['UpdateDate'] > $giaoDans[0]->UpdateDate) {
                         $track->oldIdIsCsv = false;
                         $track->oldId = $giaoDans[0]->MaGiaoDan;
                         $track->newId = $data['MaGiaoDan'];
                         $track->nowId = $giaoDans[0]->MaGiaoDan;
+                        $this->GiaoDanMD->update($data);
                     } else {
                         $track->oldIdIsCsv = true;
                         $track->oldId = $data['MaGiaoDan'];
                         $track->newId = $giaoDans[0]->MaGiaoDan;
                         $track->nowId = $giaoDans[0]->MaGiaoDan;
-                        $this->GiaoDanMD->update($data);
+
                     }
                 } else {
                     //create
