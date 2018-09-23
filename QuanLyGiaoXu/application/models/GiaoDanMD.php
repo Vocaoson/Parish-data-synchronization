@@ -20,9 +20,22 @@ class GiaoDanMD extends CI_Model {
         $id = $giaoDanArray['MaGiaoDan'];
         return $this->db->update($this->table, $giaoDanArray,"MaGiaoDan='$id'");
     }
-    public function delete(){
-
+    //2018/09/23 Gia add start
+    public function delete($maGiaoDan,$maGiaoXu){
+        $this->db->set('DeleteSV',1);
+        $this->db->where('MaGiaoDan', $maGiaoDan);
+        $this->db->where('MaGiaoXuRieng', $maGiaoXu);
+        $this->db->update($this->table);
     }
+    public function getByMaGiaoHo($maGiaoHo,$maGiaoXu)
+    {
+        $this->db->select('MaGiaoDan');
+        $this->db->where('MaGiaoHo', $maGiaoHo);
+        $this->db->where('MaGiaoXuRieng', $maGiaoXu);
+        $query=$this->db->get($this->table);
+        return $query->result();
+    }
+    //2018/09/23 Gia add end
     public function getById($id) {
         $this->db->select('*');
 		$this->db->where('MaGiaoDan', $id);

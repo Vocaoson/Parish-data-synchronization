@@ -25,7 +25,7 @@ class GiaDinhCompareCL extends CompareCL {
 			$this->tracks[]=$objectTrack;
 		}
 	}
-	public function deleteGiaDinh($maGiaoXuRieng)
+	public function delete($maGiaoXuRieng)
 	{
 		$rs=$this->GiaDinhMD->getAllListIDGiaDinh($maGiaoXuRieng);
 		if (count($rs)>0) {

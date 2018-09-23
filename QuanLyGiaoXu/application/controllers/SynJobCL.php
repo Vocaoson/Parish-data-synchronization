@@ -33,6 +33,7 @@ class SynJobCL extends CI_Controller
         require_once('GiaoHoCompareCL.php');
         $giaoHoCompare=new GiaoHoCompareCL('GiaoHo.csv',$dir);
         $giaoHoCompare->compare();
+        $giaoHoCompare->delete($syn->MaGiaoXuSyn);
         //2018/09/22 Gia add end
         require_once('GiaoDanCompareCL.php');
         $giaoDanCompare = new GiaoDanCompareCL("GiaoDan.csv",$dir);
@@ -43,7 +44,7 @@ class SynJobCL extends CI_Controller
         $giaDinhComapre->getListGiaoDanTracks($giaoDanCompare->tracks);
         $giaDinhComapre->getListGiaoHoTracks($giaoHoCompare->tracks);
         $giaDinhComapre->compare();
-        $giaDinhComapre->deleteGiaDinh($syn->MaGiaoXuSyn);
+        $giaDinhComapre->delete($syn->MaGiaoXuSyn);
         //$giaoDanCompare->compare();
         // GiaDinh -> ThanhVienGiaDinh
         

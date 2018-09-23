@@ -19,6 +19,7 @@ class GiaoHoMD extends CI_Model {
 	}
 	public function getAllListIDGiaoHo($maGiaoXu)
 	{
+		$this->db->select('MaGiaoHo');
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$query=$this->db->get($this->table);
 		return $query->result();

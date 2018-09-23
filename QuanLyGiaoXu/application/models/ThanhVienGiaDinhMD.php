@@ -17,6 +17,13 @@ class ThanhVienGiaDinhMD extends CI_Model {
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
+	public function deleteThanhVien($maGiaoDan,$magiaoxurieng)
+	{
+		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$this->db->set('DeleteSV',1);
+		$this->db->update($this->table);
+	}
 	public function findTVGDwithIDVT($maGiaoDan,$vaitro,$magiadinh,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoDan', $maGiaoDan);
