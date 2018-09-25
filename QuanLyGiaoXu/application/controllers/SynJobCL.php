@@ -43,8 +43,13 @@ class SynJobCL extends CI_Controller
         $giaDinhComapre=new GiaDinhCompareCL('GiaDinh.csv',$dir);
         $giaDinhComapre->getListGiaoDanTracks($giaoDanCompare->tracks);
         $giaDinhComapre->getListGiaoHoTracks($giaoHoCompare->tracks);
-        $giaDinhComapre->compare();
-        $giaDinhComapre->delete($syn->MaGiaoXuSyn);
+        $giaDinhCompare->compare();
+        $giaDinhCompare->delete($syn->MaGiaoXuSyn);
+        require_once('DotBiTichCompareCL.php');
+        $dotBiTichCompare=new DotBiTichCompareCL('DotBiTich.csv',$dir);
+        $dotBiTichCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
+        $dotBiTichCompare->compare();
+        $dotBiTichCompare->delete($syn->MaGiaoXuSyn);
         //$giaoDanCompare->compare();
         // GiaDinh -> ThanhVienGiaDinh
         

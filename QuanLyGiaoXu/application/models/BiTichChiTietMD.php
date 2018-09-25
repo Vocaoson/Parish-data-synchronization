@@ -7,7 +7,7 @@ class BiTichChiTietMD extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->table='BiTichChiTiet';
+		$this->table='bitichchitiet';
 	}
 	public function delete($maGiaoDan,$magiaoxurieng)
 	{

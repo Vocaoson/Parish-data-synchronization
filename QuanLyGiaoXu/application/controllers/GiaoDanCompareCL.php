@@ -1,17 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 include_once('CompareCL.php');
-
 class GiaoDanCompareCL extends CompareCL {
     public function __construct($file,$syn) {
         parent::__construct($file,$syn);
-        $this->load->model('GiaoDanMD');
+        require_once(APPPATH.'models/GiaoDanMD.php');
+        $this->GiaoDanMD=new GiaoDanMD();
     }
     //2018/09/22 Gia add start
+    private $GiaoDanMD;
     private $listGHThayDoi;
     public function getListGiaoHoTracks($tracks)
     {
-        $this->listGHThayDoi=$track;
+        $this->listGHThayDoi=$tracks;
     }
     //2018/09/22 Gia add end
     public function compare(){
@@ -34,7 +35,13 @@ class GiaoDanCompareCL extends CompareCL {
                         $track->oldId = $giaoDans[0]->MaGiaoDan;
                         $track->newId = $data['MaGiaoDan'];
                         $track->nowId = $giaoDans[0]->MaGiaoDan;
-                        $this->GiaoDanMD->update($data);
+                        //2018/09/24 Gia delete start
+                        //$this->GiaoDanMD->update($data);
+                        //2018/09/24 Gia delete end
+
+                        //2018/09/24 Gia add start
+                        $this->GiaoDanMD->update($data,$giaoDans[0]->MaGiaoDan);
+                         //2018/09/24 Gia add end
                     } else {
                         $track->oldIdIsCsv = true;
                         $track->oldId = $data['MaGiaoDan'];

@@ -17,6 +17,18 @@ class GiaDinhMD extends CI_Model {
 		$this->db->update($this->table);
 
 	}
+	public function deleteByGiaoHo($maGiaoHo,$maGiaoXuRieng)
+	{
+		
+	}
+	public function getByMaGiaoHo($maGiaoHo,$maGiaoXuRieng)
+	{
+		$this->db->select('MaGiaDinh');
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaGiaoHo', $maGiaoHo);
+		$query=$this->db->get($this->table);
+		return $query->result();
+	}
 	public function getAllListIDGiaDinh($maGiaoXuRieng)
 	{
 		$this->db->select('MaGiaDinh');
@@ -54,7 +66,7 @@ class GiaDinhMD extends CI_Model {
 	public function update($data,$MaGiaDinh)
 	{
 		$data['MaGiaDinh']=$MaGiaDinh;
-		$this->db->update($this->table, $MaGiaDinh);
+		$this->db->update($this->table, $data);
 	}
 	/*
 	insert gia dinh

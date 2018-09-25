@@ -38,15 +38,17 @@ abstract class CompareCL extends CI_Controller {
      */
     public function findIdObjectCSV($listTrack,$idSV)
     {
-        foreach ($listTrack as $data) {
-            if ($data->oldIdIsCsv) {
-                if ($data->newId==$idSV) {
-                    return $data->oldId;
+        if ($listTrack!=null && count($listTrack)>0) {
+            foreach ($listTrack as $data) {
+                if ($data->oldIdIsCsv) {
+                    if ($data->newId==$idSV) {
+                        return $data->oldId;
+                    }
                 }
-            }
-            else {
-                if ($data->oldId==$idSV) {
-                    return $data->newId;
+                else {
+                    if ($data->oldId==$idSV) {
+                        return $data->newId;
+                    }
                 }
             }
         }
@@ -60,15 +62,17 @@ abstract class CompareCL extends CI_Controller {
      */
     public function findIdObjectSV($listTrack,$idCSV)
     {
-        foreach ($listTrack as $data) {
-            if ($data->oldIdIsCsv) {
-                if ($data->oldId==$idCSV) {
-                    return $data->newId;
+        if ($listTrack!=null&& count($listTrack)>0) {
+            foreach ($listTrack as $data) {
+                if ($data->oldIdIsCsv) {
+                    if ($data->oldId==$idCSV) {
+                        return $data->newId;
+                    }
                 }
-            }
-            else {
-                if ($data->newId==$idCSV) {
-                    return $data->oldId;
+                else {
+                    if ($data->newId==$idCSV) {
+                        return $data->oldId;
+                    }
                 }
             }
         }

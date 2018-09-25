@@ -7,7 +7,7 @@ class ChuyenXuMD extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->table="ChuyenXu";
+		$this->table="chuyenxu";
 	}
 	public function delete($maGiaoDan,$magiaoxurieng)
 	{

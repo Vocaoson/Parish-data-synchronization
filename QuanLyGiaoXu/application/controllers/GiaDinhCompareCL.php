@@ -5,9 +5,14 @@ class GiaDinhCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		$this->load->model('GiaDinhMD');
-		$this->load->model('ThanhVienGiaDinhMD');
+		require_once(APPPATH.'models/GiaDinhMD.php');
+        $this->GiaDinhMD=new GiaDinhMD();
+		
+		require_once(APPPATH.'models/ThanhVienGiaDinhMD.php');
+        $this->ThanhVienGiaDinhMD=new ThanhVienGiaDinhMD();
 	}
+	private $GiaDinhMD;
+	private $ThanhVienGiaDinhMD;
 	private $listThanhVienGiaDinh;
 	private $listGDThayDoi;
 	/**
@@ -30,8 +35,8 @@ class GiaDinhCompareCL extends CompareCL {
 		$rs=$this->GiaDinhMD->getAllListIDGiaDinh($maGiaoXuRieng);
 		if (count($rs)>0) {
 			foreach ($rs as $data) {
-				$idGDCSV=$this->findIdObjectCSV($this->tracks,$data->MaGiaDinh)
-				if ($idGDSV==0) {
+				$idGDCSV=$this->findIdObjectCSV($this->tracks,$data->MaGiaDinh);
+				if ($idGDCSV==0) {
 					//Delete gia dinh
 					$this->GiaDinhMD->delete($data->MaGiaDinh,$maGiaoXuRieng);
 					//Delete tvgd
@@ -123,7 +128,7 @@ class GiaDinhCompareCL extends CompareCL {
 	private $listGHThayDoi;
     public function getListGiaoHoTracks($tracks)
     {
-        $this->listGHThayDoi=$track;
+        $this->listGHThayDoi=$tracks;
     }
 	public function getListGiaoDanTracks($tracks)
 	{

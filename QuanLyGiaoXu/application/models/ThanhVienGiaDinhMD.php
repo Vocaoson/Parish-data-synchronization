@@ -51,16 +51,19 @@ class ThanhVienGiaDinhMD extends CI_Model {
 	public function update($data,$maGiaoDan,$maGiaDinh)
 	{
 		unset($data['UpdateDate']);
-		$data['MaGiaDinh']=$maGiaDinh;
-		$data['MaGiaoDan']=$maGiaoDan;
+		unset($data['MaGiaDinh']);
+		unset($data['MaGiaoDan']);
+		$this->db->where('MaGiaDinh', $maGiaDinh);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
 		$this->db->update($this->table, $data);
 	}
-	public function delete($maGiaDinh,$maGiaoXu)
-	{
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('MaGiaDinh', $maGiaDinh);
-		$this->db->delete($this->table);
-	}
+	// public function delete($maGiaDinh,$maGiaoXu)
+	// {
+	// 	$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+	// 	$this->db->where('MaGiaDinh', $maGiaDinh);
+	// 	$this->db->set('DeleteSV',1);
+	// 	$this->db->update($this->table);
+	// }
 	public function insert($data,$maGiaoDan,$maGiaDinh)
 	{
 		unset($data['UpdateDate']);

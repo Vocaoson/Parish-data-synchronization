@@ -9,6 +9,7 @@ class GiaoDanMD extends CI_Model {
 		parent::__construct();
 		$this->table="giaodan";
     }
+  
     public function insert($giaoDanArray){
         //2018-09-17 Gia add start
         unset($giaoDanArray['MaGiaoDan']);
@@ -16,8 +17,8 @@ class GiaoDanMD extends CI_Model {
 		$this->db->insert($this->table, $giaoDanArray);
 		return $this->db->insert_id();	
     }
-    public function update($giaoDanArray){
-        $id = $giaoDanArray['MaGiaoDan'];
+    public function update($giaoDanArray,$id){
+        unset($giaoDanArray['MaGiaoDan']);
         return $this->db->update($this->table, $giaoDanArray,"MaGiaoDan='$id'");
     }
     //2018/09/23 Gia add start

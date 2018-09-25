@@ -7,6 +7,7 @@ class GiaoHoCompareCL extends CompareCL {
 		parent::__construct($file,$syn);
 		$this->load->model('GiaoHoMD');
 		$this->load->model('GiaoDanMD');
+		$this->load->model('GiaDinhMD');
 		$this->load->model('ThanhVienGiaDinhMD');
 		$this->load->model('BiTichChiTietMD');
 		$this->load->model('GiaoDanHonPhoiMD');
@@ -20,20 +21,30 @@ class GiaoHoCompareCL extends CompareCL {
 	public function compare()
 	{
 		foreach ($this->data as $data) {
-			$objectTrack=$this->importGiaoHo();
+			$objectTrack=$this->importGiaoHo($data);
 			$this->tracks[]=$objectTrack;
 
 		}
 	}
 	public function delete($maGiaoXuRieng)
 	{
-		$rs=$this->GiaoHo->getAllListIDGiaoHo($maGiaoXuRieng);
+		$rs=$this->GiaoHoMD->getAllListIDGiaoHo($maGiaoXuRieng);
 		if (count($rs)>0) {
 			foreach ($rs as $data) {
 				$idCSV=$this->findIdObjectCSV($this->tracks,$data->MaGiaoHo);
 				if ($idCSV==0) {
 					// xoa giao ho
-					$this->GiaoHo->delete($data->MaGiaoHo,$data->MaGiaoXuRieng);
+					$this->GiaoHoMD->delete($data->MaGiaoHo,$maGiaoXuRieng);
+					//Xoa gia dinh
+					$listGiaDinhGiaoHo=$this->GiaDinhMD->getByMaGiaoHo($data->MaGiaoHo,$maGiaoXuRieng);
+					if (count($listGiaDinhGiaoHo)>0) {
+						foreach ($listGiaDinhGiaoHo as $data3) {
+							//xoa gia dinh
+							$this->GiaDinhMD->delete($data3->MaGiaDinh,$maGiaoXuRieng);
+							//Xoa thanh vien gia dinh
+							$this->ThanhVienGiaDinhMD->delete($data3->MaGiaDinh,$maGiaoXuRieng);
+						}
+					}
 					// xoa giao dan  co giao ho
 					$listGDGH=$this->GiaoDanMD->getByMaGiaoHo($data->MaGiaoHo,$maGiaoXuRieng);
 					if (count($listGDGH)>0) {
@@ -62,16 +73,16 @@ class GiaoHoCompareCL extends CompareCL {
 			}
 		}
 	}
-	public function importGiaoHo()
+	public function importGiaoHo($data)
 	{
-		$giaoHoServer=$this->checkExist($data['MaNhanDang'],$data['MaGiaoXuRieng'])
+		$giaoHoServer=$this->checkExist($data['MaNhanDang'],$data['MaGiaoXuRieng']);
 		$objectTrack=new stdClass();
 		$objectTrack->updated=false;
 		$objectTrack->oldIdIsCsv=true;
 		if ($giaoHoServer==null) {
 					//Insert
 			$objectTrack->oldId=$data["MaGiaoHo"];
-			$objectTrack->newId=$this->GiaoHo->insert($data);
+			$objectTrack->newId=$this->GiaoHoMD->insert($data);
 			$objectTrack->nowId=$objectTrack->newId;
 		}
 		else {
@@ -81,7 +92,7 @@ class GiaoHoCompareCL extends CompareCL {
 				$objectTrack->oldId=$giaoHoServer->MaGiaoHo;
 				$objectTrack->nowId=$giaoHoServer->MaGiaoHo;
 				$objectTrack->oldIdIsCsv=false;
-				$this->GiaDinhMD->update($data,$giaoHoServer->MaGiaoHo);
+				$this->GiaoHoMD->update($data,$giaoHoServer->MaGiaoHo);
 			}
 			else {
 				$objectTrack->oldIdIsCsv=true;
@@ -94,7 +105,7 @@ class GiaoHoCompareCL extends CompareCL {
 	}
 	public function checkExist($maNhanDang,$maGiaoXuRieng)
 	{
-		$rs=$this->GiaoHo->getByMaNhanDang($maNhanDang,$maGiaoXuRieng);
+		$rs=$this->GiaoHoMD->getByMaNhanDang($maNhanDang,$maGiaoXuRieng);
 		if ($rs) {
 			return $rs;
 		}
