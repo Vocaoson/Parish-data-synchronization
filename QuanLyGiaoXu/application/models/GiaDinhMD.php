@@ -9,7 +9,7 @@ class GiaDinhMD extends CI_Model {
 		$this->table='GiaDinh';
 	}
 	private $table;
-	public function delete($maGiaDinh,$maGiaoXu)
+	public function deleteMaGiaDinh($maGiaDinh,$maGiaoXu)
 	{
 		$this->db->set('DeleteSV',1);
 		$this->db->where('MaGiaDinh', $maGiaDinh);
@@ -65,7 +65,9 @@ class GiaDinhMD extends CI_Model {
 	 */
 	public function update($data,$MaGiaDinh)
 	{
-		$data['MaGiaDinh']=$MaGiaDinh;
+		unset($data['MaGiaDinh']);
+		$this->db->where('MaGiaDinh', $MaGiaDinh);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$this->db->update($this->table, $data);
 	}
 	/*

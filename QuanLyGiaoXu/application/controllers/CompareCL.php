@@ -8,13 +8,19 @@ abstract class CompareCL extends CI_Controller {
     public $dir;
     public $tracks;//array(stdClass)
     //strclass->oldId;stdclass->newId;stdclass->oldIdIsCsv
+    public $MaGiaoXuRieng;
     public function __construct($file,$dir) {
         parent::__construct();
         $dataImport = array('parse_header'=>true);
         $this->load->library('CsvImport');
         $this->file = $file;
+        $this->MaGiaoXuRieng=$this->getMaGiaoXuRieng($dir);
         $this->dir = $dir;
         $this->data = $this->getData();
+    }
+    public function getMaGiaoXuRieng($dir){
+         $temp=explode("/",$dir);
+        return $temp[count($temp)-2];
     }
     abstract public function compare();
     public function toBool($data){
@@ -29,6 +35,116 @@ abstract class CompareCL extends CI_Controller {
             }
         }
         return $datas;
+    }
+    public function deleteObjecChild($listChange,$fieldID1,$fieldID2,$Model,$maGiaoXuRieng)
+    {
+        $listObjectChild=$Model->getAll($maGiaoXuRieng);
+        if (isset($listObjectChild)&&count($listObjectChild)>0) {
+            foreach ($listObjectChild as $data) {
+                $rs=$this->findObjectChild($data,$listChange,$fieldID1,$fieldID2);
+                if ($rs==0) {
+                    //delete
+                    $Model->deleteTwoKey($data->{$fieldID1},$data->{$fieldID2},$data->MaGiaoXuRieng);
+                }
+            }
+        }
+    }
+    public function findObjectChild($data,$listChange,$fieldID1,$fieldID2)
+    {
+        foreach ($listChange as $value) {
+            if ($value->{$fieldID1}=$data->{$fieldID1}&&$value->{$fieldID2}==$data->{$fieldID2}) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    public function compareDate($dateCSV,$dateSV){
+        $time1 = strtotime($dateCSV);
+        $time2 = strtotime($dateSV);
+        if($time1>$time2){
+          return true;
+        }
+       return false;
+    }
+    public function importObjectChild($objectTrack,$listObjectDetailCSV,$fieldID1,$listObjectChange,$fieldID2,$Model)
+    {
+        $listTrack=array();
+        if ($objectTrack->updated) {
+            //update
+            if (!$objectTrack->oldIdIsCsv) {
+                $objectCSV=$this->getListByID($listObjectDetailCSV,$fieldID1,$objectTrack->newId);
+            }
+        }
+        else {
+            //insert
+            $objectCSV=$this->getListByID($listObjectDetailCSV,$fieldID1,$objectTrack->oldId);
+        }
+        if (isset($objectCSV)&&count($objectCSV)>0) {
+            foreach ($objectCSV as $data) {
+                $IDobject2=$this->findIdObjectSV($listObjectChange,$data[$fieldID2]);
+                if ($IDobject2==0) {
+                    continue;
+                }
+                $rs=$Model->findwithID($objectTrack->nowId,$IDobject2,$data['MaGiaoXuRieng']);
+                $objectTrackNew=new stdClass();
+                $objectTrackNew->{$fieldID2}=$IDobject2;
+                $objectTrackNew->{$fieldID1}=$objectTrack->nowId;
+                $listTrack[]=$objectTrackNew;
+                if ($rs) {
+                    if ($this->compareDate($data['UpdateDate'],$rs->UpdateDate)) {
+                        $Model->update($data,$IDobject2,$objectTrack->nowId);
+                    }
+                    continue;
+                }
+                $Model->insert($data,$IDobject2,$objectTrack->nowId);
+                
+            }
+        }
+        return $listTrack;
+    }
+    public function importObjectMaster($objectCSV,$fieldID,$objectSV,$Model)
+    {
+        $objectTrack=new stdClass();
+        $objectTrack->updated=false;
+        $objectTrack->oldIdIsCsv=true;
+        
+        if ($objectSV==null) {
+                //Insert
+            $objectTrack->oldId=$objectCSV[$fieldID];
+            $objectTrack->newId=$Model->insert($objectCSV);
+            $objectTrack->nowId=$objectTrack->newId;
+        }
+        else {
+                //Update
+                //Xu ly du lieu Null
+            $objectCSV=$this->processDataNull($objectSV,$objectCSV);
+                //check time UpdateDate
+            $objectTrack->updated=true;
+            if ($this->compareDate($objectCSV['UpdateDate'],$objectSV->UpdateDate)) {
+                $objectTrack->newId=$objectCSV[$fieldID];
+                $objectTrack->oldId=$objectSV->{$fieldID};
+                $objectTrack->nowId=$objectSV->{$fieldID};
+                $objectTrack->oldIdIsCsv=false;
+                $Model->update($objectCSV,$objectSV->{$fieldID});
+            }
+            else {
+                $objectTrack->oldIdIsCsv=true;
+                $objectTrack->newId=$objectSV->{$fieldID};
+                $objectTrack->oldId=$objectCSV[$fieldID];
+                $objectTrack->nowId=$objectSV->{$fieldID};
+            }
+        }
+        return $objectTrack;
+    }
+    public function getListByID($list,$field,$id)
+    {
+        $listTemp=array();
+        foreach ($list as $rowCSV) {
+            if ($rowCSV[$field]==$id) {
+                $listTemp[]=$rowCSV;
+            }               
+        }
+        return $listTemp;
     }
     /**
      * [findIdObjectCSV Tìm mã CSV của object]

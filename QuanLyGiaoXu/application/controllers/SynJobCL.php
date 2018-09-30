@@ -40,9 +40,9 @@ class SynJobCL extends CI_Controller
         $giaoDanCompare->getListGiaoHoTracks($giaoHoCompare->tracks);
         $giaoDanCompare->compare();
         require_once('GiaDinhCompareCL.php');
-        $giaDinhComapre=new GiaDinhCompareCL('GiaDinh.csv',$dir);
-        $giaDinhComapre->getListGiaoDanTracks($giaoDanCompare->tracks);
-        $giaDinhComapre->getListGiaoHoTracks($giaoHoCompare->tracks);
+        $giaDinhCompare=new GiaDinhCompareCL('GiaDinh.csv',$dir);
+        $giaDinhCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
+        $giaDinhCompare->getListGiaoHoTracks($giaoHoCompare->tracks);
         $giaDinhCompare->compare();
         $giaDinhCompare->delete($syn->MaGiaoXuSyn);
         require_once('DotBiTichCompareCL.php');
@@ -50,6 +50,22 @@ class SynJobCL extends CI_Controller
         $dotBiTichCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
         $dotBiTichCompare->compare();
         $dotBiTichCompare->delete($syn->MaGiaoXuSyn);
+        require_once('HonPhoiCompareCL.php');
+        $HonPhoiCompare=new HonPhoiCompareCL('HonPhoi.csv',$dir);
+        $HonPhoiCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
+        $HonPhoiCompare->compare();
+        $HonPhoiCompare->delete($syn->MaGiaoXuSyn);
+        // require_once('KhoiGiaoLyCompareCL.php');
+        // $KhoiGiaoLyCompare=new KhoiGiaoLyCompareCL('HonPhoi.csv',$dir);
+        // $KhoiGiaoLyCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
+        // $KhoiGiaoLyCompare->compare();
+        // $KhoiGiaoLyCompare->delete($syn->MaGiaoXuSyn);
+        //  require_once('LopGiaoLyCompareCL.php');
+        // $LopGiaoLyCompare=new LopGiaoLyCompareCL('HonPhoi.csv',$dir);
+        // $LopGiaoLyCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
+        // $LopGiaoLyCompare->getListKhoiLopTracks($KhoiGiaoLyCompare->tracks);
+        // $LopGiaoLyCompare->compare();
+        // $LopGiaoLyCompare->delete($syn->MaGiaoXuSyn);
         //$giaoDanCompare->compare();
         // GiaDinh -> ThanhVienGiaDinh
         

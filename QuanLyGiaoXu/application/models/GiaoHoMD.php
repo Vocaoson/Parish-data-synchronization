@@ -26,7 +26,9 @@ class GiaoHoMD extends CI_Model {
 	}
 	public function update($data,$maGiaoHo)
 	{
-		$data['MaGiaoHo']=$maGiaoHo;
+		unset($data['MaGiaoHo']);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		$this->db->where('MaGiaoHo', $maGiaoHo);
 		$this->db->update($this->table, $data);
 	}
 	public function insert($data)

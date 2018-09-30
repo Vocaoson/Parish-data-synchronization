@@ -9,7 +9,7 @@ class ChuyenXuMD extends CI_Model {
 		parent::__construct();
 		$this->table="chuyenxu";
 	}
-	public function delete($maGiaoDan,$magiaoxurieng)
+	public function deldeleteMaGiaoDan($maGiaoDan,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
 		$this->db->where('MaGiaoDan', $maGiaoDan);

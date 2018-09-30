@@ -10,14 +10,32 @@ class ThanhVienGiaDinhMD extends CI_Model {
 		$this->table="ThanhVienGiaDinh";
 	}
 	private $table;
-	public function delete($maGiaDinh,$magiaoxurieng)
+	public function deleteTwoKey($MaGiaDinh,$MaGiaoDan,$magiaoxurieng)
+	{
+		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
+		$this->db->where('MaGiaoDan', $MaGiaoDan);
+		$this->db->where('MaGiaDinh', $MaGiaDinh);
+		$this->db->set('DeleteSV',1);
+		$this->db->update($this->table);
+	}
+	public function delete($maGiaoDan,$maGiaDinh,$magiaoxurieng)
+	{
+		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$this->db->where('MaGiaDinh', $maGiaDinh);
+		$this->db->set('DeleteSV',1);
+		$this->db->update($this->table);
+	}
+	//Moi xua xe sinh bug
+	public function deleteMaGiaDinh($maGiaDinh,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
 		$this->db->where('MaGiaDinh', $maGiaDinh);
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
-	public function deleteThanhVien($maGiaoDan,$magiaoxurieng)
+
+	public function deleteMaGiaoDan($maGiaoDan,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
 		$this->db->where('MaGiaoDan', $maGiaoDan);
@@ -40,13 +58,18 @@ class ThanhVienGiaDinhMD extends CI_Model {
 	 * @param  [type] $maGiaoXu  [description]
 	 * @return [type]            [description]
 	 */
-	public function findTVGDwithID($maGiaoDan,$maGiaDinh,$maGiaoXu)
+	public function findwithID($maGiaDinh,$maGiaoDan,$maGiaoXu)
 	{
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$this->db->where('MaGiaDinh', $maGiaDinh);
 		$this->db->where('MaGiaoDan', $maGiaoDan);
 		$query=$this->db->get($this->table);
 		return $query->row();
+	}
+	public function getAll()
+	{
+		$query=$this->db->get($this->table);
+		return $query->result();
 	}
 	public function update($data,$maGiaoDan,$maGiaDinh)
 	{
@@ -55,6 +78,7 @@ class ThanhVienGiaDinhMD extends CI_Model {
 		unset($data['MaGiaoDan']);
 		$this->db->where('MaGiaDinh', $maGiaDinh);
 		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$this->db->update($this->table, $data);
 	}
 	// public function delete($maGiaDinh,$maGiaoXu)
