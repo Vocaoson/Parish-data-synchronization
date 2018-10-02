@@ -25,7 +25,7 @@ class HonPhoiCompareCL extends CompareCL {
 			
 			$honPhoiServer=$this->findHonPhoi($data);
 			$objectTrack=$this->importObjectMaster($data,'MaHonPhoi',$honPhoiServer,$this->HonPhoiMD);
-			$this->listGDHPThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoDanHonPhoiCSV,'MaHonPhoi',$this->listGDThayDoi,'MaGiaoDan');
+			$this->listGDHPThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoDanHonPhoiCSV,'MaHonPhoi',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoDanHonPhoiMD);
 			$this->tracks[]=$objectTrack;
 		}
 		$this->deleteObjecChild($this->listGDHPThayDoi,'MaHonPhoi','MaGiaoDan',$this->GiaoDanHonPhoiMD,$this->MaGiaoXuRieng);

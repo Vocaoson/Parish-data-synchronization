@@ -19,53 +19,65 @@ abstract class CompareCL extends CI_Controller {
         $this->data = $this->getData();
     }
     public function getMaGiaoXuRieng($dir){
-         $temp=explode("/",$dir);
-        return $temp[count($temp)-2];
-    }
-    abstract public function compare();
-    public function toBool($data){
-        $datas = $data;
-        foreach ($datas as $key => &$value) {
-            foreach($value as $subKey => $subValue) {
-                if($subValue === "False") {
-                    $value[$subKey] = 0;
-                } else if($subValue === "True") {
-                    $value[$subKey] = -1;
-                }
+       $temp=explode("/",$dir);
+       return $temp[count($temp)-2];
+   }
+   abstract public function compare();
+   public function toBool($data){
+    $datas = $data;
+    foreach ($datas as $key => &$value) {
+        foreach($value as $subKey => $subValue) {
+            if($subValue === "False") {
+                $value[$subKey] = 0;
+            } else if($subValue === "True") {
+                $value[$subKey] = -1;
             }
         }
-        return $datas;
     }
-    public function deleteObjecChild($listChange,$fieldID1,$fieldID2,$Model,$maGiaoXuRieng)
-    {
-        $listObjectChild=$Model->getAll($maGiaoXuRieng);
-        if (isset($listObjectChild)&&count($listObjectChild)>0) {
-            foreach ($listObjectChild as $data) {
-                $rs=$this->findObjectChild($data,$listChange,$fieldID1,$fieldID2);
-                if ($rs==0) {
+    return $datas;
+}
+public function deleteObjecChild($listChange,$fieldID1,$fieldID2,$Model,$maGiaoXuRieng)
+{
+    $listObjectChild=$Model->getAll($maGiaoXuRieng);
+    if (isset($listObjectChild)&&count($listObjectChild)>0) {
+        foreach ($listObjectChild as $data) {
+            $rs=$this->findObjectChild($data,$listChange,$fieldID1,$fieldID2);
+            if ($rs==0) {
                     //delete
-                    $Model->deleteTwoKey($data->{$fieldID1},$data->{$fieldID2},$data->MaGiaoXuRieng);
-                }
+                $Model->deleteTwoKey($data->{$fieldID1},$data->{$fieldID2},$data->MaGiaoXuRieng);
             }
         }
     }
-    public function findObjectChild($data,$listChange,$fieldID1,$fieldID2)
-    {
+}
+public function findObjectChild($data,$listChange,$fieldID1,$fieldID2)
+{
+    if (isset($listChange)&&count($listChange)>0) {
         foreach ($listChange as $value) {
             if ($value->{$fieldID1}=$data->{$fieldID1}&&$value->{$fieldID2}==$data->{$fieldID2}) {
                 return 1;
             }
         }
-        return 0;
     }
-    public function compareDate($dateCSV,$dateSV){
-        $time1 = strtotime($dateCSV);
-        $time2 = strtotime($dateSV);
-        if($time1>$time2){
-          return true;
-        }
-       return false;
-    }
+    return 0;
+}
+public function compareDate($dateCSV,$dateSV){
+    $time1 = strtotime($dateCSV);
+    $time2 = strtotime($dateSV);
+    if($time1>$time2){
+      return true;
+  }
+  return false;
+}
+    /**
+     * [importObjectChild Merger cac ban co quan he nhieu nhieu]
+     * @param  [type] $objectTrack         [description]
+     * @param  [type] $listObjectDetailCSV [description]
+     * @param  [type] $fieldID1            [description]
+     * @param  [type] $listObjectChange    [description]
+     * @param  [type] $fieldID2            [description]
+     * @param  [type] $Model               [description]
+     * @return [type]                      [description]
+     */
     public function importObjectChild($objectTrack,$listObjectDetailCSV,$fieldID1,$listObjectChange,$fieldID2,$Model)
     {
         $listTrack=array();
@@ -102,6 +114,14 @@ abstract class CompareCL extends CI_Controller {
         }
         return $listTrack;
     }
+    /**
+     * [importObjectMaster Merge cac ban chinh ]
+     * @param  [type] $objectCSV [description]
+     * @param  [type] $fieldID   [Name ID]
+     * @param  [type] $objectSV  [object find in server]
+     * @param  [type] $Model     [model of main]
+     * @return [type]            []
+     */
     public function importObjectMaster($objectCSV,$fieldID,$objectSV,$Model)
     {
         $objectTrack=new stdClass();
@@ -135,6 +155,18 @@ abstract class CompareCL extends CI_Controller {
             }
         }
         return $objectTrack;
+    }
+    /*
+    Container in Dic
+     */
+    public function containerDic($dic,$id1,$fieldID1,$id2,$fieldID2)
+    {
+        foreach ($dic as $data) {
+            if ($data->{$fieldID1}==$id1&&$data->{$fieldID2}==$id2) {
+                return true;
+            }
+        }
+        return false;
     }
     public function getListByID($list,$field,$id)
     {

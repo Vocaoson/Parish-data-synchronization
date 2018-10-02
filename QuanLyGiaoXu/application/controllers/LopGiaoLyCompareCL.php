@@ -13,6 +13,14 @@ class LopGiaoLyCompareCL extends CompareCL {
 
 		require_once(APPPATH.'models/ChiTietLopGiaoLyMD.php');
 		$this->ChiTietLopGiaoLyMD=new ChiTietLopGiaoLyMD();
+
+		require_once('GiaoLyVienCompareCL.php');
+		$GLV=new GiaoLyVienCompareCL('GiaoLyVien.csv',$this->dir);
+		$this->listGiaoLyVienCSV=$GLV->data;
+
+		require_once('ChiTietLopGiaoLyCompareCl.php');
+		$CTLGL=new ChiTietLopGiaoLyCompareCl('ChiTietLopGiaoLy.csv',$this->dir);
+		$this->listCTLGLCSV=$CTLGL->data;
 	}
 	private $LopGiaoLyMD;
 	private $GiaoLyVienMD;
@@ -26,13 +34,7 @@ class LopGiaoLyCompareCL extends CompareCL {
 
 	public function compare()
 	{
-		require_once('GiaoLyVienCompareCL.php');
-		$GLV=new GiaoLyVienCompareCL('GiaoLyVien.csv',$this->dir);
-		$this->listGiaoLyVienCSV=$GLV->data;
 
-		require_once('ChiTietLopGiaoLyCompareCl.php');
-		$CTLGL=new ChiTietLopGiaoLyCompareCl('ChiTietLopGiaoLy.csv',$this->dir);
-		$this->listCTLGLCSV=$CTLGL->data;
 		if ($maGiaoXuRieng!=null) {
 			foreach ($this->data as $data) {
 				$maKhoi=$this->findIdObjectSV($this->listKhoiLopThayDoi,$data['MaKhoi']);
@@ -84,9 +86,35 @@ class LopGiaoLyCompareCL extends CompareCL {
 		//Ten Lop,Nam,Khoi
 		$rs=$this->LopGiaoLyMD->getByDK1($data);
 		if ($rs) {
-			return $rs;
+			if ($this->compareHocVien($rs,$data)) {
+				return $rs;
+			}
 		}
 		return null;
+	}
+	public function compareHocVien($lopSV,$lopCSV)
+	{
+		$hocvienSV=$this->ChiTietLopGiaoLyMD->getByMaLop($lopSV->MaLop);
+		$hocvienCSV=$this->getListByID($this->listCTLGLCSV,'MaLop',$lopCSV['MaLop']);
+		if (count($hocvienSV)==0&&count($hocvienCSV)>0) {
+			return true;
+		}
+		if (count($hocvienSV)==0||count($hocvienCSV)==0) {
+			return false;
+		}
+		$dicCTLGL=array();
+		foreach ($hocvienSV as $data) {
+			$idSTT=new stdClass();
+			$idSTT->stt=$data->VaiTro;
+			$idSTT->id=$this->findIdObjectCSV($this->listGDThayDoi,$data->MaGiaoDan);
+			$dicCTLGL[]=$idSTT;
+		}
+		foreach ($hocvienCSV as $data) {
+			if ($this->containerDic($dicCTLGL,$data["MaGiaoDan"],'MaGiaoDan',$data["SoThuTu"],'SoThuTu')) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

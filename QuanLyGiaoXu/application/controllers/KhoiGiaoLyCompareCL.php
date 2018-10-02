@@ -16,14 +16,19 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 
 		require_once(APPPATH.'models/ChiTietLopGiaoLyMD.php');
 		$this->ChiTietLopGiaoLyMD=new ChiTietLopGiaoLyMD();
+		require_once('LopGiaoLyCompareCL.php');
+		$this->LopGiaoLyCompare=new LopGiaoLyCompareCL('LopGiaoLy.csv',$this->dir);
+		$this->listLopGiaoLyCSV=$this->LopGiaoLyCompare->data;
 	}
 	private $KhoiGiaoLyMD;
 	private $LopGiaoLyMD;
 	private $GiaoLyVienMD;
 	private $ChiTietLopGiaoLyMD;
 	private $listGDThayDoi;
+	private $LopGiaoLyCompare;
 	public function compare()
 	{
+		
 		foreach ($this->data as $data) {
 			$khoiGiaoLySV=$this->findKhoiGiaoLy($data);
 			$maGiaoDan=$this->findIdObjectSV($this->listGDThayDoi,$data['NguoiQuanLy']);
@@ -43,13 +48,38 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 	}
 	public function findKhoiGiaoLy($data)
 	{
-		//ten khoi
+		//DK1 ten khoi
 		$rs=$this->KhoiGiaoLyMD->getByDK1($data);
 		if ($rs) {
+			//get lopgiaoly server
+			$lglSV=$this->LopGiaoLyMD->getByMaKhoi($rs->MaKhoi,$rs->MaGiaoXuRieng);
+			//get lopgiaoly csv
+			$lglCSV=$this->getListByID($this->listLopGiaoLyCSV,'MaKhoi',$data['MaKhoi']);
+
 			return $rs;
 		}
 		return null;
 	}
+	public function compareLopGiaoLy($khoiSV,$khoiCSV)
+	{
+		$lglSV=$this->LopGiaoLyMD->getByMaKhoi($rs->MaKhoi,$rs->MaGiaoXuRieng);
+		$lglCSV=$this->getListByID($this->listLopGiaoLyCSV,'MaKhoi',$data['MaKhoi']);
+		if (count($lglSV)==0&&count($lglCSV)==0) {
+			return true;
+		}
+		if (count($lglSV)==0||count($lglCSV)==0) {
+			return false;
+		}
+		for ($i = 0; $i < count($lglCSV); $i++) {
+			for ($j = 0; $j <count($lglSV) ; $j++) {
+				if ($this->LopGiaoLyCompare->compareHocVien($lglSV[$i],$lglCSV[$j])) {
+					return $lglSV[$i];
+				}
+			}
+		}
+
+	}
+
 	public function delete($maGiaoXuRieng)
 	{
 		$rs=$this->KhoiGiaoLyMD->getAll($maGiaoXuRieng);
@@ -68,8 +98,6 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 							$this->ChiTietLopGiaoLyMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
 						}
 					}
-					
-					
 				}
 			}
 		}

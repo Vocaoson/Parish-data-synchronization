@@ -173,9 +173,9 @@ class GiaDinhCompareCL extends CompareCL {
 			}
 			// get TVGD ben csv
 			$tvgdCSV=$this->getListByID($this->listThanhVienGiaDinhCSV,'MaGiaDinh',$giadinh["MaGiaDinh"]);
-			//
+			
 			foreach ($tvgdCSV as $data) {
-				if ($this->containerDic($dicVaiTro,$data["MaGiaoDan"],$data["VaiTro"])) {
+				if ($this->containerDic($dicVaiTro,$data["MaGiaoDan"],'MaGiaoDan',$data["VaiTro"],'VaiTro')) {
 					return $rs;
 				}
 			}
@@ -185,15 +185,15 @@ class GiaDinhCompareCL extends CompareCL {
 	/*
 	Container in Dic
 	 */
-	public function containerDic($dic,$id,$vt)
-	{
-		foreach ($dic as $data) {
-			if ($data->vaitro==$vt&&$data->id==$id) {
-				return true;
-			}
-		}
-		return false;
-	}
+	// public function containerDic($dic,$id,$vt)
+	// {
+	// 	foreach ($dic as $data) {
+	// 		if ($data->vaitro==$vt&&$data->id==$id) {
+	// 			return true;
+	// 		}
+	// 	}
+	// 	return false;
+	// }
 	/*
 	lay tvgd 
 	 */
