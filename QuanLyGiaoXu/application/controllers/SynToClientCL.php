@@ -34,11 +34,11 @@ class SynToClientCL extends CI_Controller {
 
 		foreach ($data as $key=>$table) {
 
-			$path='../data/CsvToClient/'.$maGiaoXu;
-			if(!is_dir($path)) {
-				$check= mkdir($path,0777,TRUE);
+			$dirtemp=$this->config->item("data_dir").'/CsvToClient/'.$maGiaoXu;
+			if(!is_dir($dirtemp)) {
+				$check= mkdir($dirtemp,0777,TRUE);
 			}
-			$dirtemp=realpath ($path);
+			
 			$fp = fopen($dirtemp.'\\'.$key.'.csv', 'w');
 
 			

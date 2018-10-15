@@ -25,14 +25,16 @@ class GiaDinhCompareCL extends CompareCL {
 		require_once('ThanhVienGiaDinhCompareCL.php');
 		$TVGD=new ThanhVienGiaDinhCompareCL('ThanhVienGiaDinh.csv',$this->dir);
 		$this->listThanhVienGiaDinhCSV=$TVGD->data;
+
+		
 		foreach ($this->data as $data) {
 			$giaDinhServer=$this->findGiaDinh($data);
 			$data['MaGiaoHo']=$this->findIdObjectSV($this->listGHThayDoi,$data['MaGiaoHo']);
 			$objectTrack=$this->importObjectMaster($data,'MaGiaDinh',$giaDinhServer,$this->GiaDinhMD);
-			$this->listTVGDThayDoi=$this->importObjectChild($objectTrack,$this->listThanhVienGiaDinhCSV,'MaGiaDinh',$this->listGDThayDoi,'MaGiaoDan',$this->ThanhVienGiaDinhMD);
+			// $this->listTVGDThayDoi[]=$this->importObjectChild($objectTrack,$this->listThanhVienGiaDinhCSV,'MaGiaDinh',$this->listGDThayDoi,'MaGiaoDan',$this->ThanhVienGiaDinhMD);
 			$this->tracks[]=$objectTrack;
 		}
-		$this->deleteObjecChild($this->listTVGDThayDoi,'MaGiaDinh','MaGiaoDan',$this->ThanhVienGiaDinhMD,$this->MaGiaoXuRieng);
+  		// $this->deleteObjecChild($this->listTVGDThayDoi,'MaGiaDinh','MaGiaoDan',$this->ThanhVienGiaDinhMD,$this->MaGiaoXuRieng);
 	}
 	public function delete($maGiaoXuRieng)
 	{
@@ -44,7 +46,7 @@ class GiaDinhCompareCL extends CompareCL {
 					//Delete gia dinh
 					$this->GiaDinhMD->delete($data->MaGiaDinh,$maGiaoXuRieng);
 					//Delete tvgd
-					$this->ThanhVienGiaDinhMD->delete($data->MaGiaDinh,$maGiaoXuRieng);
+					$this->ThanhVienGiaDinhMD->deleteMaGiaDinh($data->MaGiaDinh,$maGiaoXuRieng);
 				}
 			}
 		}

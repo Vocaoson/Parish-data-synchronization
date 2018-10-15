@@ -5,13 +5,33 @@ class BiTichChiTietCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
+		require_once(APPPATH.'models/BiTichChiTietMD.php');
+        $this->BiTichChiTietMD=new BiTichChiTietMD();
 
 	}
+	private $listGiaoDanTracks;
+	private $listDotBiTichTracks;
+	private $BiTichChiTietMD;
 	public function compare()
 	{
-		
+		if (isset($this->listDotBiTichTracks)&&count($this->listDotBiTichTracks)>0) {
+			foreach ($this->listDotBiTichTracks as $value) {
+				$this->importObjectChild($value,$this->data,"MaDotBiTich",$this->listGiaoDanTracks,"MaGiaoDan",$this->BiTichChiTietMD);
+			}
+		}
 	}
-
+	public function delete($maGiaoXuRieng)
+	{
+		$this->deleteObjecChild($this->tracks,"MaDotBiTich","MaGiaoDan",$this->BiTichChiTietMD,$maGiaoXuRieng);
+	}
+	public function getListGiaoDanTracks($listTracks)
+	{
+		$this->listGiaoDanTracks=$listTracks;
+	}
+	public function getListDotBiTichTracks($listTracks)
+	{
+		$this->listDotBiTichTracks=$listTracks;
+	}
 	// public function delete($listBTCTThayDoi,$maGiaoXuRieng)
 	// {
 	// 	$listBTCT=$this->BiTichChiTietMD->getAll($maGiaoXuRieng);

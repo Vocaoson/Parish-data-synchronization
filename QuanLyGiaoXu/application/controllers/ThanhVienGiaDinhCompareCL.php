@@ -9,32 +9,38 @@ class ThanhVienGiaDinhCompareCL extends CompareCL {
         $this->ThanhVienGiaDinhMD=new ThanhVienGiaDinhMD();
 	}
 	private $ThanhVienGiaDinhMD;
+	private $listGiaDinhTracks;
+	private $listGiaoDanTracks;
 	public function compare()
 	{
-
-	}
-	public function delete($listTVGDThayDoi)
-	{
-		$listTVGD=$this->ThanhVienGiaDinhMD->getAll();
-		if (isset($listTVGD)&&count($listTVGD)>0) {
-			foreach ($listTVGD as $data) {
-				$rs=$this->findTVGD($data,$listTVGDThayDoi);
-				if ($rs==0) {
-					//delete
-					$this->ThanhVienGiaDinhMD->delete($data->MaGiaoDan,$data->MaGiaDinh,$data->MaGiaoXuRieng);
-				}
+		if (isset($this->listGiaDinhTracks)&&count($this->listGiaDinhTracks)>0) {
+			foreach ($this->listGiaDinhTracks as $value) {
+				$this->importObjectChild($value,$this->data,"MaGiaDinh",$this->listGiaoDanTracks,"MaGiaoDan",$this->ThanhVienGiaDinhMD);
 			}
 		}
 	}
-	public function findTVGD($data,$listTVGDThayDoi)
+	public function delete($maGiaoXuRieng)
 	{
-		foreach ($listTVGDThayDoi as $value) {
-			if ($value->MaGiaoDan=$data->MaGiaoDan&&$value->MaGiaDinh==$data->MaGiaDinh) {
-				return 1;
-			}
-		}
-		return 0;
+		$this->deleteObjecChild($this->tracks,"MaGiaDinh","MaGiaoDan",$this->ThanhVienGiaDinhMD,$maGiaoXuRieng);
 	}
+	public function getListGiaoDanTracks($listTracks)
+	{
+		$this->listGiaoDanTracks=$listTracks;
+	}
+	public function getListGiaDinhTracks($listTracks)
+	{
+		$this->listGiaDinhTracks=$listTracks;
+	}
+	
+	// public function findTVGD($data,$listTVGDThayDoi)
+	// {
+	// 	foreach ($listTVGDThayDoi as $value) {
+	// 		if ($value->MaGiaoDan=$data->MaGiaoDan&&$value->MaGiaDinh==$data->MaGiaDinh) {
+	// 			return 1;
+	// 		}
+	// 	}
+	// 	return 0;
+	// }
 }
 
 /* End of file ThanhVienGiaDinhCompare.php */

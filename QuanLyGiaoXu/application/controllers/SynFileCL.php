@@ -9,10 +9,10 @@ class SynFileCL extends CI_Controller
         $this->load->model('SynFileMD');
         $this->dataDir = $this->config->item("data_dir");
         if(!is_dir($this->dataDir . '/temp_syn')) {
-            mkdir($this->dataDir . '/temp_syn');
+           $check= mkdir($this->dataDir . '/temp_syn',0777,TRUE);
         }
         if(!is_dir($this->dataDir . '/syn')) {
-            mkdir($this->dataDir . '/syn');
+           $check= mkdir($this->dataDir . '/syn',0777,TRUE);
         }
     }
     public function getFileSyn($maGiaoXuSyn){

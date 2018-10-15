@@ -5,12 +5,31 @@ class GiaoLyVienCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		$this->GiaoLyVienMD=new GiaoLyVienMD();
+		require_once(APPPATH.'models/GiaoLyVienMD.php');
+        $this->GiaoLyVienMD=new GiaoLyVienMD();
 	}
 	private $GiaoLyVienMD;
+	private $listLopGiaoLyTracks;
+	private $listGiaoDanTracks;
 	public function compare()
 	{
-		
+		if (isset($this->listLopGiaoLyTracks)&&count($this->listLopGiaoLyTracks)>0) {
+			foreach ($this->listLopGiaoLyTracks as $value) {
+				$this->importObjectChild($value,$this->data,"MaLop",$this->listGiaoDanTracks,"MaGiaoDan",$this->GiaoLyVienMD);
+			}
+		}
+	}
+	public function delete($maGiaoXuRieng)
+	{
+		$this->deleteObjecChild($this->tracks,"MaLop","MaGiaoDan",$this->GiaoLyVienMD,$maGiaoXuRieng);
+	}
+	public function getListGiaoDanTracks($listTracks)
+	{
+		$this->listGiaoDanTracks=$listTracks;
+	}
+	public function getlistLopGiaoLyTracks($listTracks)
+	{
+		$this->listLopGiaoLyTracks=$listTracks;
 	}
 	// public function delete($listBTCTThayDoi)
 	// {

@@ -46,15 +46,15 @@ class LopGiaoLyCompareCL extends CompareCL {
 				}
 				$lopGiaoLySV=$this->findLopGiaoLy($data);
 				$objectTrack=$this->importObjectMaster($data,'MaLop',$lopGiaoLySV,$this->LopGiaoLyMD);
-				$this->listGLVThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoLyVienCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoLyVienMD);
+				// $this->listGLVThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoLyVienCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoLyVienMD);
 
-				$this->listCTLGLThayDoi=$this->importObjectChild($objectTrack,$this->listCTLGLCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->ChiTietLopGiaoLyMD);
+				// $this->listCTLGLThayDoi=$this->importObjectChild($objectTrack,$this->listCTLGLCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->ChiTietLopGiaoLyMD);
 				$this->tracks[]=$objectTrack;
 			}
 		}
 		
-		$this->deleteObjecChild($this->listGLVThayDoi,'MaLop','MaGiaoDan',$this->GiaoLyVienMD,$this->MaGiaoXuRieng);
-		$this->deleteObjecChild($this->listCTLGLThayDoi,'MaLop','MaGiaoDan',$this->ChiTietLopGiaoLyMD,$this->MaGiaoXuRieng);
+		// $this->deleteObjecChild($this->listGLVThayDoi,'MaLop','MaGiaoDan',$this->GiaoLyVienMD,$this->MaGiaoXuRieng);
+		// $this->deleteObjecChild($this->listCTLGLThayDoi,'MaLop','MaGiaoDan',$this->ChiTietLopGiaoLyMD,$this->MaGiaoXuRieng);
 	}
 	public function getListKhoiLopTracks($tracks)
 	{

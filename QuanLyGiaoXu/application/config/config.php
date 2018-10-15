@@ -531,4 +531,4 @@ $config['proxy_ips'] = '';
 /**
  * Variable store directory file csv
  */
-$config['data_dir'] = $_SERVER['DOCUMENT_ROOT'].'/qlgx_web/ServerQlgx/data';
+$config['data_dir'] = $_SERVER['DOCUMENT_ROOT'].'/ServerQlgx/data';

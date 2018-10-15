@@ -18,17 +18,17 @@ class HonPhoiCompareCL extends CompareCL {
 
 	public function compare()
 	{
-		require_once('GiaoDanHonPhoiCompareCL.php');
-		$GDHP=new GiaoDanHonPhoiCompareCL('GiaoDanHonPhoi.csv',$this->dir);
-		$this->listGiaoDanHonPhoiCSV=$GDHP->data;
+		// require_once('GiaoDanHonPhoiCompareCL.php');
+		// $GDHP=new GiaoDanHonPhoiCompareCL('GiaoDanHonPhoi.csv',$this->dir);
+		// $this->listGiaoDanHonPhoiCSV=$GDHP->data;
 		foreach ($this->data as $data) {
 			
 			$honPhoiServer=$this->findHonPhoi($data);
 			$objectTrack=$this->importObjectMaster($data,'MaHonPhoi',$honPhoiServer,$this->HonPhoiMD);
-			$this->listGDHPThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoDanHonPhoiCSV,'MaHonPhoi',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoDanHonPhoiMD);
+			// $this->listGDHPThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoDanHonPhoiCSV,'MaHonPhoi',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoDanHonPhoiMD);
 			$this->tracks[]=$objectTrack;
 		}
-		$this->deleteObjecChild($this->listGDHPThayDoi,'MaHonPhoi','MaGiaoDan',$this->GiaoDanHonPhoiMD,$this->MaGiaoXuRieng);
+		// $this->deleteObjecChild($this->listGDHPThayDoi,'MaHonPhoi','MaGiaoDan',$this->GiaoDanHonPhoiMD,$this->MaGiaoXuRieng);
 	}
 		public function getListGiaoDanTracks($tracks)
 	{

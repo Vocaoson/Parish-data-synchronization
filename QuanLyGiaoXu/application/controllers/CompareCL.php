@@ -18,33 +18,24 @@ abstract class CompareCL extends CI_Controller {
         $this->dir = $dir;
         $this->data = $this->getData();
     }
+    abstract public function compare();
     public function getMaGiaoXuRieng($dir){
      $temp=explode("/",$dir);
      return $temp[count($temp)-2];
  }
- abstract public function compare();
- public function toBool($data){
-    $datas = $data;
-    foreach ($datas as $key => &$value) {
-        foreach($value as $subKey => $subValue) {
-            if($subValue === "False") {
-                $value[$subKey] = 0;
-            } else if($subValue === "True") {
-                $value[$subKey] = -1;
-            }
-        }
-    }
-    return $datas;
-}
-public function deleteObjecChild($listChange,$fieldID1,$fieldID2,$Model,$maGiaoXuRieng)
-{
-    $listObjectChild=$Model->getAll($maGiaoXuRieng);
-    if (isset($listObjectChild)&&count($listObjectChild)>0) {
-        foreach ($listObjectChild as $data) {
-            $rs=$this->findObjectChild($data,$listChange,$fieldID1,$fieldID2);
-            if ($rs==0) {
-                    //delete
-                $Model->deleteTwoKey($data->{$fieldID1},$data->{$fieldID2},$data->MaGiaoXuRieng);
+
+
+ public function deleteObjecChild($listChange,$fieldID1,$fieldID2,$Model,$maGiaoXuRieng)
+ {
+    if (isset($this->tracks)&&count($this->tracks)>0) {
+        $listObjectChild=$Model->getAll($maGiaoXuRieng);
+        if (isset($listObjectChild)&&count($listObjectChild)>0) {
+            foreach ($listObjectChild as $data) {
+                $rs=$this->findObjectChild($data,$listChange,$fieldID1,$fieldID2);
+                if ($rs==0) {
+                        //delete
+                    $Model->deleteTwoKey($data->{$fieldID1},$data->{$fieldID2},$data->MaGiaoXuRieng);
+                }
             }
         }
     }
@@ -80,7 +71,6 @@ public function compareDate($dateCSV,$dateSV){
      */
     public function importObjectChild($objectTrack,$listObjectDetailCSV,$fieldID1,$listObjectChange,$fieldID2,$Model)
     {
-        $listTrack=array();
         if ($objectTrack->updated) {
             //update
             if (!$objectTrack->oldIdIsCsv) {
@@ -101,7 +91,8 @@ public function compareDate($dateCSV,$dateSV){
                 $objectTrackNew=new stdClass();
                 $objectTrackNew->{$fieldID2}=$IDobject2;
                 $objectTrackNew->{$fieldID1}=$objectTrack->nowId;
-                $listTrack[]=$objectTrackNew;
+                $this->tracks[]=$objectTrackNew;
+                
                 if ($rs) {
                     if ($this->compareDate($data['UpdateDate'],$rs->UpdateDate)) {
                         $Model->update($data,$IDobject2,$objectTrack->nowId);
@@ -112,7 +103,7 @@ public function compareDate($dateCSV,$dateSV){
                 
             }
         }
-        return $listTrack;
+
     }
     /**
      * [importObjectMaster Merge cac ban chinh ]
@@ -246,5 +237,18 @@ public function compareDate($dateCSV,$dateSV){
         $data = $this->csvimport->get();
         $data = $this->toBool($data);
         return $data;
+    }
+    public function toBool($data){
+        $datas = $data;
+        foreach ($datas as $key => &$value) {
+            foreach($value as $subKey => $subValue) {
+                if($subValue === "False") {
+                    $value[$subKey] = 0;
+                } else if($subValue === "True") {
+                    $value[$subKey] = -1;
+                }
+            }
+        }
+        return $datas;
     }
 }

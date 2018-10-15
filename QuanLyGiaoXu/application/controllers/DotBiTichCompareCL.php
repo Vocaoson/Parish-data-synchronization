@@ -7,8 +7,8 @@ class DotBiTichCompareCL extends CompareCL {
 		parent::__construct($file,$syn);
 		require_once(APPPATH.'models/DotBiTichMD.php');
 		$this->DotBiTichMD=new DotBiTichMD();
-		require_once(APPPATH.'models/BiTichChiTietMD.php');
-		$this->BiTichChiTietMD=new BiTichChiTietMD();
+		// require_once(APPPATH.'models/BiTichChiTietMD.php');
+		// $this->BiTichChiTietMD=new BiTichChiTietMD();
 	}
 	private $DotBiTichMD;
 	private $BiTichChiTietMD;
@@ -18,16 +18,16 @@ class DotBiTichCompareCL extends CompareCL {
 
 	public function compare()
 	{
-		require_once('BiTichChiTietCompareCL.php');
-		$BTCT=new BiTichChiTietCompareCL('BiTichChiTiet.csv',$this->dir);
-		$this->listBiTichChiTietCSV=$BTCT->data;
+		// require_once('BiTichChiTietCompareCL.php');
+		// $BTCT=new BiTichChiTietCompareCL('BiTichChiTiet.csv',$this->dir);
+		// $this->listBiTichChiTietCSV=$BTCT->data;
 		foreach ($this->data as $data) {
 			$dotBTSV=$this->findDotBiTich($data);
 			$objectTrack=$this->importObjectMaster($data,'MaDotBiTich',$dotBTSV,$this->DotBiTichMD);
-			$this->listBTCThayDoi=$this->importObjectChild($objectTrack,$this->listBiTichChiTietCSV,'MaDotBiTich',$this->listGDThayDoi,'MaGiaoDan',$this->BiTichChiTietMD);
+			// $this->listBTCThayDoi[]=$this->importObjectChild($objectTrack,$this->listBiTichChiTietCSV,'MaDotBiTich',$this->listGDThayDoi,'MaGiaoDan',$this->BiTichChiTietMD);
 			$this->tracks[]=$objectTrack;
 		}
-		$this->deleteObjecChild($this->listBTCThayDoi,'MaDotBiTich','MaGiaoDan',$this->BiTichChiTietMD,$this->MaGiaoXuRieng);
+		// $this->deleteObjecChild($this->listBTCThayDoi,'MaDotBiTich','MaGiaoDan',$this->BiTichChiTietMD,$this->MaGiaoXuRieng);
 		
 	}
 	public function delete($maGiaoXuRieng)

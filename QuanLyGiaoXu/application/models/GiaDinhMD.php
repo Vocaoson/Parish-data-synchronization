@@ -9,6 +9,13 @@ class GiaDinhMD extends CI_Model {
 		$this->table='GiaDinh';
 	}
 	private $table;
+	public function delete($MaGiaDinh,$MaGiaoXuRieng)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaGiaDinh', $MaGiaDinh);
+		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
+		$this->db->update($this->table);
+	}
 	public function getAllActive($maGiaoXu)
 	{
 
