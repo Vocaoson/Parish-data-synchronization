@@ -38,6 +38,7 @@ class HonPhoiMD extends CI_Model {
 		$this->db->where('MaNhanDang', $data['MaNhanDang']);
 		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$query=$this->db->get($this->table);
+		return $query->row();
 	}
 	public function getHonPhoiByDK2($data)
 	{
@@ -46,7 +47,7 @@ class HonPhoiMD extends CI_Model {
 		$this->db->where('NgayHonPhoi', $data['NgayHonPhoi']);
 		$this->db->where('SoHonPhoi', $data['SoHonPhoi']);
 		$query=$this->db->get($this->table);
-		return $query->result();
+		return $query->row();
 	}
 	public function insert($data)
 	{

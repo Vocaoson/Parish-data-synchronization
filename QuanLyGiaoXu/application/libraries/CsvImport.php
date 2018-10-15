@@ -13,7 +13,6 @@ class CsvImport
         $this->parse_header = $parse_header; 
         $this->delimiter = $delimiter; 
         $this->length = $length; 
-        $this->lines = $lines;
     } 
     public function setFileName($file_name){
         $this->fp = fopen($file_name, "r"); 

@@ -20,6 +20,13 @@ class GiaoDanMD extends CI_Model {
     return $data;
 
 }
+ public function getAll($MaGiaoXuRieng)
+  {
+      $this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
+      $this->db->where('DeleteSV', 0);
+      $query=$this->db->get($this->table);
+      return $query->result();
+  }
 public function  getbyMaGX($maGiaoXu)
 {
   $this->db->where('MaGiaoXuRieng', $maGiaoXu);
@@ -60,17 +67,19 @@ public function getById($id) {
     $query=$this->db->get($this->table);
     return $query->result();
 }
-public function getByInfo($name,$tenThanh,$birthdate){
+public function getByInfo($name,$tenThanh,$birthdate,$MaGiaoXuRieng){
     $this->db->select('*');
     $this->db->where('HoTen', $name);
     $this->db->where('TenThanh', $tenThanh);
     $this->db->where('NgaySinh', $birthdate);
+    $this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
     $query=$this->db->get($this->table);
     return $query->result();
 }    
-public function getByMaNhanDang($maNhanDang){
+public function getByMaNhanDang($maNhanDang,$MaGiaoXuRieng){
     $this->db->select('*');
     $this->db->where('MaNhanDang', $maNhanDang);
+    $this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
     $query=$this->db->get($this->table);
     return $query->result();
 }

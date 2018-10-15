@@ -9,6 +9,38 @@ class ChuyenXuMD extends CI_Model {
 		parent::__construct();
 		$this->table="chuyenxu";
 	}
+  	public function deleteById($maChuyenXu,$magiaoxurieng)
+	{
+		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
+		$this->db->where('MaChuyenXu', $maChuyenXu);
+		$this->db->set('DeleteSV',1);
+		$this->db->update($this->table);
+	}
+	public function insert($chuyenXuArray)
+	{
+		unset($chuyenXuArray['MaChuyenXu']);
+		unset($chuyenXuArray['UpdateDate']);
+		$this->db->insert($this->table, $chuyenXuArray);
+		return $this->db->insert_id();
+	}
+	public function update($chuyenXuArray,$id)
+	{
+		unset($chuyenXuArray['MaChuyenXu']);
+		return $this->db->update($this->table, $chuyenXuArray,"MaChuyenXu='$id'");
+	}
+	public function getAll($MaGiaoXuRieng)
+	{
+		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
+		$this->db->where('DeleteSV', 0);
+		$query=$this->db->get($this->table);
+		return $query->result();
+	}
+	public function getByIdGiaoDan($maGiaoDan)
+	{
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$query=$this->db->get($this->table);
+		return $query->result();
+	}
 	public function getAllActive($maGiaoXu)
 	{
 

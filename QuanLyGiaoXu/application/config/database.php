@@ -94,28 +94,3 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-$db['access'] = array(
-	'dsn'	=> '',
-	'hostname' => 'Driver={Microsoft Access Driver (*.mdb)};DBQ=D:\giaoxu.mdb', // or try only the DNS name
-	'username' => 'Admin',
-	'password' => 'khoanvnt',
-	'database' => 'Driver={Microsoft Access Driver (*.mdb)};DBQ=D:\giaoxu.mdb',
-	'dbdriver' => 'odbc',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
-// $db['access']['hostname'] = "{Microsoft Access Driver (*.mdb)}";
-// $db['access']['username'] = "Admin";
-// $db['access']['password'] = "khoanvnit";
-// $db['access']['database'] = "http://localhost:8080/PHP/ThucTap/ServerQlgx12/giaoxu.mdb";

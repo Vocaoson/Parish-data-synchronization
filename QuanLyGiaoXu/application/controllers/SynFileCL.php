@@ -8,22 +8,20 @@ class SynFileCL extends CI_Controller
         parent::__construct();
         $this->load->model('SynFileMD');
         $this->dataDir = $this->config->item("data_dir");
-      
-        if(!is_dir('../data/temp_syn')) {
-           $check= mkdir('../data/temp_syn',0777,TRUE);
+        if(!is_dir($this->dataDir . '/temp_syn')) {
+            mkdir($this->dataDir . '/temp_syn');
         }
-        if(!is_dir('../data/syn')) {
-            $check=mkdir('../data/syn',0777,TRUE);
+        if(!is_dir($this->dataDir . '/syn')) {
+            mkdir($this->dataDir . '/syn');
         }
     }
     public function getFileSyn($maGiaoXuSyn){
         if(isset($_FILES) && count($_FILES) > 0){
             $zip = new ZipArchive();
-            $dirTemp='../data/temp_syn/';
-            // $dirTemp = $this->dataDir . '/temp_syn/';
+            $dirTemp = $this->dataDir . '/temp_syn/';
             $file = $dirTemp . $_FILES['file']['name'];
             if(count($_FILES) > 0){
-                move_uploaded_file($_FILES['file'][tmp_name],$file);
+                move_uploaded_file($_FILES['file']['tmp_name'],$file);
             }
             
             $res = $zip->open($file);
@@ -48,8 +46,7 @@ class SynFileCL extends CI_Controller
         return $result;
     }
     public function getStorePath($maGiaoXuSyn,$synId){
-        // $dirData = $this->dataDir . '/syn/';
-        $dirData =  '../data/syn/';
+        $dirData = $this->dataDir . '/syn/';
         $dir = $dirData . $maGiaoXuSyn . '/' . $synId;
         if(!is_dir($dir)){
             $rs = mkdir($dir,0700,true);
