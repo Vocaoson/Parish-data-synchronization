@@ -19,11 +19,11 @@ abstract class CompareCL extends CI_Controller {
         $this->data = $this->getData();
     }
     public function getMaGiaoXuRieng($dir){
-       $temp=explode("/",$dir);
-       return $temp[count($temp)-2];
-   }
-   abstract public function compare();
-   public function toBool($data){
+     $temp=explode("/",$dir);
+     return $temp[count($temp)-2];
+ }
+ abstract public function compare();
+ public function toBool($data){
     $datas = $data;
     foreach ($datas as $key => &$value) {
         foreach($value as $subKey => $subValue) {

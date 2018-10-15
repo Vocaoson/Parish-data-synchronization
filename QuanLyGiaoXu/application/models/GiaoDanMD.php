@@ -9,8 +9,24 @@ class GiaoDanMD extends CI_Model {
       parent::__construct();
       $this->table="giaodan";
   }
-  
-  public function insert($giaoDanArray){
+  public function getAllActive($maGiaoXu)
+  {
+
+    $this->db->where('MaGiaoXuRieng', $maGiaoXu);
+    $this->db->where('DeleteSV', 0);
+    $query=$this->db->get($this->table);
+    $data['field']=$this->db->list_fields($this->table);
+    $data['data']= $query->result();
+    return $data;
+
+}
+public function  getbyMaGX($maGiaoXu)
+{
+  $this->db->where('MaGiaoXuRieng', $maGiaoXu);
+  $query=$this->db->get($this->table);
+  return $query->result();
+}
+public function insert($giaoDanArray){
         //2018-09-17 Gia add start
     unset($giaoDanArray['MaGiaoDan']);
     unset($giaoDanArray['UpdateDate']);

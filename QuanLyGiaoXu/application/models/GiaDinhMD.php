@@ -9,6 +9,17 @@ class GiaDinhMD extends CI_Model {
 		$this->table='GiaDinh';
 	}
 	private $table;
+	public function getAllActive($maGiaoXu)
+	{
+
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('DeleteSV', 0);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
+
+	}
 	public function deleteMaGiaDinh($maGiaDinh,$maGiaoXu)
 	{
 		$this->db->set('DeleteSV',1);
@@ -31,7 +42,7 @@ class GiaDinhMD extends CI_Model {
 	}
 	public function getAllListIDGiaDinh($maGiaoXuRieng)
 	{
-		$this->db->select('MaGiaDinh');
+		// $this->db->select('MaGiaDinh');
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->result();

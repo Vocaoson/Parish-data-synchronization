@@ -11,6 +11,17 @@ class GiaoHatMD extends CI_Model {
 		$this->table="giaohat";
 		
 	}
+	public function getAllActive($maGiaoXu)
+	{
+
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('DeleteSV', 0);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
+
+	}
 	public function insertMD($maGiaoPhan,$name,$note)
 	{
 		$objectGH=array(

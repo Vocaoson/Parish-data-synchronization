@@ -45,7 +45,7 @@ class LopGiaoLyCompareCL extends CompareCL {
 					$data['MaKhoi']=$maKhoi;
 				}
 				$lopGiaoLySV=$this->findLopGiaoLy($data);
-				$objectTrack=$this->importObjectMaster($data,$lopGiaoLySV,$this->LopGiaoLyMD);
+				$objectTrack=$this->importObjectMaster($data,'MaLop',$lopGiaoLySV,$this->LopGiaoLyMD);
 				$this->listGLVThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoLyVienCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoLyVienMD);
 
 				$this->listCTLGLThayDoi=$this->importObjectChild($objectTrack,$this->listCTLGLCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->ChiTietLopGiaoLyMD);

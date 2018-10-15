@@ -78,7 +78,7 @@ class BackupCL extends CI_Controller {
 			//kiem tra duong dan
 			$serverPath='files/'.$maGiaoXuRieng;
 			if (!is_dir($serverPath)) {
-				mkdir($serverPath);
+				$check=mkdir($serverPath,0777,TRUE);
 			}
 			if (move_uploaded_file($_FILES["file"]["tmp_name"],$serverPath.'/'.$_FILES["file"]["name"])) {
 				//luu thong tin file lai

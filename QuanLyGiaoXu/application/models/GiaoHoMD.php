@@ -9,6 +9,17 @@ class GiaoHoMD extends CI_Model {
 		parent::__construct();
 		$this->table='GiaoHo';
 	}
+	public function getAllActive($maGiaoXu)
+	{
+
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('DeleteSV', 0);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
+
+	}
 	public function delete($maGiaoHo,$maGiaoXu)
 	{
 		$this->db->set('DeleteSV',1);
@@ -19,7 +30,7 @@ class GiaoHoMD extends CI_Model {
 	}
 	public function getAllListIDGiaoHo($maGiaoXu)
 	{
-		$this->db->select('MaGiaoHo');
+		// $this->db->select('MaGiaoHo');
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$query=$this->db->get($this->table);
 		return $query->result();

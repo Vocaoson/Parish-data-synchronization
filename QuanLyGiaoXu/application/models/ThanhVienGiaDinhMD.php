@@ -10,6 +10,17 @@ class ThanhVienGiaDinhMD extends CI_Model {
 		$this->table="ThanhVienGiaDinh";
 	}
 	private $table;
+	public function getAllActive($maGiaoXu)
+	{
+
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('DeleteSV', 0);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
+
+	}
 	public function deleteTwoKey($MaGiaDinh,$MaGiaoDan,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
@@ -66,8 +77,9 @@ class ThanhVienGiaDinhMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-	public function getAll()
+	public function getAll($maGiaoXuRieng)
 	{
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}

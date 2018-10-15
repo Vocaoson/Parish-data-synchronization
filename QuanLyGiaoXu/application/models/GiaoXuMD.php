@@ -10,7 +10,17 @@ class GiaoXuMD extends CI_Model {
 	//Do your magic here
 		$this->table="giaoxu";
 	}
+	public function getAllActive($maGiaoXu)
+	{
 
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('DeleteSV', 0);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
+
+	}
 	public function checkStatus($id)
 	{
 		$this->db->select('status');
@@ -118,8 +128,8 @@ class GiaoXuMD extends CI_Model {
 			"Ma_GiaoHat"=>$maGiaoHat,
 			"status"=>1
 		);
-			$this->db->update($this->table,$objectGX,"ID=$id");
-			return $this->db->affected_rows();
+		$this->db->update($this->table,$objectGX,"ID=$id");
+		return $this->db->affected_rows();
 	}
 	public function insertGiaoXuMD($id,$name,$add,$sdt,$email,$web,$img,$note,$maGiaoHat)
 	{
