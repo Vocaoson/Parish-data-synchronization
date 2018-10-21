@@ -28,9 +28,10 @@ class DotBiTichMD extends CI_Model {
 	}
 	public function delete($MaDotBiTich,$maGiaoXuRieng)
 	{
-		$this->db->where('MaDotBiTich', $MaDotBiTich);
-		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
 		$this->db->set('DeleteSV',1);
+		$this->db->where('MaDotBiTich', $MaDotBiTich);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		
 		$this->db->update($this->table);
 	}
 	/**

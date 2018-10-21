@@ -9,7 +9,18 @@ class ChuyenXuMD extends CI_Model {
 		parent::__construct();
 		$this->table="chuyenxu";
 	}
-  	public function deleteById($maChuyenXu,$magiaoxurieng)
+	public function getAllActive($maGiaoXu)
+	{
+
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('DeleteSV', 0);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
+
+	}
+	public function deleteById($maChuyenXu,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
 		$this->db->where('MaChuyenXu', $maChuyenXu);
@@ -40,17 +51,6 @@ class ChuyenXuMD extends CI_Model {
 		$this->db->where('MaGiaoDan', $maGiaoDan);
 		$query=$this->db->get($this->table);
 		return $query->result();
-	}
-	public function getAllActive($maGiaoXu)
-	{
-
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
-		$query=$this->db->get($this->table);
-		$data['field']=$this->db->list_fields($this->table);
-		$data['data']= $query->result();
-		return $data;
-
 	}
 	public function deldeleteMaGiaoDan($maGiaoDan,$magiaoxurieng)
 	{

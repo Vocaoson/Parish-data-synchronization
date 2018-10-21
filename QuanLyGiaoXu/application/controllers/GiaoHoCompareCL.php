@@ -21,9 +21,23 @@ class GiaoHoCompareCL extends CompareCL {
 	public function compare()
 	{
 		foreach ($this->data as $data) {
-			$giaoHoServer=$this->findGiaoHo($data['MaNhanDang'],$data['MaGiaoXuRieng']);
+			$giaoHoServer=$this->findGiaoHo($data,$data['MaGiaoXuRieng']);
 			$objectTrack=$this->importObjectMaster($data,'MaGiaoHo',$giaoHoServer,$this->GiaoHoMD);
 			$this->tracks[]=$objectTrack;
+		}
+		$this->processMaGiaoHoCha();
+
+	}
+	public function processMaGiaoHoCha()
+	{
+		foreach ($this->data as $data) {
+			if (!empty($data["MaGiaoHoCha"])) {
+				$idMaGiaoHoCha=$this->findIdObjectSV($this->tracks,$data["MaGiaoHoCha"]);
+				if ($idMaGiaoHoCha!=0) {
+					$data["MaGiaoHo"]=$this->findIdObjectSV($this->tracks,$data["MaGiaoHo"]);
+					$this->GiaoHoMD->updateMaGiaoHoCha($data,$idMaGiaoHoCha);
+				}
+			}
 		}
 	}
 	public function delete($maGiaoXuRieng)
@@ -103,15 +117,20 @@ class GiaoHoCompareCL extends CompareCL {
 	// 	}
 	// 	return $objectTrack;
 	// }
-	public function findGiaoHo($maNhanDang,$maGiaoXuRieng)
+	public function findGiaoHo($data,$maGiaoXuRieng)
 	{
-		$rs=$this->GiaoHoMD->getByMaNhanDang($maNhanDang,$maGiaoXuRieng);
+		if (!empty($data["MaNhanDang"])) {
+			$rs=$this->GiaoHoMD->getByMaNhanDang($data["MaNhanDang"],$maGiaoXuRieng);
+		}
 		if ($rs) {
 			return $rs;
 		}
-		else {
-			return null;
+		//find name
+		$rs=$this->GiaoHoMD->getByNameGiaoHo($data["TenGiaoHo"],$maGiaoXuRieng);
+		if ($rs) {
+			return $rs;
 		}
+		return null;
 	}
 
 }

@@ -53,7 +53,7 @@ class KhoiGiaoLyMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$this->db->where('TenKhoi', $data['TenKhoi']);
 		$query=$this->db->get($this->table);
-		return $query->row();
+		return $query->result();
 	}
 
 }

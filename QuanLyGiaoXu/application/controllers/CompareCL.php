@@ -71,14 +71,10 @@ public function compareDate($dateCSV,$dateSV){
      */
     public function importObjectChild($objectTrack,$listObjectDetailCSV,$fieldID1,$listObjectChange,$fieldID2,$Model)
     {
-        if ($objectTrack->updated) {
-            //update
-            if (!$objectTrack->oldIdIsCsv) {
-                $objectCSV=$this->getListByID($listObjectDetailCSV,$fieldID1,$objectTrack->newId);
-            }
+        if (!$objectTrack->oldIdIsCsv) {   
+            $objectCSV=$this->getListByID($listObjectDetailCSV,$fieldID1,$objectTrack->newId);
         }
         else {
-            //insert
             $objectCSV=$this->getListByID($listObjectDetailCSV,$fieldID1,$objectTrack->oldId);
         }
         if (isset($objectCSV)&&count($objectCSV)>0) {

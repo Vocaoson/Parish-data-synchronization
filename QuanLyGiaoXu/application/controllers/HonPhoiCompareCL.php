@@ -87,7 +87,9 @@ class HonPhoiCompareCL extends CompareCL {
 	public function findHonPhoi($data)
 	{
 		//check ma nhan dang
-		$rs=$this->HonPhoiMD->getHonPhoiByDK1($data);
+		if (!empty($data["MaNhanDang"])) {
+			$rs=$this->HonPhoiMD->getHonPhoiByDK1($data);
+		}
 		
 		if ($rs!=null) {
 			return $rs;

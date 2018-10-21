@@ -9,6 +9,17 @@ class LinhMucMD extends CI_Model {
 		parent::__construct();
 		$this->table="LinhMuc";
 	}
+	public function getAllActive($maGiaoXu)
+	{
+
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('DeleteSV', 0);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
+
+	}
 	public function deleteById($maLinhMuc,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
@@ -34,15 +45,15 @@ class LinhMucMD extends CI_Model {
 		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		return $query->result();
-    }
-    public function getByInfo($tenThanh,$hoTen,$chucVu,$maGiaoXuRieng) 
-    {
-        $this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
-        $this->db->where('DeleteSV', 0);
-        $this->db->where('TenThanh', $tenThanh);
-        $this->db->where('HoTen', $hoTen);
-        $this->db->where('ChucVu', $chucVu);
+	}
+	public function getByInfo($tenThanh,$hoTen,$chucVu,$maGiaoXuRieng) 
+	{
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('DeleteSV', 0);
+		$this->db->where('TenThanh', $tenThanh);
+		$this->db->where('HoTen', $hoTen);
+		$this->db->where('ChucVu', $chucVu);
 		$query=$this->db->get($this->table);
 		return $query->result();
-    }
+	}
 } 

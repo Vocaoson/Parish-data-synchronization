@@ -11,10 +11,9 @@ class SynToClientCL extends CI_Controller {
 		$this->load->model('ChuyenXuMD');
 		$this->load->model('DotBiTichMD');
 		$this->load->model('GiaoDanHonPhoiMD');
-		$this->load->model('GiaoHatMD');
+
 		$this->load->model('GiaoLyVienMD');
-		$this->load->model('GiaoPhanMD');
-		$this->load->model('GiaoXuMD');
+		$this->load->model('LinhMucMD');
 		$this->load->model('HonPhoiMD');
 		$this->load->model('KhoiGiaoLyMD');
 		$this->load->model('LopGiaoLyMD');
@@ -24,13 +23,28 @@ class SynToClientCL extends CI_Controller {
 		$this->load->model('GiaoDanMD');
 		$this->load->model('GiaoHoMD');
 		$this->load->model('ThanhVienGiaDinhMD');
+		$this->load->model('CauHinhMD');
 	}
 	public function createrFileSyn($maGiaoXu)
 	{
+		$data['BiTichChiTiet']=$this->BiTichChiTietMD->getAllActive($maGiaoXu);
+		$data['CauHinh']=$this->CauHinhMD->getAllActive($maGiaoXu);
+		$data['ChiTietLopGiaoLy']=$this->ChiTietLopGiaoLyMD->getAllActive($maGiaoXu);
+		$data['ChuyenXu']=$this->ChuyenXuMD->getAllActive($maGiaoXu);
+		$data['DotBiTich']=$this->DotBiTichMD->getAllActive($maGiaoXu);
 		$data['GiaDinh']=$this->GiaDinhMD->getAllActive($maGiaoXu);
-		$data['GiaoDan']=$this->GiaoDanMD->getAllActive($maGiaoXu);
+		$data['GiaoDanHonPhoi']=$this->GiaoDanHonPhoiMD->getAllActive($maGiaoXu);
 		$data['GiaoHo']=$this->GiaoHoMD->getAllActive($maGiaoXu);
+		$data['GiaoDan']=$this->GiaoDanMD->getAllActive($maGiaoXu);
+		$data['GiaoLyVien']=$this->GiaoLyVienMD->getAllActive($maGiaoXu);
+		$data['HonPhoi']=$this->HonPhoiMD->getAllActive($maGiaoXu);
+		$data['KhoiGiaoLy']=$this->KhoiGiaoLyMD->getAllActive($maGiaoXu);
+		$data['LinhMuc']=$this->LinhMucMD->getAllActive($maGiaoXu);
+		$data['LopGiaoLy']=$this->LopGiaoLyMD->getAllActive($maGiaoXu);
+		$data['RaoHonPhoi']=$this->RaoHonPhoiMD->getAllActive($maGiaoXu);
+		$data['TanHien']=$this->TanHienMD->getAllActive($maGiaoXu);
 		$data['ThanhVienGiaDinh']=$this->ThanhVienGiaDinhMD->getAllActive($maGiaoXu);
+	
 
 		foreach ($data as $key=>$table) {
 
@@ -70,7 +84,7 @@ class SynToClientCL extends CI_Controller {
 				$zip->addFile($file,$split[count($split)-1]);
 			}
 			$zip->close();
-			echo $this->config->item("data_dir")."/CsvToClient/".$maGiaoXu."/".$maGiaoXu.".zip";
+			echo 1;
 			return;
 		}
 		echo -1;

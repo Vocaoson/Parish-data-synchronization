@@ -50,20 +50,19 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 	{
 		//DK1 ten khoi
 		$rs=$this->KhoiGiaoLyMD->getByDK1($data);
-		if ($rs) {
-			//get lopgiaoly server
-			$lglSV=$this->LopGiaoLyMD->getByMaKhoi($rs->MaKhoi,$rs->MaGiaoXuRieng);
-			//get lopgiaoly csv
-			$lglCSV=$this->getListByID($this->listLopGiaoLyCSV,'MaKhoi',$data['MaKhoi']);
-
-			return $rs;
+		if (isset($rs)&&count($rs)>0) {
+			foreach ($rs as $item) {
+				if ($this->compareLopGiaoLy($item,$data)) {
+					return $item;
+				}
+			}
 		}
 		return null;
 	}
 	public function compareLopGiaoLy($khoiSV,$khoiCSV)
 	{
-		$lglSV=$this->LopGiaoLyMD->getByMaKhoi($rs->MaKhoi,$rs->MaGiaoXuRieng);
-		$lglCSV=$this->getListByID($this->listLopGiaoLyCSV,'MaKhoi',$data['MaKhoi']);
+		$lglSV=$this->LopGiaoLyMD->getByMaKhoi($khoiSV->MaKhoi,$khoiSV->MaGiaoXuRieng);
+		$lglCSV=$this->getListByID($this->listLopGiaoLyCSV,'MaKhoi',$khoiCSV['MaKhoi']);
 		if (count($lglSV)==0&&count($lglCSV)==0) {
 			return true;
 		}
@@ -73,10 +72,12 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 		for ($i = 0; $i < count($lglCSV); $i++) {
 			for ($j = 0; $j <count($lglSV) ; $j++) {
 				if ($this->LopGiaoLyCompare->compareHocVien($lglSV[$i],$lglCSV[$j])) {
-					return $lglSV[$i];
+					// return $lglSV[$i];
+					return true;
 				}
 			}
 		}
+		return false;
 
 	}
 
@@ -90,10 +91,10 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 					//Xoa khoi
 					$this->KhoiGiaoLyMD->delete($data->MaKhoi,$maGiaoXuRieng);
 					//delete Lop Giao Ly
-					$listLopGiaoLy=$this->LopGiaoLy->getByMaKhoi($data->MaKhoi,$maGiaoXuRieng);
+					$listLopGiaoLy=$this->LopGiaoLyMD->getByMaKhoi($data->MaKhoi,$maGiaoXuRieng);
 					if (count($listLopGiaoLy)>0) {
 						foreach ($listLopGiaoLy as $data2) {
-							$this->LopGiaoLy->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
+							$this->LopGiaoLyMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
 							$this->GiaoLyVienMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
 							$this->ChiTietLopGiaoLyMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
 						}

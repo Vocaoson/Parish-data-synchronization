@@ -6,10 +6,10 @@ class GiaDinhCompareCL extends CompareCL {
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
 		require_once(APPPATH.'models/GiaDinhMD.php');
-        $this->GiaDinhMD=new GiaDinhMD();
+		$this->GiaDinhMD=new GiaDinhMD();
 		
 		require_once(APPPATH.'models/ThanhVienGiaDinhMD.php');
-        $this->ThanhVienGiaDinhMD=new ThanhVienGiaDinhMD();
+		$this->ThanhVienGiaDinhMD=new ThanhVienGiaDinhMD();
 	}
 	private $GiaDinhMD;
 	private $ThanhVienGiaDinhMD;
@@ -25,8 +25,6 @@ class GiaDinhCompareCL extends CompareCL {
 		require_once('ThanhVienGiaDinhCompareCL.php');
 		$TVGD=new ThanhVienGiaDinhCompareCL('ThanhVienGiaDinh.csv',$this->dir);
 		$this->listThanhVienGiaDinhCSV=$TVGD->data;
-
-		
 		foreach ($this->data as $data) {
 			$giaDinhServer=$this->findGiaDinh($data);
 			$data['MaGiaoHo']=$this->findIdObjectSV($this->listGHThayDoi,$data['MaGiaoHo']);
@@ -87,7 +85,7 @@ class GiaDinhCompareCL extends CompareCL {
 	// 					$$data=$this->processDataNull($rs,$data);
 	// 					$this->ThanhVienGiaDinhMD->update($data,$maGiaoDan,$objectTrack->nowId);
 	// 				}
-					 
+
 	// 				continue;
 	// 			}
 	// 			// if ($vaitro==0||$vaitro==1) {
@@ -97,10 +95,10 @@ class GiaDinhCompareCL extends CompareCL {
 	// 			// 	}
 	// 			// }
 	// 			$this->ThanhVienGiaDinhMD->insert($data,$maGiaoDan,$objectTrack->nowId);
-				
+
 	// 		}
 	// 	}
-		
+
 	// }
 	/*
 	import gia dinh
@@ -141,10 +139,10 @@ class GiaDinhCompareCL extends CompareCL {
 	// 	return $objectTrack;
 	// }
 	private $listGHThayDoi;
-    public function getListGiaoHoTracks($tracks)
-    {
-        $this->listGHThayDoi=$tracks;
-    }
+	public function getListGiaoHoTracks($tracks)
+	{
+		$this->listGHThayDoi=$tracks;
+	}
 	public function getListGiaoDanTracks($tracks)
 	{
 		$this->listGDThayDoi=$tracks;
@@ -156,29 +154,33 @@ class GiaDinhCompareCL extends CompareCL {
 	public function findGiaDinh($giadinh)
 	{
 		// condition DK1: mã nhận dạng
-		$rs=$this->GiaDinhMD->getGiaDinhByDK1($giadinh["MaNhanDang"],$giadinh["MaGiaoXuRieng"]);
+		if (!empty($giadinh["MaNhanDang"])) {
+			$rs=$this->GiaDinhMD->getGiaDinhByDK1($giadinh["MaNhanDang"],$giadinh["MaGiaoXuRieng"]);
+		}
 		if ($rs!=null) {
 			return $rs;
 		}
 		// condition: Tên gia đình,địa chỉ, sdt,ghi chu
 		$rs=$this->GiaDinhMD->getGiaDinhByDK2($giadinh["MaGiaoXuRieng"],$giadinh["TenGiaDinh"],$giadinh["DiaChi"],$giadinh["DienThoai"],$giadinh["GhiChu"]);
-		if ($rs!=null) {
-			// kiem tra su giong nhau giua 2 gia dinh
-			// get TVGD ben server
-			$tvgdServer=$this->ThanhVienGiaDinhMD->getTVGD($rs->MaGiaoXuRieng,$rs->MaGiaDinh);
-			$dicVaiTro=array();
-			foreach ($tvgdServer as $data) {
-				$idvt=new stdClass();
-				$idvt->vaitro=$data->VaiTro;
-				$idvt->id=$this->findIdObjectCSV($this->listGDThayDoi,$data->MaGiaoDan);
-				$dicVaiTro[]=$idvt;
-			}
-			// get TVGD ben csv
-			$tvgdCSV=$this->getListByID($this->listThanhVienGiaDinhCSV,'MaGiaDinh',$giadinh["MaGiaDinh"]);
-			
-			foreach ($tvgdCSV as $data) {
-				if ($this->containerDic($dicVaiTro,$data["MaGiaoDan"],'MaGiaoDan',$data["VaiTro"],'VaiTro')) {
-					return $rs;
+		if ($rs!=null&&count($rs)>0) {
+			foreach ($rs as $giaDinhDB) {
+				// kiem tra su giong nhau giua 2 gia dinh
+				// get TVGD ben server
+				$tvgdServer=$this->ThanhVienGiaDinhMD->getTVGD($giaDinhDB->MaGiaoXuRieng,$giaDinhDB->MaGiaDinh);
+				$dicVaiTro=array();
+				foreach ($tvgdServer as $data) {
+					$idvt=new stdClass();
+					$idvt->vaitro=$data->VaiTro;
+					$idvt->id=$this->findIdObjectCSV($this->listGDThayDoi,$data->MaGiaoDan);
+					$dicVaiTro[]=$idvt;
+				}
+				// get TVGD ben csv
+				$tvgdCSV=$this->getListByID($this->listThanhVienGiaDinhCSV,'MaGiaDinh',$giadinh["MaGiaDinh"]);
+
+				foreach ($tvgdCSV as $data) {
+					if ($this->containerDic($dicVaiTro,$data["MaGiaoDan"],'MaGiaoDan',$data["VaiTro"],'VaiTro')) {
+						return $giaDinhDB;
+					}
 				}
 			}
 		}

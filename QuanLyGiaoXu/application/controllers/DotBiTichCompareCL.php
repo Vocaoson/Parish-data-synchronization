@@ -7,8 +7,8 @@ class DotBiTichCompareCL extends CompareCL {
 		parent::__construct($file,$syn);
 		require_once(APPPATH.'models/DotBiTichMD.php');
 		$this->DotBiTichMD=new DotBiTichMD();
-		// require_once(APPPATH.'models/BiTichChiTietMD.php');
-		// $this->BiTichChiTietMD=new BiTichChiTietMD();
+		require_once(APPPATH.'models/BiTichChiTietMD.php');
+		$this->BiTichChiTietMD=new BiTichChiTietMD();
 	}
 	private $DotBiTichMD;
 	private $BiTichChiTietMD;

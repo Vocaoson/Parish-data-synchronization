@@ -46,7 +46,7 @@ class BiTichChiTietMD extends CI_Model {
 	{
 		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
 		$this->db->where('MaDotBiTich', $MaDotBiTich);
-		$this->db-set('DeleteSV',1);
+		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
 	public function insert($data,$maGiaoDan,$MaDotBiTich)

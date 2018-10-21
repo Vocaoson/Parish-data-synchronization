@@ -35,23 +35,23 @@ class LopGiaoLyCompareCL extends CompareCL {
 	public function compare()
 	{
 
-		if ($maGiaoXuRieng!=null) {
-			foreach ($this->data as $data) {
-				$maKhoi=$this->findIdObjectSV($this->listKhoiLopThayDoi,$data['MaKhoi']);
-				if ($maKhoi==0) {
-					continue;
-				}
-				else {
-					$data['MaKhoi']=$maKhoi;
-				}
-				$lopGiaoLySV=$this->findLopGiaoLy($data);
-				$objectTrack=$this->importObjectMaster($data,'MaLop',$lopGiaoLySV,$this->LopGiaoLyMD);
+		
+		foreach ($this->data as $data) {
+			$maKhoi=$this->findIdObjectSV($this->listKhoiLopThayDoi,$data['MaKhoi']);
+			if ($maKhoi==0) {
+				continue;
+			}
+			else {
+				$data['MaKhoi']=$maKhoi;
+			}
+			$lopGiaoLySV=$this->findLopGiaoLy($data);
+			$objectTrack=$this->importObjectMaster($data,'MaLop',$lopGiaoLySV,$this->LopGiaoLyMD);
 				// $this->listGLVThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoLyVienCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoLyVienMD);
 
 				// $this->listCTLGLThayDoi=$this->importObjectChild($objectTrack,$this->listCTLGLCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->ChiTietLopGiaoLyMD);
-				$this->tracks[]=$objectTrack;
-			}
+			$this->tracks[]=$objectTrack;
 		}
+		
 		
 		// $this->deleteObjecChild($this->listGLVThayDoi,'MaLop','MaGiaoDan',$this->GiaoLyVienMD,$this->MaGiaoXuRieng);
 		// $this->deleteObjecChild($this->listCTLGLThayDoi,'MaLop','MaGiaoDan',$this->ChiTietLopGiaoLyMD,$this->MaGiaoXuRieng);
@@ -105,7 +105,7 @@ class LopGiaoLyCompareCL extends CompareCL {
 		$dicCTLGL=array();
 		foreach ($hocvienSV as $data) {
 			$idSTT=new stdClass();
-			$idSTT->stt=$data->VaiTro;
+			$idSTT->stt=$data->SoThuTu;
 			$idSTT->id=$this->findIdObjectCSV($this->listGDThayDoi,$data->MaGiaoDan);
 			$dicCTLGL[]=$idSTT;
 		}

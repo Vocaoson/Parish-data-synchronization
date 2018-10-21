@@ -76,7 +76,7 @@ class GiaDinhMD extends CI_Model {
 		$this->db->where('DienThoai', $sdt);
 		$this->db->where('GhiChu', $note);
 		$query=$this->db->get($this->table);
-		return $query->row();
+		return $query->result();
 	}
 	/*
 	update

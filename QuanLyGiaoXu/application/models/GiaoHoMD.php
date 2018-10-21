@@ -9,6 +9,13 @@ class GiaoHoMD extends CI_Model {
 		parent::__construct();
 		$this->table='GiaoHo';
 	}
+	public function updateMaGiaoHoCha($data,$maGiaoHoCha)
+	{
+		$this->db->set("MaGiaoHoCha",$maGiaoHoCha);
+		$this->db->where('MaGiaoHo', $data["MaGiaoHo"]);
+		$this->db->where('MaGiaoXuRieng', $data["MaGiaoXuRieng"]);
+		$this->db->update($this->table);
+	}
 	public function getAllActive($maGiaoXu)
 	{
 
@@ -19,6 +26,13 @@ class GiaoHoMD extends CI_Model {
 		$data['data']= $query->result();
 		return $data;
 
+	}
+	public function getByNameGiaoHo($nameGiaoHo,$maGiaoXuRieng)
+	{
+		$this->db->where('TenGiaoHo', $nameGiaoHo);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);	
+		$query=$this->db->get($this->table);
+		return $query->row();
 	}
 	public function delete($maGiaoHo,$maGiaoXu)
 	{
