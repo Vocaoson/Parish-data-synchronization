@@ -20,17 +20,24 @@ class GiaoHoMD extends CI_Model {
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
 
 	}
+	public function deleteReal($dataSV)
+	{
+		$this->db->where('MaGiaoHo', $dataSV->MaGiaoHo);
+		$this->db->where('MaGiaoXuRieng', $dataSV->MaGiaoXuRieng);
+
+		$this->db->delete($this->table);
+	}
 	public function getByNameGiaoHo($nameGiaoHo,$maGiaoXuRieng)
 	{
 		$this->db->where('TenGiaoHo', $nameGiaoHo);
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);	
+		
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
@@ -66,6 +73,7 @@ class GiaoHoMD extends CI_Model {
 	public function getByMaNhanDang($maNhanDang,$maGiaoXu)
 	{
 		$this->db->where('MaNhanDang', $maNhanDang);
+		
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);	
 		$query=$this->db->get($this->table);
 		return $query->row();

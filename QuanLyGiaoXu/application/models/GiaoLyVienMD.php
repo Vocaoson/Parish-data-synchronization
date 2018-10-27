@@ -14,7 +14,6 @@ class GiaoLyVienMD extends CI_Model {
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
@@ -27,6 +26,7 @@ class GiaoLyVienMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
+	
 	public function deleteTwoKey($MaLop,$MaGiaoDan,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);

@@ -31,6 +31,9 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 		
 		foreach ($this->data as $data) {
 			$khoiGiaoLySV=$this->findKhoiGiaoLy($data);
+			if ($this->deleteObjectMaster($data,$khoiGiaoLySV,$this,$this->KhoiGiaoLyMD)) {
+				continue;
+			}
 			$maGiaoDan=$this->findIdObjectSV($this->listGDThayDoi,$data['NguoiQuanLy']);
 			if ($maGiaoDan==0) {
 				continue;
@@ -81,65 +84,23 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 
 	}
 
-	public function delete($maGiaoXuRieng)
+	public function delete($data)
 	{
-		$rs=$this->KhoiGiaoLyMD->getAll($maGiaoXuRieng);
-		if (count($rs)>0) {
-			foreach ($rs as $data) {
-				$idKGL=$this->findIdObjectCSV($this->tracks,$data->MaKhoi);
-				if ($idKGL==0) {
-					//Xoa khoi
-					$this->KhoiGiaoLyMD->delete($data->MaKhoi,$maGiaoXuRieng);
+//Xoa khoi
+		$this->KhoiGiaoLyMD->delete($data->MaKhoi,$data->MaGiaoXuRieng);
 					//delete Lop Giao Ly
-					$listLopGiaoLy=$this->LopGiaoLyMD->getByMaKhoi($data->MaKhoi,$maGiaoXuRieng);
-					if (count($listLopGiaoLy)>0) {
-						foreach ($listLopGiaoLy as $data2) {
-							$this->LopGiaoLyMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
-							$this->GiaoLyVienMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
-							$this->ChiTietLopGiaoLyMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
-						}
-					}
-				}
+		$listLopGiaoLy=$this->LopGiaoLyMD->getByMaKhoi($data->MaKhoi,$data->MaGiaoXuRieng);
+		if (count($listLopGiaoLy)>0) {
+			foreach ($listLopGiaoLy as $data2) {
+				$this->LopGiaoLyMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
+				$this->GiaoLyVienMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
+				$this->ChiTietLopGiaoLyMD->deleteMaLop($data2->MaLop,$data2->MaGiaoXuRieng);
 			}
 		}
 	}
 
 	
-	// public function importKhoiGiaoLy($data)
-	// {
-	// 	$khoiGiaoLySV=$this->findKhoiGiaoLy($data);
-	// 	$objectTrack=new stdClass();
-	// 	$objectTrack->updated=false;
-	// 	$objectTrack->oldIdIsCsv=true;
-
-	// 	if ($khoiGiaoLySV==null) {
-	// 			//Insert
-	// 		$objectTrack->oldId=$data["MaKhoi"];
-	// 		$objectTrack->newId=$this->KhoiGiaoLyMD->insert($data);
-	// 		$objectTrack->nowId=$objectTrack->newId;
-	// 	}
-	// 	else {
-	// 			//Update
-	// 			//Xu ly du lieu Null
-	// 		$data=$this->processDataNull($khoiGiaoLySV,$data);
-	// 			//check time UpdateDate
-	// 		$objectTrack->updated=true;
-	// 		if ($data['UpdateDate']>$khoiGiaoLySV->UpdateDate) {
-	// 			$objectTrack->newId=$data["MaKhoi"];
-	// 			$objectTrack->oldId=$khoiGiaoLySV->MaKhoi;
-	// 			$objectTrack->nowId=$khoiGiaoLySV->MaKhoi;
-	// 			$objectTrack->oldIdIsCsv=false;
-	// 			$this->KhoiGiaoLyMD->update($data,$khoiGiaoLySV->MaKhoi);
-	// 		}
-	// 		else {
-	// 			$objectTrack->oldIdIsCsv=true;
-	// 			$objectTrack->newId=$khoiGiaoLySV->MaKhoi;
-	// 			$objectTrack->oldId=$data["MaKhoi"];
-	// 			$objectTrack->nowId=$khoiGiaoLySV->MaKhoi;
-	// 		}
-	// 	}
-	// 	return $objectTrack;
-	// }
+	
 }
 
 /* End of file KhoiGiaoLyCompareCL.php */

@@ -13,7 +13,6 @@ class ChiTietLopGiaoLyMD extends CI_Model {
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
@@ -50,6 +49,7 @@ class ChiTietLopGiaoLyMD extends CI_Model {
 	}
 	public function getByMaLop($MaLop,$MaGiaoXuRieng)
 	{
+		
 		$this->db->where('MaLop', $MaLop);
 		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
 		$query=$this->db->get($this->table);

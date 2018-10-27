@@ -16,11 +16,17 @@ class GiaDinhMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
 		$this->db->update($this->table);
 	}
+	public function deleteReal($dataSV)
+	{
+		$this->db->where('MaGiaDinh', $dataSV->MaGiaDinh);
+		$this->db->where('MaGiaoXuRieng', $dataSV->MaGiaoXuRieng);
+
+		$this->db->delete($this->table);
+	}
 	public function getAllActive($maGiaoXu)
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
@@ -59,6 +65,7 @@ class GiaDinhMD extends CI_Model {
 	 */
 	public function getGiaDinhByDK1($maNhanDang,$maGiaoXu)
 	{
+		
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$this->db->where('MaNhanDang', $maNhanDang);
 		$query=$this->db->get($this->table);
@@ -73,6 +80,7 @@ class GiaDinhMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$this->db->where('TenGiaDinh', $name);
 		$this->db->where('DiaChi', $add);
+		
 		$this->db->where('DienThoai', $sdt);
 		$this->db->where('GhiChu', $note);
 		$query=$this->db->get($this->table);

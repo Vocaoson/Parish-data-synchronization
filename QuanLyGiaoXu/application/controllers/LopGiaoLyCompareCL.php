@@ -38,6 +38,7 @@ class LopGiaoLyCompareCL extends CompareCL {
 		
 		foreach ($this->data as $data) {
 			$maKhoi=$this->findIdObjectSV($this->listKhoiLopThayDoi,$data['MaKhoi']);
+			
 			if ($maKhoi==0) {
 				continue;
 			}
@@ -45,6 +46,9 @@ class LopGiaoLyCompareCL extends CompareCL {
 				$data['MaKhoi']=$maKhoi;
 			}
 			$lopGiaoLySV=$this->findLopGiaoLy($data);
+			if ($this->deleteObjectMaster($data,$lopGiaoLySV,$this,$this->LopGiaoLyMD)) {
+				continue;
+			}
 			$objectTrack=$this->importObjectMaster($data,'MaLop',$lopGiaoLySV,$this->LopGiaoLyMD);
 				// $this->listGLVThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoLyVienCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoLyVienMD);
 
@@ -64,22 +68,13 @@ class LopGiaoLyCompareCL extends CompareCL {
 	{
 		$this->listGDThayDoi=$tracks;
 	}
-	public function delete($maGiaoXuRieng)
+	public function delete($data)
 	{
-		$rs=$this->LopGiaoLyMD->getAll($maGiaoXuRieng);
-		if (count($rs)>0) {
-			foreach ($rs as $data) {
-				$idLGL=$this->findIdObjectCSV($this->tracks,$data->MaLop);
-				if ($idLGL==0) {
-					
-					$this->LopGiaoLyMD->deleteMaLop($data->MaLop,$maGiaoXuRieng);
-					
-					$this->GiaoLyVienMD->deleteMaLop($data->MaDotBiTich,$maGiaoXuRieng);
+		$this->LopGiaoLyMD->deleteMaLop($data->MaLop,$data->MaGiaoXuRieng);
 
-					$this->ChiTietLopGiaoLyMD->deleteMaLop($data->MaDotBiTich,$maGiaoXuRieng);
-				}
-			}
-		}
+		$this->GiaoLyVienMD->deleteMaLop($data->MaDotBiTich,$data->MaGiaoXuRieng);
+
+		$this->ChiTietLopGiaoLyMD->deleteMaLop($data->MaDotBiTich,$data->MaGiaoXuRieng);
 	}
 	public function findLopGiaoLy($data)
 	{

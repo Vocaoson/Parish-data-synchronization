@@ -13,7 +13,6 @@ class KhoiGiaoLyMD extends CI_Model {
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
@@ -25,6 +24,12 @@ class KhoiGiaoLyMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->result();
+	}
+	public function deleteReal($dataSV)
+	{
+		$this->db->where('MaKhoi', $dataSV->MaKhoi);
+		$this->db->where('MaGiaoXuRieng', $dataSV->MaGiaoXuRieng);
+		$this->db->delete($this->table);
 	}
 	public function deleteMaKhoi($MaKhoi,$MaGiaoXuRieng)
 	{
@@ -51,6 +56,7 @@ class KhoiGiaoLyMD extends CI_Model {
 	public function getByDK1($data)
 	{
 		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		
 		$this->db->where('TenKhoi', $data['TenKhoi']);
 		$query=$this->db->get($this->table);
 		return $query->result();

@@ -22,12 +22,16 @@ class GiaoHoCompareCL extends CompareCL {
 	{
 		foreach ($this->data as $data) {
 			$giaoHoServer=$this->findGiaoHo($data,$data['MaGiaoXuRieng']);
+			if ($this->deleteObjectMaster($data,$giaoHoServer,$this,$this->GiaoHoMD)) {
+				continue;
+			}
 			$objectTrack=$this->importObjectMaster($data,'MaGiaoHo',$giaoHoServer,$this->GiaoHoMD);
 			$this->tracks[]=$objectTrack;
 		}
 		$this->processMaGiaoHoCha();
 
 	}
+
 	public function processMaGiaoHoCha()
 	{
 		foreach ($this->data as $data) {
@@ -40,83 +44,44 @@ class GiaoHoCompareCL extends CompareCL {
 			}
 		}
 	}
-	public function delete($maGiaoXuRieng)
+	public function delete($data)
 	{
-		$rs=$this->GiaoHoMD->getAllListIDGiaoHo($maGiaoXuRieng);
-		if (count($rs)>0) {
-			foreach ($rs as $data) {
-				$idCSV=$this->findIdObjectCSV($this->tracks,$data->MaGiaoHo);
-				if ($idCSV==0) {
-					// xoa giao ho
-					$this->GiaoHoMD->delete($data->MaGiaoHo,$maGiaoXuRieng);
-					//Xoa gia dinh
-					$listGiaDinhGiaoHo=$this->GiaDinhMD->getByMaGiaoHo($data->MaGiaoHo,$maGiaoXuRieng);
-					if (count($listGiaDinhGiaoHo)>0) {
-						foreach ($listGiaDinhGiaoHo as $data3) {
+		$this->GiaoHoMD->delete($data->MaGiaoHo,$data->MaGiaoXuRieng);
+		//Xoa gia dinh
+		$listGiaDinhGiaoHo=$this->GiaDinhMD->getByMaGiaoHo($data->MaGiaoHo,$data->MaGiaoXuRieng);
+		if (count($listGiaDinhGiaoHo)>0) {
+			foreach ($listGiaDinhGiaoHo as $data3) {
 							//xoa gia dinh
-							$this->GiaDinhMD->deleteMaGiaDinh($data3->MaGiaDinh,$maGiaoXuRieng);
+				$this->GiaDinhMD->deleteMaGiaDinh($data3->MaGiaDinh,$data->MaGiaoXuRieng);
 							//Xoa thanh vien gia dinh
-							$this->ThanhVienGiaDinhMD->deleteMaGiaDinh($data3->MaGiaDinh,$maGiaoXuRieng);
-						}
-					}
+				$this->ThanhVienGiaDinhMD->deleteMaGiaDinh($data3->MaGiaDinh,$data->MaGiaoXuRieng);
+			}
+		}
 					// xoa giao dan  co giao ho
-					$listGDGH=$this->GiaoDanMD->getByMaGiaoHo($data->MaGiaoHo,$maGiaoXuRieng);
-					if (count($listGDGH)>0) {
-						foreach ($listGDGH as $data2) {
+		$listGDGH=$this->GiaoDanMD->getByMaGiaoHo($data->MaGiaoHo,$data->MaGiaoXuRieng);
+		if (count($listGDGH)>0) {
+			foreach ($listGDGH as $data2) {
 							// xoa giao dan
-							$this->GiaoDanMD->deleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
+				$this->GiaoDanMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							// xoa thanh vien gia dinh co ma giao dan bang
-							$this->ThanhVienGiaDinhMD->deleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
+				$this->ThanhVienGiaDinhMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa bi tich chi tiet
-							$this->BiTichChiTietMD->deleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
+				$this->BiTichChiTietMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa Giao Dan HonPhoi
-							$this->GiaoDanHonPhoiMD->deleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
+				$this->GiaoDanHonPhoiMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa Chuyen xu
-							$this->ChuyenXuMD->deldeleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
+				$this->ChuyenXuMD->deldeleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa Tan Hien
-							$this->TanHienMD->deleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
+				$this->TanHienMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa Rao Hon Phoi
-							$this->RaoHonPhoiMD->deleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
+				$this->RaoHonPhoiMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa chi tiet lop giao ly
-							$this->ChiTietLopGiaoLyMD->deleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
+				$this->ChiTietLopGiaoLyMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa giao ly vien
-							$this->GiaoLyVienMD->deleteMaGiaoDan($data2->MaGiaoDan,$maGiaoXuRieng);
-						}
-					}
-				}
+				$this->GiaoLyVienMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 			}
 		}
 	}
-	// public function importGiaoHo($data)
-	// {
-	// 	$giaoHoServer=$this->checkExist($data['MaNhanDang'],$data['MaGiaoXuRieng']);
-	// 	$objectTrack=new stdClass();
-	// 	$objectTrack->updated=false;
-	// 	$objectTrack->oldIdIsCsv=true;
-	// 	if ($giaoHoServer==null) {
-	// 				//Insert
-	// 		$objectTrack->oldId=$data["MaGiaoHo"];
-	// 		$objectTrack->newId=$this->GiaoHoMD->insert($data);
-	// 		$objectTrack->nowId=$objectTrack->newId;
-	// 	}
-	// 	else {
-	// 		$objectTrack->updated=true;
-	// 		if ($data['UpdateDate']>$giaoHoServer->UpdateDate) {
-	// 			$objectTrack->newId=$data["MaGiaoHo"];
-	// 			$objectTrack->oldId=$giaoHoServer->MaGiaoHo;
-	// 			$objectTrack->nowId=$giaoHoServer->MaGiaoHo;
-	// 			$objectTrack->oldIdIsCsv=false;
-	// 			$this->GiaoHoMD->update($data,$giaoHoServer->MaGiaoHo);
-	// 		}
-	// 		else {
-	// 			$objectTrack->oldIdIsCsv=true;
-	// 			$objectTrack->newId=$giaoHoServer->MaGiaoHo;
-	// 			$objectTrack->oldId=$data["MaGiaoHo"];
-	// 			$objectTrack->nowId=$giaoHoServer->MaGiaoHo;
-	// 		}
-	// 	}
-	// 	return $objectTrack;
-	// }
 	public function findGiaoHo($data,$maGiaoXuRieng)
 	{
 		if (!empty($data["MaNhanDang"])) {

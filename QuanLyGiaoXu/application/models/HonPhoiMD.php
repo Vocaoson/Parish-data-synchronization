@@ -13,7 +13,6 @@ class HonPhoiMD extends CI_Model {
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
@@ -26,6 +25,13 @@ class HonPhoiMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
+	public function deleteReal($dataSV)
+	{
+		$this->db->where('MaHonPhoi', $dataSV->MaHonPhoi);
+		$this->db->where('MaGiaoXuRieng', $dataSV->MaGiaoXuRieng);
+
+		$this->db->delete($this->table);
+	}
 	public function delete($MaHonPhoi,$maGiaoXuRieng)
 	{
 		$this->db->where('MaHonPhoi', $MaHonPhoi);
@@ -37,12 +43,16 @@ class HonPhoiMD extends CI_Model {
 	{
 		$this->db->where('MaNhanDang', $data['MaNhanDang']);
 		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		
+
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
 	public function getHonPhoiByDK2($data)
 	{
 		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		
+
 		$this->db->where('TenHonPhoi', $data['TenHonPhoi']);
 		$this->db->where('NgayHonPhoi', $data['NgayHonPhoi']);
 		$this->db->where('SoHonPhoi', $data['SoHonPhoi']);

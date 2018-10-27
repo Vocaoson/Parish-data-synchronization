@@ -57,14 +57,11 @@ class SynToClientCL extends CI_Controller {
 
 			
 			foreach ($table['field'] as $field) {
-				if ($field!="DeleteSV") {
 					fwrite($fp,$field);
 					fwrite($fp,";");
-				}
 			}
 			fwrite($fp,"\n");
 			foreach ($table['data'] as $object) {
-				unset($object->DeleteSV);
 				foreach ($object as $data) {
 					fwrite($fp,$data);
 					fwrite($fp,";");

@@ -24,24 +24,23 @@ abstract class CompareCL extends CI_Controller {
      return $temp[count($temp)-2];
  }
 
-
- public function deleteObjecChild($listChange,$fieldID1,$fieldID2,$Model,$maGiaoXuRieng)
+//    public function deleteObjecChild($id1,$id2,$Model,$MaGiaoXuRieng)
+//    {
+//     $Model->deleteTwoKey($id1,$id2,$MaGiaoXuRieng);
+// }
+ public function deleteObjecChild($data,$fieldID1,$fieldID2,$rs,$Model)
  {
-    if (isset($this->tracks)&&count($this->tracks)>0) {
-        $listObjectChild=$Model->getAll($maGiaoXuRieng);
-        if (isset($listObjectChild)&&count($listObjectChild)>0) {
-            foreach ($listObjectChild as $data) {
-                $rs=$this->findObjectChild($data,$listChange,$fieldID1,$fieldID2);
-                if ($rs==0) {
-                        //delete
-                    $Model->deleteTwoKey($data->{$fieldID1},$data->{$fieldID2},$data->MaGiaoXuRieng);
-                }
-            }
-        }
-    }
-}
-public function findObjectChild($data,$listChange,$fieldID1,$fieldID2)
-{
+     if (!isset($data["DeleteClient"])) {
+         return false;
+     }
+     if ($data['DeleteClient']=='1'&&$this->compareDate($data['UpdateDate'],$rs->UpdateDate)) {
+         $Model->deleteTwoKey($rs->{$fieldID1},$rs->{$fieldID2});
+         return true;
+     }
+     return false;
+ }
+ public function findObjectChild($data,$listChange,$fieldID1,$fieldID2)
+ {
     if (isset($listChange)&&count($listChange)>0) {
         foreach ($listChange as $value) {
             if ($value->{$fieldID1}=$data->{$fieldID1}&&$value->{$fieldID2}==$data->{$fieldID2}) {
@@ -84,11 +83,16 @@ public function compareDate($dateCSV,$dateSV){
                     continue;
                 }
                 $rs=$Model->findwithID($objectTrack->nowId,$IDobject2,$data['MaGiaoXuRieng']);
+                
                 $objectTrackNew=new stdClass();
                 $objectTrackNew->{$fieldID2}=$IDobject2;
                 $objectTrackNew->{$fieldID1}=$objectTrack->nowId;
                 $this->tracks[]=$objectTrackNew;
                 
+                if ($this->deleteObjecChild($data,$fieldID1,$fieldID2,$rs,$Model))
+                    continue;
+
+
                 if ($rs) {
                     if ($this->compareDate($data['UpdateDate'],$rs->UpdateDate)) {
                         $Model->update($data,$IDobject2,$objectTrack->nowId);
@@ -101,6 +105,36 @@ public function compareDate($dateCSV,$dateSV){
         }
 
     }
+    public function deleteObjectMaster($objectCSV,&$objectSV,$objectCompare,$Model)
+    {
+        //TH1 Client 1 Server 0 , Client>Server=>1=>true
+        if (isset($objectSV)&&$objectCSV['DeleteClient']=='1'&&$objectSV->DeleteSV=='0'&&$this->compareDate($objectCSV['UpdateDate'],$objectSV->UpdateDate)) {
+            $objectCompare->delete($objectSV);
+            return true;
+        }
+        //TH2 Client 1 Server 0 , Client<Server=>true
+        if (isset($objectSV)&&$objectCSV['DeleteClient']=='1'&&$objectSV->DeleteSV=='0'&&!$this->compareDate($objectCSV['UpdateDate'],$objectSV->UpdateDate)) {
+          return true;
+        }
+        //Th3 Client 0 Server 1 , Client>Server=>Xóa luôn Server=>false
+        if (isset($objectSV)&&$objectCSV['DeleteClient']=='0'&&$objectSV->DeleteSV=='1'&&$this->compareDate($objectCSV['UpdateDate'],$objectSV->UpdateDate)) {
+            $Model->deleteReal($objectSV);
+            $objectSV=null;
+            return false;
+        }
+        //TH4 Client 0 Server 1 , Client<Server=>true
+        if (isset($objectSV)&&$objectCSV['DeleteClient']=='0'&&$objectSV->DeleteSV=='1'&&!$this->compareDate($objectCSV['UpdateDate'],$objectSV->UpdateDate)) {
+            return true;
+          }
+       
+      
+
+        if ($objectCSV['DeleteClient']=='1'){
+            return true;
+        }
+        return false;
+
+    }
     /**
      * [importObjectMaster Merge cac ban chinh ]
      * @param  [type] $objectCSV [description]
@@ -111,10 +145,10 @@ public function compareDate($dateCSV,$dateSV){
      */
     public function importObjectMaster($objectCSV,$fieldID,$objectSV,$Model)
     {
+        unset($objectCSV["DeleteClient"]);
         $objectTrack=new stdClass();
         $objectTrack->updated=false;
         $objectTrack->oldIdIsCsv=true;
-        
         if ($objectSV==null) {
                 //Insert
             $objectTrack->oldId=$objectCSV[$fieldID];

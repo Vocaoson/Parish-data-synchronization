@@ -9,11 +9,10 @@ class CauHinhMD extends CI_Model {
 		parent::__construct();
 		$this->table="CauHinh";
 	}
-		public function getAllActive($maGiaoXu)
+	public function getAllActive($maGiaoXu)
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
@@ -29,7 +28,7 @@ class CauHinhMD extends CI_Model {
 	}
 	public function insert($cauHinhArray)
 	{
-        unset($cauHinhArray['UpdateDate']);
+		unset($cauHinhArray['UpdateDate']);
 		$this->db->insert($this->table, $cauHinhArray);
 		return $this->db->insert_id();
 	}
@@ -44,13 +43,13 @@ class CauHinhMD extends CI_Model {
 		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		return $query->result();
-    }
-    public function getByInfo($maCauHinh,$maGiaoXuRieng) 
-    {
-        $this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
-        $this->db->where('DeleteSV', 0);
-        $this->db->where('MaCauHinh', $maCauHinh);
+	}
+	public function getByInfo($maCauHinh,$maGiaoXuRieng) 
+	{
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('DeleteSV', 0);
+		$this->db->where('MaCauHinh', $maCauHinh);
 		$query=$this->db->get($this->table);
 		return $query->result();
-    }
+	}
 } 

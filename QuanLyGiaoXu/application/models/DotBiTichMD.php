@@ -13,12 +13,18 @@ class DotBiTichMD extends CI_Model {
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
 
+	}
+	public function deleteReal($dataSV)
+	{
+		$this->db->where('MaDotBiTich', $dataSV->MaDotBiTich);
+		$this->db->where('MaGiaoXuRieng', $dataSV->MaGiaoXuRieng);
+
+		$this->db->delete($this->table);
 	}
 	public function getAll($maGiaoXuRieng)
 	{
@@ -44,6 +50,7 @@ class DotBiTichMD extends CI_Model {
 	 */
 	public function getByDK1($discription,$date,$type,$linhmuc,$maGiaoXuRieng)
 	{
+		
 		$this->db->where('MoTa', $discription);
 		$this->db->where('NgayBiTich', $date);
 		$this->db->where('LoaiBiTich', $type);
