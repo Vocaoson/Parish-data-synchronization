@@ -20,6 +20,10 @@ class CauHinhCompareCL extends CompareCL {
         foreach($this->data as $data){
             $cauHinhs = array();
             $cauHinhs = $this->CauHinhMD->getByInfo($data['MaCauHinh'],$this->MaGiaoXuRieng);
+            //delete linhmuc
+            if(count($cauHinhs) > 0 && $this->deleteObjectMaster($data,$cauHinhs[0],$this,$this->CauHinhMD)) {
+                continue;
+            }
             if(count($cauHinhs) > 0) {
                 $this->tracks[] = $this->importObjectMaster($data,"MaCauHinh",$cauHinhs[0],$this->CauHinhMD);
             } else {
@@ -27,13 +31,8 @@ class CauHinhCompareCL extends CompareCL {
             }     
         }
     }
-    public function delete($maGiaoXuRieng) {
-        $allCauHinhs = $this->CauHinhMD->getAll($maGiaoXuRieng);
-        foreach ($allCauHinhs as $key => $value) {
-            if(!$this->isExist($value->MaCauHinh)) {
-                $this->CauHinhMD->deleteById($value->MaCauHinh,$maGiaoXuRieng);
-            }
-        }
+    public function delete($data) {
+        $this->CauHinhMD->deleteById($data->MaCauHinh,$data->MaGiaoXuRieng);
     }
     public function isExist($maCauHinh) {
         foreach ($this->tracks as $key => $value) {

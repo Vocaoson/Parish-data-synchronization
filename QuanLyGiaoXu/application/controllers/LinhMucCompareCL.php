@@ -22,6 +22,10 @@ class LinhMucCompareCL extends CompareCL {
             if(!empty($data['TenThanh']) && !empty($data['HoTen']) && !empty($data['ChucVu'])) {
                 $linhMucs = $this->LinhMucMD->getByInfo($data['TenThanh'],$data['HoTen'],$data['ChucVu'],$this->MaGiaoXuRieng);
             }
+            //delete linhmuc
+            if(count($linhMucs) > 0 && $this->deleteObjectMaster($data,$linhMucs[0],$this,$this->LinhMucMD)) {
+                continue;
+            }
             if(count($linhMucs) > 0) {
                 $this->tracks[] = $this->importObjectMaster($data,"MaLinhMuc",$linhMucs[0],$this->LinhMucMD);
             } else {
@@ -29,20 +33,7 @@ class LinhMucCompareCL extends CompareCL {
             }     
         }
     }
-    public function delete($maGiaoXuRieng) {
-        $allLinhMucs = $this->LinhMucMD->getAll($maGiaoXuRieng);
-        foreach ($allLinhMucs as $key => $value) {
-            if(!$this->isExist($value->MaLinhMuc)) {
-                $this->LinhMucMD->deleteById($value->MaLinhMuc,$maGiaoXuRieng);
-            }
-        }
-    }
-    public function isExist($maLinhMuc) {
-        foreach ($this->tracks as $key => $value) {
-            if($maLinhMuc == $value->nowId) {
-                return true;;
-            }
-        }
-        return false;
+    public function delete($data) {
+        $this->LinhMucMD->deleteById($data->MaLinhMuc,$data->MaGiaoXuRieng);
     }
 }

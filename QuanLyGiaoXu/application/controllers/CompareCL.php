@@ -107,6 +107,9 @@ public function compareDate($dateCSV,$dateSV){
     }
     public function deleteObjectMaster($objectCSV,&$objectSV,$objectCompare,$Model)
     {
+        if(!array_key_exists("DeleteClient",$objectCSV)){
+            return false;
+        }
         //TH1 Client 1 Server 0 , Client>Server=>1=>true
         if (isset($objectSV)&&$objectCSV['DeleteClient']=='1'&&$objectSV->DeleteSV=='0'&&$this->compareDate($objectCSV['UpdateDate'],$objectSV->UpdateDate)) {
             $objectCompare->delete($objectSV);
@@ -126,9 +129,6 @@ public function compareDate($dateCSV,$dateSV){
         if (isset($objectSV)&&$objectCSV['DeleteClient']=='0'&&$objectSV->DeleteSV=='1'&&!$this->compareDate($objectCSV['UpdateDate'],$objectSV->UpdateDate)) {
             return true;
           }
-       
-      
-
         if ($objectCSV['DeleteClient']=='1'){
             return true;
         }

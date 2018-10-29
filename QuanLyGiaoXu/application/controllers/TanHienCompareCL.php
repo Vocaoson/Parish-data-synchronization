@@ -15,7 +15,13 @@ class TanHienCompareCL extends CompareCL {
         foreach($this->data as $data) {
             $tanHiens = array();
             $data['MaGiaoDan']=$this->findIdObjectSV($this->listGDThayDoi,$data['MaGiaoDan']);
+            if($data['MaGiaoDan'] == 0) {
+                continue;
+            }
             $tanHiens = $this->TanHienMD->getByIdGiaoDan($data['MaGiaoDan']);
+            if(count($tanHiens) > 0 && $this->deleteObjectMaster($data,$tanHiens[0],$this,$this->TanHienMD)) {
+                continue;
+            }
             if(count($tanHiens) > 0) {
                 $this->tracks[] = $this->importObjectMaster($data,"MaTanHien",$tanHiens[0],$this->TanHienMD);
             } else {
@@ -27,20 +33,7 @@ class TanHienCompareCL extends CompareCL {
 	{
 		$this->listGDThayDoi=$tracks;
 	}
-    public function delete($maGiaoXuRieng) {
-        $allTanHiens = $this->TanHienMD->getAll($maGiaoXuRieng);
-        foreach ($allTanHiens as $key => $value) {
-            if(!$this->isExist($value->MaTanHien)) {
-                $this->TanHienMD->deleteById($value->MaTanHien,$maGiaoXuRieng);
-            }
-        }
-    }
-    public function isExist($maTanHien) {
-        foreach ($this->tracks as $key => $value) {
-            if($maTanHien == $value->nowId) {
-                return true;
-            }
-        }
-        return false;
+    public function delete($data) {
+        $this->TanHienMD->deleteById($data->MaTanHien,$data->MaGiaoXuRieng);
     }
 }

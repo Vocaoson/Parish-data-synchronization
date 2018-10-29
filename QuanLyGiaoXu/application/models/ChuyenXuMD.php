@@ -51,7 +51,7 @@ class ChuyenXuMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
-	public function deldeleteMaGiaoDan($maGiaoDan,$magiaoxurieng)
+	public function deleteMaGiaoDan($maGiaoDan,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
 		$this->db->where('MaGiaoDan', $maGiaoDan);

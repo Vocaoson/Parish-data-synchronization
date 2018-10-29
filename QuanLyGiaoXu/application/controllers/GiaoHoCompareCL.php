@@ -70,7 +70,7 @@ class GiaoHoCompareCL extends CompareCL {
 							//Xoa Giao Dan HonPhoi
 				$this->GiaoDanHonPhoiMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa Chuyen xu
-				$this->ChuyenXuMD->deldeleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
+				$this->ChuyenXuMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa Tan Hien
 				$this->TanHienMD->deleteMaGiaoDan($data2->MaGiaoDan,$data->MaGiaoXuRieng);
 							//Xoa Rao Hon Phoi

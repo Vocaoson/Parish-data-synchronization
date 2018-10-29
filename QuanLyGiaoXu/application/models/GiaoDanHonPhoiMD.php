@@ -50,6 +50,9 @@ class GiaoDanHonPhoiMD extends CI_Model {
 	public function insert($data,$maGiaoDan,$MaHonPhoi)
 	{
 		unset($data['UpdateDate']);
+		//2018/10/29 son add start
+		unset($data['DeleteClient']);
+		//2018/10/29 son add start
 		$data['MaHonPhoi']=$MaHonPhoi;
 		$data['MaGiaoDan']=$maGiaoDan;
 		$this->db->insert($this->table, $data);
@@ -57,6 +60,9 @@ class GiaoDanHonPhoiMD extends CI_Model {
 	public function update($data,$maGiaoDan,$MaHonPhoi)
 	{
 		unset($data['UpdateDate']);
+		//2018/10/29 son add start
+		unset($data['DeleteClient']);
+		//2018/10/29 son add start
 		unset($data['MaHonPhoi']);
 		unset($data['MaGiaoDan']);
 		$this->db->where('MaHonPhoi', $MaHonPhoi);

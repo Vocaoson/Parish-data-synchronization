@@ -28,20 +28,7 @@ class RaoHonPhoiCompareCL extends CompareCL {
 	{
 		$this->listGDThayDoi=$tracks;
 	}
-    public function delete($maGiaoXuRieng) {
-        $allRaoHonPhois = $this->RaoHonPhoiMD->getAll($maGiaoXuRieng);
-        foreach ($allRaoHonPhois as $key => $value) {
-            if(!$this->isExist($value->MaRaoHonPhoi)) {
-                $this->RaoHonPhoiMD->deleteById($value->MaRaoHonPhoi,$maGiaoXuRieng);
-            }
-        }
-    }
-    public function isExist($maRaoHonPhoi) {
-        foreach ($this->tracks as $key => $value) {
-            if($maRaoHonPhoi == $value->nowId) {
-                return true;
-            }
-        }
-        return false;
+    public function delete($data) {
+        $this->RaoHonPhoiMD->deleteById($data->MaRaoHonPhoi,$data->MaGiaoXuRieng);
     }
 }

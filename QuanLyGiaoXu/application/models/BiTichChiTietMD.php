@@ -51,6 +51,9 @@ class BiTichChiTietMD extends CI_Model {
 	public function insert($data,$maGiaoDan,$MaDotBiTich)
 	{
 		unset($data['UpdateDate']);
+		//2018/10/29 son add start
+		unset($data['DeleteClient']);
+		//2018/10/29 son add start
 		$data['MaDotBiTich']=$MaDotBiTich;
 		$data['MaGiaoDan']=$maGiaoDan;
 		$this->db->insert($this->table, $data);

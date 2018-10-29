@@ -144,14 +144,12 @@ class SynJobCL extends CI_Controller
         //2018/09/22 Gia add start
         require_once('GiaoHoCompareCL.php');
         $giaoHoCompare=new GiaoHoCompareCL('GiaoHo.csv',$dir);
-        $giaoHoCompare->compare();
-       
-        //2018/09/22 Gia add end
-        // require_once('GiaoDanCompareCL.php');
-        // $giaoDanCompare = new GiaoDanCompareCL("GiaoDan.csv",$dir);
-        // $giaoDanCompare->getListGiaoHoTracks($giaoHoCompare->tracks);
-        // $giaoDanCompare->MaGiaoXuRieng = $maGiaoXu;
-        // $giaoDanCompare->compare();
+        $giaoHoCompare->compare();   
+        // 2018/09/22 Gia add end
+        require_once('GiaoDanCompareCL.php');
+        $giaoDanCompare = new GiaoDanCompareCL("GiaoDan.csv",$dir);
+        $giaoDanCompare->getListGiaoHoTracks($giaoHoCompare->tracks);
+        $giaoDanCompare->compare();
        
         require_once('GiaDinhCompareCL.php');
         $giaDinhCompare=new GiaDinhCompareCL('GiaDinh.csv',$dir);
@@ -221,37 +219,33 @@ class SynJobCL extends CI_Controller
        
         
 
-        //  require_once('ChuyenXuCompareCL.php');
-        // $chuyenXuCompare=new ChuyenXuCompareCL('ChuyenXu.csv',$dir);
-        // $chuyenXuCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
-        // $chuyenXuCompare->compare();
+        require_once('ChuyenXuCompareCL.php');
+        $chuyenXuCompare=new ChuyenXuCompareCL('ChuyenXu.csv',$dir);
+        $chuyenXuCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
+        $chuyenXuCompare->compare();
       
 
-        // require_once('TanHienCompareCL.php');
-        // $tanHienCompare=new TanHienCompareCL('TanHien.csv',$dir);
-        // $tanHienCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
-        // $tanHienCompare->compare();
+        require_once('TanHienCompareCL.php');
+        $tanHienCompare=new TanHienCompareCL('TanHien.csv',$dir);
+        $tanHienCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
+        $tanHienCompare->compare();
  
 
-        // require_once('LinhMucCompareCL.php');
-        // $linhMucCompareCL = new LinhMucCompareCL("LinhMuc.csv",$dir);
-        // $linhMucCompareCL->MaGiaoXuRieng = $maGiaoXu;
-        // $linhMucCompareCL->compare();
+        require_once('LinhMucCompareCL.php');
+        $linhMucCompareCL = new LinhMucCompareCL("LinhMuc.csv",$dir);
+        $linhMucCompareCL->compare();
         
         
-        // require_once('CauHinhCompareCL.php');
-        // $cauHinhCompareCL = new CauHinhCompareCL("CauHinh.csv",$dir);
-        // $cauHinhCompareCL->MaGiaoXuRieng = $maGiaoXu;
-        // $cauHinhCompareCL->compare();
-        // $cauHinhCompareCL->delete($maGiaoXu);
+        require_once('CauHinhCompareCL.php');
+        $cauHinhCompareCL = new CauHinhCompareCL("CauHinh.csv",$dir);
+        $cauHinhCompareCL->compare();
 
-        // require_once('RaoHonPhoiCompareCL.php');
-        // $raoHonPhoiCompare=new RaoHonPhoiCompareCL('RaoHonPhoi.csv',$dir);
-        // $raoHonPhoiCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
-        // $raoHonPhoiCompare->compare();
-        // $raoHonPhoiCompare->delete($maGiaoXu);
+        require_once('RaoHonPhoiCompareCL.php');
+        $raoHonPhoiCompare=new RaoHonPhoiCompareCL('RaoHonPhoi.csv',$dir);
+        $raoHonPhoiCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
+        $raoHonPhoiCompare->compare();
 
-        $this->SynFileMD->setExe($idFile);
+        // $this->SynFileMD->setExe($idFile);
     }
 
 }

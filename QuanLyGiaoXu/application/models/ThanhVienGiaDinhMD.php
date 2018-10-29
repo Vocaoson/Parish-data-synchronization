@@ -85,6 +85,9 @@ class ThanhVienGiaDinhMD extends CI_Model {
 	public function update($data,$maGiaoDan,$maGiaDinh)
 	{
 		unset($data['UpdateDate']);
+		//2018/10/29 son add start
+		unset($data['DeleteClient']);
+		//2018/10/29 son add start
 		unset($data['MaGiaDinh']);
 		unset($data['MaGiaoDan']);
 		$this->db->where('MaGiaDinh', $maGiaDinh);
@@ -102,10 +105,12 @@ class ThanhVienGiaDinhMD extends CI_Model {
 	public function insert($data,$maGiaoDan,$maGiaDinh)
 	{
 		unset($data['UpdateDate']);
+		//2018/10/29 son add start
+		unset($data['DeleteClient']);
+		//2018/10/29 son add start
 		$data['MaGiaDinh']=$maGiaDinh;
 		$data['MaGiaoDan']=$maGiaoDan;
 		$this->db->insert($this->table, $data);
-		
 	}
 	public function getTVGD($maGiaoXu,$maGiaDinh)
 	{

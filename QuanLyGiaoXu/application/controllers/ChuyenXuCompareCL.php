@@ -4,6 +4,7 @@ include_once('CompareCL.php');
 class ChuyenXuCompareCL extends CompareCL {
     private $ChuyenXuMD;
     private $listGDThayDoi;
+    public $MaGiaoXuRieng;
     public function __construct($file,$syn) 
     {
         parent::__construct($file,$syn);
@@ -15,7 +16,14 @@ class ChuyenXuCompareCL extends CompareCL {
         foreach($this->data as $data) {
             $chuyenXus = array();
             $data['MaGiaoDan']=$this->findIdObjectSV($this->listGDThayDoi,$data['MaGiaoDan']);
+            // if GiaoDan is deleted
+            if($data['MaGiaoDan'] == 0) {
+                continue;
+            }
             $chuyenXus = $this->ChuyenXuMD->getByIdGiaoDan($data['MaGiaoDan']);
+            if(count($chuyenXus) > 0 && $this->deleteObjectMaster($data,$chuyenXus[0],$this,$this->ChuyenXuMD)) {
+                continue;
+            }
             if(count($chuyenXus) > 0) {
                 $this->tracks[] = $this->importObjectMaster($data,"MaChuyenXu",$chuyenXus[0],$this->ChuyenXuMD);
             } else {
@@ -27,20 +35,7 @@ class ChuyenXuCompareCL extends CompareCL {
 	{
 		$this->listGDThayDoi=$tracks;
 	}
-    public function delete($maGiaoXuRieng) {
-        $allChuyenXus = $this->ChuyenXuMD->getAll($maGiaoXuRieng);
-        foreach ($allChuyenXus as $key => $value) {
-            if(!$this->isExist($value->MaChuyenXu)) {
-                $this->ChuyenXuMD->deleteById($value->MaChuyenXu,$maGiaoXuRieng);
-            }
-        }
-    }
-    public function isExist($maChuyenXu) {
-        foreach ($this->tracks as $key => $value) {
-            if($maChuyenXu == $value->nowId) {
-                return true;
-            }
-        }
-        return false;
+    public function delete($data) {
+        $this->ChuyenXuMD->deleteById($data->MaChuyenXu,$data->MaGiaoXuRieng);
     }
 }

@@ -42,7 +42,7 @@ class GiaDinhCompareCL extends CompareCL {
 	{
 		//Delete gia dinh
 		$this->GiaDinhMD->delete($data->MaGiaDinh,$data->MaGiaoXuRieng);
-					//Delete tvgd
+		//Delete tvgd
 		$this->ThanhVienGiaDinhMD->deleteMaGiaDinh($data->MaGiaDinh,$data->MaGiaoXuRieng);
 	}
 
