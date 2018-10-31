@@ -244,7 +244,6 @@ class SynJobCL extends CI_Controller
         $raoHonPhoiCompare=new RaoHonPhoiCompareCL('RaoHonPhoi.csv',$dir);
         $raoHonPhoiCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
         $raoHonPhoiCompare->compare();
-
         // $this->SynFileMD->setExe($idFile);
     }
 

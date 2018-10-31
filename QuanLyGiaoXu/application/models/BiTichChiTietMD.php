@@ -62,6 +62,9 @@ class BiTichChiTietMD extends CI_Model {
 	public function update($data,$maGiaoDan,$MaDotBiTich)
 	{
 		unset($data['UpdateDate']);
+		//2018/10/29 son add start
+		unset($data['DeleteClient']);
+		//2018/10/29 son add start
 		unset($data['MaDotBiTich']);
 		unset($data['MaGiaoDan']);
 		$this->db->where('MaDotBiTich', $MaDotBiTich);
