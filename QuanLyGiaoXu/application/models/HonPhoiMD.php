@@ -35,7 +35,7 @@ class HonPhoiMD extends CI_Model {
 	public function delete($MaHonPhoi,$maGiaoXuRieng)
 	{
 		$this->db->where('MaHonPhoi', $MaHonPhoi);
-		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}

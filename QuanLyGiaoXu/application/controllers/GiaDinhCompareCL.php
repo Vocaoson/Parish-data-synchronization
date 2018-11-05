@@ -78,8 +78,8 @@ class GiaDinhCompareCL extends CompareCL {
 				$dicVaiTro=array();
 				foreach ($tvgdServer as $data) {
 					$idvt=new stdClass();
-					$idvt->vaitro=$data->VaiTro;
-					$idvt->id=$this->findIdObjectCSV($this->listGDThayDoi,$data->MaGiaoDan);
+					$idvt->VaiTro=$data->VaiTro;
+					$idvt->MaGiaoDan=$this->findIdObjectCSV($this->listGDThayDoi,$data->MaGiaoDan);
 					$dicVaiTro[]=$idvt;
 				}
 				// get TVGD ben csv

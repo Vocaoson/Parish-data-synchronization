@@ -89,7 +89,7 @@ class LopGiaoLyCompareCL extends CompareCL {
 	}
 	public function compareHocVien($lopSV,$lopCSV)
 	{
-		$hocvienSV=$this->ChiTietLopGiaoLyMD->getByMaLop($lopSV->MaLop);
+		$hocvienSV=$this->ChiTietLopGiaoLyMD->getByMaLop($lopSV->MaLop,$lopSV->MaGiaoXuRieng);
 		$hocvienCSV=$this->getListByID($this->listCTLGLCSV,'MaLop',$lopCSV['MaLop']);
 		if (count($hocvienSV)==0&&count($hocvienCSV)>0) {
 			return true;
@@ -97,16 +97,13 @@ class LopGiaoLyCompareCL extends CompareCL {
 		if (count($hocvienSV)==0||count($hocvienCSV)==0) {
 			return false;
 		}
-		$dicCTLGL=array();
-		foreach ($hocvienSV as $data) {
-			$idSTT=new stdClass();
-			$idSTT->stt=$data->SoThuTu;
-			$idSTT->id=$this->findIdObjectCSV($this->listGDThayDoi,$data->MaGiaoDan);
-			$dicCTLGL[]=$idSTT;
-		}
-		foreach ($hocvienCSV as $data) {
-			if ($this->containerDic($dicCTLGL,$data["MaGiaoDan"],'MaGiaoDan',$data["SoThuTu"],'SoThuTu')) {
-				return true;
+
+		foreach ($hocvienCSV as $hvCSV) {
+			foreach	($hocvienSV as $hvSV){
+				$idGiaoDan=$this->findIdObjectSV($this->listGDThayDoi,$hvCSV['MaGiaoDan']);
+				if ($idGiaoDan==$hvSV->MaGiaoDan) {
+					return true;
+				}
 			}
 		}
 		return false;

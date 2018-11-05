@@ -192,20 +192,20 @@ class SynJobCL extends CI_Controller
 
 
         require_once('KhoiGiaoLyCompareCL.php');
-        $KhoiGiaoLyCompare=new KhoiGiaoLyCompareCL('HonPhoi.csv',$dir);
+        $KhoiGiaoLyCompare=new KhoiGiaoLyCompareCL('KhoiGiaoLy.csv',$dir);
         $KhoiGiaoLyCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
         $KhoiGiaoLyCompare->compare();
        
 
         require_once('LopGiaoLyCompareCL.php');
-        $LopGiaoLyCompare=new LopGiaoLyCompareCL('HonPhoi.csv',$dir);
+        $LopGiaoLyCompare=new LopGiaoLyCompareCL('LopGiaoLy.csv',$dir);
         $LopGiaoLyCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
         $LopGiaoLyCompare->getListKhoiLopTracks($KhoiGiaoLyCompare->tracks);
         $LopGiaoLyCompare->compare();
        
 
         require_once('GiaoLyVienCompareCL.php');
-        $giaoLyVienCompare=new GiaoLyVienCompareCL('GiaoDanHonPhoi.csv',$dir);
+        $giaoLyVienCompare=new GiaoLyVienCompareCL('GiaoLyVien.csv',$dir);
         $giaoLyVienCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
         $giaoLyVienCompare->getlistLopGiaoLyTracks($LopGiaoLyCompare->tracks);
         $giaoLyVienCompare->compare();
@@ -244,7 +244,7 @@ class SynJobCL extends CI_Controller
         $raoHonPhoiCompare=new RaoHonPhoiCompareCL('RaoHonPhoi.csv',$dir);
         $raoHonPhoiCompare->getListGiaoDanTracks($giaoDanCompare->tracks);
         $raoHonPhoiCompare->compare();
-        // $this->SynFileMD->setExe($idFile);
+         $this->SynFileMD->setExe($idFile);
     }
 
 }

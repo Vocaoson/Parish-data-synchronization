@@ -28,7 +28,7 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 	private $LopGiaoLyCompare;
 	public function compare()
 	{
-		
+		$this->LopGiaoLyCompare->getListGiaoDanTracks($this->listGDThayDoi);
 		foreach ($this->data as $data) {
 			$khoiGiaoLySV=$this->findKhoiGiaoLy($data);
 			if ($this->deleteObjectMaster($data,$khoiGiaoLySV,$this,$this->KhoiGiaoLyMD)) {
@@ -41,7 +41,7 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 			else {
 				$data['NguoiQuanLy']=$maGiaoDan;
 			}
-			$objectTrack=$this->importObjectMaster($data,$khoiGiaoLySV,$this->KhoiGiaoLyMD);
+			$objectTrack=$this->importObjectMaster($data,'MaKhoi',$khoiGiaoLySV,$this->KhoiGiaoLyMD);
 			$this->tracks[]=$objectTrack;
 		}
 	}

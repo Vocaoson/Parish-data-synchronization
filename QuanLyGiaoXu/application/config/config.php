@@ -29,7 +29,7 @@ $config["numrow"]=4;
 |
 */
 
-$config['base_url'] = 'http://localhost:81/qlgx_web/ServerQlgx/QuanLyGiaoXu';
+$config['base_url'] = 'http://localhost:8080/PHP/ThucTap/ServerQlgx20/QuanLyGiaoXu';
 
 /*
 |--------------------------------------------------------------------------
@@ -531,4 +531,4 @@ $config['proxy_ips'] = '';
 /**
  * Variable store directory file csv
  */
-$config['data_dir'] = $_SERVER['DOCUMENT_ROOT'].'/qlgx_web/ServerQlgx/data';
+$config['data_dir'] = $_SERVER['DOCUMENT_ROOT'].'/ServerQlgx/data';

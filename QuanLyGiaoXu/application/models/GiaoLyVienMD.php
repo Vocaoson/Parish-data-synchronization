@@ -49,6 +49,37 @@ class GiaoLyVienMD extends CI_Model {
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
+	public function findwithID($MaLop,$maGiaoDan,$maGiaoXu)
+	{
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('MaLop', $MaLop);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+	public function insert($data,$maGiaoDan,$MaLop)
+	{
+		unset($data['UpdateDate']);
+		//2018/10/29 son add start
+		unset($data['DeleteClient']);
+		//2018/10/29 son add start
+		$data['MaLop']=$MaLop;
+		$data['MaGiaoDan']=$maGiaoDan;
+		$this->db->insert($this->table, $data);
+	}
+	public function update($data,$maGiaoDan,$MaLop)
+	{
+		unset($data['UpdateDate']);
+		//2018/10/29 son add start
+		unset($data['DeleteClient']);
+		//2018/10/29 son add start
+		unset($data['MaLop']);
+		unset($data['MaGiaoDan']);
+		$this->db->where('MaLop', $MaLop);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		$this->db->update($this->table, $data);
+	}
 }
 
 /* End of file GiaoLyVienMD.php */
