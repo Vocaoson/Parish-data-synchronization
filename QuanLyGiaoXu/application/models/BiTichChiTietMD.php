@@ -9,10 +9,11 @@ class BiTichChiTietMD extends CI_Model {
 		parent::__construct();
 		$this->table='bitichchitiet';
 	}
-	public function getAllActive($maGiaoXu)
+	public function getAllActive($maGiaoXu,$timeClient)
 	{
 
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('UpdateDate>', $timeClient);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
