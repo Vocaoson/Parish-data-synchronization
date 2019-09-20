@@ -5,7 +5,9 @@ class GiaoXuCL extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->library('email');
 		$this->load->model('GiaoXuMD');
+		$this->load->model('GiaoXuDoiMD');
 		$this->load->model('GiaoPhanMD');
 		$this->load->model('GiaoHatMD');
 		$this->numrow=$this->config->item("numrow");
@@ -20,6 +22,18 @@ class GiaoXuCL extends CI_Controller {
 		}
 		echo null;
 		return;
+	}
+	public function getAllGX()
+	{
+		$rs=$this->GiaoXuMD->getGXjsonMD();
+		if (count($rs)>0) {
+			echo json_encode($rs);
+			return;
+		}
+		else {
+			echo -1;
+			return;
+		}
 	}
 
 	public function getGXByIdGH($idGH)
@@ -37,7 +51,7 @@ class GiaoXuCL extends CI_Controller {
 	public function downloadImg($id=-1)
 	{
 		if ($id!=-1) {
-			$file="filesIMG/";
+			$file="filesIMG/".$id."/";
 			$file.=$this->GiaoXuMD->downloadImgMD($id)->Hinh;
 			if (file_exists($file)) {
 				header('Content-Description: File Transfer');
@@ -62,16 +76,28 @@ class GiaoXuCL extends CI_Controller {
 	}
 	public function testMail()
 	{
-		$to = 'gia010203@gmail.com';  
-		$subject = 'Test email'; 
+		$this->email->from('hieptest12345@gmail.com', 'Identification');
+		$this->email->to('tranquoc1171@gmail.com');
+		$this->email->subject('Send Email Codeigniter');
+		$this->email->message('The email send using codeigniter library');
+		if($this->email->send())
+		{
+			echo "Thành công";
+		}
+else{
+	echo "Thất bại";
+}
+		// //$to = 'gia010203@gmail.com';  
+		// $to = 'tranquoc1171@gmail.com';  
+		// $subject = 'Test email'; 
 		
-		$message = "Hello World!\n\nThis is my first mail.";
+		// $message = "Hello World!\n\nThis is my first mail.";
 		
-		$headers = "From: webmaster@example.com\r\nReply-To: webmaster@example.com";
+		// $headers = "From: hieptest12345@gmail.com\r\nReply-To: hieptest12345@gmail.com";
 		
-		$mail_sent = mail( $to, $subject, $message, $headers );
+		// $mail_sent = mail( $to, $subject, $message, $headers );
 		
-		echo $mail_sent ? "Mail sent2" : "Mail failed2";
+		// echo $mail_sent ? "Mail sent2" : "Mail failed2";
 		
 	}
 	public function getPassWord()
@@ -104,6 +130,37 @@ class GiaoXuCL extends CI_Controller {
 			}
 		}
 	}
+	public function getGiaoXuDaPheDuyet($maGiaoXuDoi)
+	{
+		$rs=$this->GiaoXuDoiMD->getGiaoXuDaPheDuyet($maGiaoXuDoi);
+		if(count($rs)>0)
+		{ 
+			echo json_encode($rs);	
+			return;	
+		}
+		else {
+			echo -1;
+			return;
+		}
+		echo -1;
+		return;
+	}
+	public function getGiaoXuDoiByMaGiaoXuDoi($maGiaoXuDoi = -1){
+		if ($maGiaoXuDoi!=-1) {
+			if (!$this->getPassWord()) {
+				return false;
+			}
+			$rs=$this->GiaoXuDoiMD->getGiaoXuDoiByMaGiaoXuDoi($maGiaoXuDoi);
+			if (count($rs)>0) {
+				echo json_encode($rs);	
+				return;		
+			}
+			else {
+				echo -1;
+				return;
+			}
+		}
+	}
 	public function getGxById($id = -1){
 		if ($id!=-1) {
 			if (!$this->getPassWord()) {
@@ -124,7 +181,7 @@ class GiaoXuCL extends CI_Controller {
 		if (!$this->getPassWord()) {
 			return false;
 		}
-		$rs=$this->GiaoXuMD->getGxsRequest();
+		$rs=$this->GiaoXuDoiMD->getGiaoXuDangDoi();
 		if (count($rs)>0) {
 			echo json_encode($rs);	
 			return;		
@@ -152,7 +209,7 @@ class GiaoXuCL extends CI_Controller {
 	public function sendMail()
 	{
 
-		if ($_POST) {
+		if (true) {
 			
 			$pathFile=explode("/",$this->input->post('path'));
 			$filename = $pathFile[count($pathFile)-1];
@@ -218,6 +275,32 @@ class GiaoXuCL extends CI_Controller {
 			return;
 		}
 	}
+	public function insertGiaoXu()
+	{
+		if(isset($_POST) && count($_POST) > 0){
+			$maGiaoXuDoi=$this->input->post('txt-giaoxu-id');
+			$tenGiaoXu=$this->input->post('txt-giaoxu-name');
+			$diaChi=$this->input->post('txt-diachi');
+			$dienThoai=$this->input->post('txt-sdt');
+			$email=$this->input->post('txt-email');
+			$website=$this->input->post('txt-website');
+			$hinh=$this->input->post('txt-giaoxu-hinh');
+			$ghiChu=$this->input->post('txt-ghichu');
+			$maGiaoHat=$this->input->post('cb-giaohat-nameMa');
+			$tenGiaoHat=$this->input->post('cb-giaohat-nameTen');
+			$status=1;
+			$tenGiaoPhan=$this->input->post('cb-giaophan-nameTen');
+			$maGiaoPhan=$this->input->post('cb-giaophan-nameMa');
+			$maGiaoXuRieng = $this->GiaoXuMD->insertMD($tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu,$maGiaoHat,$status);
+			if($maGiaoXuRieng >= 0){
+				$result=$this->GiaoXuDoiMD->updateGiaoXuDoiMD($maGiaoXuDoi,$tenGiaoPhan,$maGiaoPhan,$tenGiaoHat,$maGiaoHat,$tenGiaoXu,$maGiaoXuRieng,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu);
+				$json = json_encode(array('success'=>'success'));
+				die($json);
+			}
+			die(json_encode(array('success'=>'error')));
+		}
+	}
+	//hiện tại k dùng
 	public function insertInfo()
 	{
 		if(isset($_POST) && count($_POST) > 0){
@@ -255,6 +338,40 @@ class GiaoXuCL extends CI_Controller {
 
 	}
 
+	public function insertGiaoXuDoi()
+	{
+		if (isset($_POST)&&count($_POST)>0) {
+			$maGiaoXuDoi=array();
+			if (isset($_POST["GiaoXu"])) {
+				$rs=$this->GiaoXuDoiMD->insertGiaoXuDoiMD(
+					$this->input->post('GiaoXuTenGiaoPhan'),
+					$this->input->post('GiaoXuTenGiaoHat'),
+					$this->input->post('GiaoXuTenGiaoXu'),
+					$this->input->post('GiaoXuDiaChi'),
+					$this->input->post('GiaoXuDienThoai'),
+					$this->input->post('GiaoXuEmail'),
+					$this->input->post('GiaoXuWebsite'),
+					$this->input->post('GiaoXuHinh'),
+					$this->input->post('GiaoXuGhiChu'));
+				if ($rs>0) {
+					$maGiaoXuDoi["MaGiaoXuDoi"]=$rs;
+				}
+				
+			}
+			if (count($maGiaoXuDoi)==1) {
+				echo json_encode($maGiaoXuDoi);
+				return;
+			}
+			else {
+				echo -1;
+				return;
+			}
+		}
+		echo -1;
+		return;
+	}
+	
+
 	public function insert()
 	{
 		if (isset($_POST)&&count($_POST)>0) {
@@ -262,36 +379,49 @@ class GiaoXuCL extends CI_Controller {
 			$allID=array();
 			//insert Giao Phan
 			if (isset($_POST["GiaoPhan"])) {
-				$rs=$this->GiaoPhanMD->insertMD(
-					$this->input->post('GiaoPhanTenGiaoPhan'),
-					$this->input->post('GiaoPhanGhiChu'));
-				if ($rs>0) {
-					$allID["IDGP"]=$rs;
+				if($this->input->post('GiaoPhanMaGiaoPhanRieng')!="")
+				{
+					$allID["IDGP"]=$this->input->post('GiaoPhanMaGiaoPhanRieng');
 				}
 				else{
-					echo -1;
-					return;
+					$rs=$this->GiaoPhanMD->insertMD(
+						$this->input->post('GiaoPhanTenGiaoPhan'),
+						$this->input->post('GiaoPhanGhiChu'));
+					if ($rs>0) {
+						$allID["IDGP"]=$rs;
+					}
+					else{
+						echo -1;
+						return;
+					}
 				}
 			}
 			else {
-				$allID["IDGP"]=$this->input->post('GiaoPhanId');
+				//$allID["IDGP"]=$this->input->post('GiaoPhanId');
+				$allID["IDGP"]="-1";
 			}
 			//insert giao hat
 			if (isset($_POST["GiaoHat"])) {
-				$rs=$this->GiaoHatMD->insertMD(
-					$allID["IDGP"],
-					$this->input->post('GiaoHatTenGiaoHat'),
-					$this->input->post('GiaoHatGhiChu'));
-				if ($rs>0) {
-					$allID["IDGH"]=$rs;
-				}	
-				else{
-					echo -1;
-					return;
+				if($this->input->post('GiaoHatMaGiaoHatRieng')!="")
+				{
+					$allID["IDGH"]=$this->input->post('GiaoHatMaGiaoHatRieng');
+				}else{
+					$rs=$this->GiaoHatMD->insertMD(
+						$allID["IDGP"],
+						$this->input->post('GiaoHatTenGiaoHat'),
+						$this->input->post('GiaoHatGhiChu'));
+					if ($rs>0) {
+						$allID["IDGH"]=$rs;
+					}	
+					else{
+						echo -1;
+						return;
+					}
 				}
 			}
 			else {
-				$allID["IDGH"]=$this->input->post('GiaoHatId');	
+				//$allID["IDGH"]=$this->input->post('GiaoHatId');	
+				$allID["IDGH"]="-1";	
 			}
 			if (isset($_POST["GiaoXu"])) {
 				$rs=$this->GiaoXuMD->insertMD(
@@ -306,6 +436,7 @@ class GiaoXuCL extends CI_Controller {
 				if ($rs>0) {
 					$allID["IDGX"]=$rs;
 				}
+				
 			}
 			if (count($allID)==3) {
 				echo json_encode($allID);
@@ -376,6 +507,44 @@ class GiaoXuCL extends CI_Controller {
 				return;
 			}
 		}else {
+			echo -1;
+			return;
+		}
+	}
+	//uploadAvatar lên server
+	public function uploadAvatar($maGXRieng)
+	{
+		$this->uploadFileFromClient("filesIMG",$maGXRieng);
+	}
+	//Upload file from client
+	public function uploadFileFromClient($pathfolder,$maGiaoXuRieng="")
+	{
+		if (isset($_FILES) && count($_FILES) > 0) {
+			if($pathfolder=="")
+			{
+				echo -1;
+				return;
+			}
+			//kiem tra folder có tồn tại không
+			$serverPath=$pathfolder."/".$maGiaoXuRieng;
+			if (!is_dir($serverPath)) {
+				//Tạo folder 
+				if(!mkdir($serverPath,0777,TRUE))
+				{
+					echo -1;
+					return;
+				}
+			}
+			if (move_uploaded_file($_FILES['file']["tmp_name"],$serverPath.'/'.$_FILES['file']["name"])) {
+				echo date("Y-m-d H:i:s");
+				return;
+			}
+			else{
+				echo -1;
+				return;
+			}
+		}
+		else {
 			echo -1;
 			return;
 		}

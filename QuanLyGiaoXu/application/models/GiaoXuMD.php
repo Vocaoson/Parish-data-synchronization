@@ -35,17 +35,18 @@ class GiaoXuMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-	public function insertMD($maGiaoHat,$name,$address,$phone,$email,$web,$hinh,$note)
+	public function insertMD($TenGiaoXu,$DiaChi,$DienThoai,$Email,$Website,$Hinh,$GhiChu,$Ma_GiaoHat,$status)
 	{
 		$objectGX=array(
-			"TenGiaoXu"=>$name,
-			"DiaChi"=>$address,
-			"DienThoai"=>$phone,
-			"Email"=>$email,
-			"Website"=>$web,
-			"Hinh"=>$hinh,
-			"GhiChu"=>$note,
-			"Ma_GiaoHat"=>$maGiaoHat);
+			"TenGiaoXu"=>$TenGiaoXu,
+			"DiaChi"=>$DiaChi,
+			"DienThoai"=>$DienThoai,
+			"Email"=>$Email,
+			"Website"=>$Website,
+			"Hinh"=>$Hinh,
+			"GhiChu"=>$GhiChu,
+			"Ma_GiaoHat"=>$Ma_GiaoHat,
+			"status"=>$status);
 		$this->db->insert($this->table, $objectGX);
 		return $this->db->insert_id();
 	}

@@ -78,7 +78,7 @@
 				html+="<tr>"
 				html+=`<td>${data[i].UploadedDate}</td>`;
 				html+=`<td>${data[i].TenGiaoXu}</td>`;
-				html+=`<td><a href="#" class="consider" data-id='${data[i].ID}' data-name='${data[i].TenGiaoXu}'>Xem xét</a></td>`
+				html+=`<td><a href="#" class="consider" data-id='${data[i].MaGiaoXuDoi}' data-name='${data[i].TenGiaoXu}'>Xem xét</a></td>`
 				html+="</tr>"
 			}
 			if(html == ""){
@@ -95,8 +95,12 @@
 			});
 		});
 	}
-	function getGiaoXu(giaoXuId){
-		let url = `GiaoXuCL/getGxById/${giaoXuId}`;
+	function getGiaoXuEdit(giaoXuId,title){
+		$(".edit").text("Giáo xứ " + title);
+		getGiaoXu(giaoXuId);
+	}
+	function getGiaoXu(maGiaoXuDoi){
+		let url = `GiaoXuCL/getGiaoXuDoiByMaGiaoXuDoi/${maGiaoXuDoi}`;
 		$.ajax({
 			url: path+url,
 			type: 'post',
@@ -106,6 +110,8 @@
 			dataType: 'json',
 		}).always((data)=>{
 			let giaoXu = data[0];
+			$("#thuocgiaophan").text("Thuộc giáo phận: "+giaoXu.TenGiaoPhan);
+			$("#thuocgiaohat").text("Thuộc giáo hạt: "+giaoXu.TenGiaoHat);
 			$("#txt-giaophan-name").val(giaoXu.TenGiaoPhan);
 			$("#txt-giaohat-name").val(giaoXu.TenGiaoHat);
 			$("#txt-giaoxu-name").val(giaoXu.TenGiaoXu);
@@ -113,7 +119,9 @@
 			$("#txt-sdt").val(giaoXu.DienThoai);
 			$("#txt-website").val(giaoXu.Website);
 			$("#txt-diachi").val(giaoXu.DiaChi);
-			$("#txt-giaoxu-id").val(giaoXu.ID);
+			$("#txt-ghichu").val(giaoXu.GhiChu);
+			$("#txt-giaoxu-id").val(giaoXu.MaGiaoXuDoi);
+			$("#txt-giaoxu-hinh").val(giaoXu.Hinh);
 			getGiaoPhan(giaoXu.MaGiaoPhan,giaoXu.Ma_GiaoHat);
 		});
 	}
@@ -145,10 +153,7 @@
 			}
 		});
 	}
-	function getGiaoXuEdit(giaoXuId,title){
-		$(".edit").text("Giáo xứ " + title);
-		getGiaoXu(giaoXuId);
-	}
+	
 	function getGiaoPhan(maGiaoPhanCurrent,maGiaoHatCurrent){
 		let giaoPhanUrl = `GiaoPhanCL/getGPjson/web`;
 		$.ajax({
@@ -397,28 +402,31 @@
 	});
 	$("#submit-giaoxu-info").click(function(){
 		$.ajax({
-			url: path+'GiaoXuCL/insertInfo',
+			url: path+'GiaoXuCL/insertGiaoXu',
 			type: 'post',
 			dataType: 'json',
 			data: {
 				'txt-giaoxu-id':$("#txt-giaoxu-id").val(),
-				'cb-giaophan-name':$("#cb-giaophan-name").val(),
-				'cb-giaophan-name':$("#cb-giaophan-name").val(),
+				'txt-giaoxu-hinh':$("#txt-giaoxu-hinh").val(),
+				'cb-giaophan-nameMa':$("#cb-giaophan-name").val(),
+				'cb-giaophan-nameTen':$("#cb-giaophan-name option:selected").text(),
 				'hidden-giaophan':$("#hidden-giaophan").val(),
-				'cb-giaohat-name':$("#cb-giaohat-name").val(),
+				'cb-giaohat-nameMa':$("#cb-giaohat-name").val(),
+				'cb-giaohat-nameTen':$("#cb-giaohat-name option:selected").text(),
 				'hidden-giaohat':$("#hidden-giaohat").val(),
 				'txt-giaoxu-name':$("#txt-giaoxu-name").val(),
 				'txt-email':$("#txt-email").val(),
 				'txt-sdt':$("#txt-sdt").val(),
 				'txt-website':$("#txt-website").val(),
-				'txt-diachi':$("#txt-diachi").val()
+				'txt-diachi':$("#txt-diachi").val(),
+				'txt-ghichu':$("#txt-ghichu").val()
 			}
 		}).done(function(data){
 			if(data.success == 'success'){
 				alert('Cập nhật thông tin thành công');
-				getGiaoXuEdit(("#txt-giaoxu-id").val(),$("#txt-giaoxu-name").val());
+				//getGiaoXuEdit(("#txt-giaoxu-id").val(),$("#txt-giaoxu-name").val());
 			} else {
-				alert('Cập nhật thông tin không thành công');
+				alert('Cập nhật thông tin thất bại');
 			}
 		})
 	})

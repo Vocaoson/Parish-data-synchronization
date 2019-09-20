@@ -1,0 +1,344 @@
+ID;LoaiDuLieu;MaDuLieu;DuLieu1;DuLieu2;MaGiaoXuRieng;UpdateDate;DeleteClient
+1;1;Maria;Maria;;;;0
+2;1;Basiliô;Basiliô;;;;0
+3;1;Grêgoriô Nazianzênô;Grêgoriô Nazianzênô;;;;0
+4;1;Thánh Danh;Thánh Danh;;;;0
+5;1;Elisabeth Ann Senton;Elisabeth Ann Senton;;;;0
+6;1;Gioan Neumann;Gioan Neumann;;;;0
+7;1;Anrê Besset;Anrê Besset;;;;0
+8;1;Raymunđô;Raymunđô;;;;0
+9;1;Giuse Tuấn;Giuse Tuấn;;;;0
+10;1;Hilariô;Hilariô;;;;0
+11;1;Đaminh Khảm;Đaminh Khảm;;;;0
+12;1;Giuse Tả;Giuse Tả;;;;0
+13;1;Luca Thìn;Luca Thìn;;;;0
+14;1;Antôn;Antôn;;;;0
+15;1;Phabianô;Phabianô;;;;0
+16;1;Sêbastianô;Sêbastianô;;;;0
+17;1;Anê;Anê;;;;0
+18;1;Vinhsơn;Vinhsơn;;;;0
+19;1;Matthêu Đậu;Matthêu Đậu;;;;0
+20;1;Phanxicô Tế;Phanxicô Tế;;;;0
+21;1;Phanxicô Salêsiô;Phanxicô Salêsiô;;;;0
+22;1;Phaolô;Phaolô;;;;0
+23;1;Timôthêô;Timôthêô;;;;0
+24;1;Titô;Titô;;;;0
+25;1;Angiêla Mêrisi;Angiêla Mêrisi;;;;0
+26;1;Tôma Aquinô;Tôma Aquinô;;;;0
+27;1;Tôma Khuông;Tôma Khuông;;;;0
+28;1;Gioan Boscô;Gioan Boscô;;;;0
+29;1;Maria;Maria;;;;0
+30;1;Gioan Ven;Gioan Ven;;;;0
+31;1;Blasiô;Blasiô;;;;0
+32;1;Ansgariô;Ansgariô;;;;0
+33;1;Agatha;Agatha;;;;0
+34;1;Phaolô Miki;Phaolô Miki;;;;0
+35;1;Giêrônimô Emilianô;Giêrônimô Emilianô;;;;0
+36;1;Giôsêphina Bakhita;Giôsêphina Bakhita;;;;0
+37;1;Scholastica;Scholastica;;;;0
+38;1;Maria;Maria;;;;0
+39;1;Lorensô Hưởng;Lorensô Hưởng;;;;0
+40;1;Phaolô Lộc;Phaolô Lộc;;;;0
+41;1;Cyrillô;Cyrillô;;;;0
+42;1;Mêthôđiô;Mêthôđiô;;;;0
+43;1;Phêrô Đamianô;Phêrô Đamianô;;;;0
+44;1;Pôlicarpô;Pôlicarpô;;;;0
+45;1;Katherine Drexel;Katherine Drexel;;;;0
+46;1;Casimirô;Casimirô;;;;0
+47;1;Perpêtua;Perpêtua;;;;0
+48;1;Phêlicita;Phêlicita;;;;0
+49;1;Gioan Thiên Chúa;Gioan Thiên Chúa;;;;0
+50;1;Phanxica Roma;Phanxica Roma;;;;0
+51;1;Đaminh Cẩm;Đaminh Cẩm;;;;0
+52;1;Patriciô;Patriciô;;;;0
+53;1;Cyrillô;Cyrillô;;;;0
+54;1;Giuse;Giuse;;;;0
+55;1;Turibiô Môgrôvêjô;Turibiô Môgrôvêjô;;;;0
+56;1;Maria;Maria;;;;0
+57;1;Phanxicô Paola;Phanxicô Paola;;;;0
+58;1;Đaminh Tước;Đaminh Tước;;;;0
+59;1;Isiđôrô;Isiđôrô;;;;0
+60;1;Vinhsơn Phêriê;Vinhsơn Phêriê;;;;0
+61;1;Phaolô Tịnh;Phaolô Tịnh;;;;0
+62;1;Gioan Bt. Lasan;Gioan Bt. Lasan;;;;0
+63;1;Phêrô Lựu;Phêrô Lựu;;;;0
+64;1;Stanislaô;Stanislaô;;;;0
+65;1;Martinô I;Martinô I;;;;0
+66;1;Anselmô;Anselmô;;;;0
+67;1;Georgiô;Georgiô;;;;0
+68;1;Ađalbertô;Ađalbertô;;;;0
+69;1;Fiđêlê Sigmaringen;Fiđêlê Sigmaringen;;;;0
+70;1;Marcô;Marcô;;;;0
+71;1;Giaon Bt. Thành;Giaon Bt. Thành;;;;0
+72;1;Phêrô Chanel;Phêrô Chanel;;;;0
+73;1;Phaolô Khoan;Phaolô Khoan;;;;0
+74;1;Phêrô Hiếu;Phêrô Hiếu;;;;0
+75;1;Catêrina Siêna;Catêrina Siêna;;;;0
+76;1;Piô V;Piô V;;;;0
+77;1;Giuse Tuân;Giuse Tuân;;;;0
+78;1;Giuse;Giuse;;;;0
+79;1;Augustinô Đông;Augustinô Đông;;;;0
+80;1;Gioan Hương;Gioan Hương;;;;0
+81;1;Athanasiô;Athanasiô;;;;0
+82;1;Philipphê;Philipphê;;;;0
+83;1;Giacôbê;Giacôbê;;;;0
+84;1;Giuse Lựu;Giuse Lựu;;;;0
+85;1;Giuse Hiển;Giuse Hiển;;;;0
+86;1;Matthêu Gẫm;Matthêu Gẫm;;;;0
+87;1;Nêrêô;Nêrêô;;;;0
+88;1;Achillêô;Achillêô;;;;0
+89;1;Pancratiô;Pancratiô;;;;0
+90;1;Maria;Maria;;;;0
+91;1;Matthia;Matthia;;;;0
+92;1;Isidorê;Isidorê;;;;0
+93;1;Gioan I;Gioan I;;;;0
+94;1;Bernarđinô Siêna;Bernarđinô Siêna;;;;0
+95;1;Gioan Tân;Gioan Tân;;;;0
+96;1;Christôphôrô Magallanes;Christôphôrô Magallanes;;;;0
+97;1;Lorensô Ngôn;Lorensô Ngôn;;;;0
+98;1;Micae Hy;Micae Hy;;;;0
+99;1;Bêđa;Bêđa;;;;0
+100;1;Grêgôriô VII;Grêgôriô VII;;;;0
+101;1;Maria Mađalêna Pazzi;Maria Mađalêna Pazzi;;;;0
+102;1;Phêrô Vân;Phêrô Vân;;;;0
+103;1;Matthêu Phương;Matthêu Phương;;;;0
+104;1;Philipphê Nêri;Philipphê Nêri;;;;0
+105;1;Gioan Hoan;Gioan Hoan;;;;0
+106;1;Augustinô;Augustinô;;;;0
+107;1;Phaolô Hạnh;Phaolô Hạnh;;;;0
+108;1;Maria;Maria;;;;0
+109;1;Justinô;Justinô;;;;0
+110;1;Giuse Túc;Giuse Túc;;;;0
+111;1;Marcellinô;Marcellinô;;;;0
+112;1;Phêrô;Phêrô;;;;0
+113;1;Đaminh Ninh;Đaminh Ninh;;;;0
+114;1;Carôlô Lwanga;Carôlô Lwanga;;;;0
+115;1;Phaolô Dương;Phaolô Dương;;;;0
+116;1;Bonifatiô;Bonifatiô;;;;0
+117;1;Đaminh Huyện;Đaminh Huyện;;;;0
+118;1;Đaminh Toái;Đaminh Toái;;;;0
+119;1;Luca Loan;Luca Loan;;;;0
+120;1;Norbertô;Norbertô;;;;0
+121;1;Phêrô Dũng;Phêrô Dũng;;;;0
+122;1;Phêrô Thuần;Phêrô Thuần;;;;0
+123;1;Vinhsơn Dương;Vinhsơn Dương;;;;0
+124;1;Ephrem;Ephrem;;;;0
+125;1;Barnaba;Barnaba;;;;0
+126;1;Augustinô Huy;Augustinô Huy;;;;0
+127;1;Nicola Thể;Nicola Thể;;;;0
+128;1;Maria;Maria;;;;0
+129;1;Antôn;Antôn;;;;0
+130;1;Anrê Tường;Anrê Tường;;;;0
+131;1;Đaminh Mạo;Đaminh Mạo;;;;0
+132;1;Đaminh Nguyên;Đaminh Nguyên;;;;0
+133;1;Đaminh Nhi;Đaminh Nhi;;;;0
+134;1;Vinhsơn Tường;Vinhsơn Tường;;;;0
+135;1;Phêrô Đa;Phêrô Đa;;;;0
+136;1;Rômualđô;Rômualđô;;;;0
+137;1;Luy Gonzaga;Luy Gonzaga;;;;0
+138;1;Paulinô;Paulinô;;;;0
+139;1;Tôma More;Tôma More;;;;0
+140;1;Gioan Fisher;Gioan Fisher;;;;0
+141;1;Gioan Bt.;Gioan Bt.;;;;0
+142;1;Đaminh Xuân;Đaminh Xuân;;;;0
+143;1;Phanxicô Chiểu;Phanxicô Chiểu;;;;0
+144;1;Cyrillô;Cyrillô;;;;0
+145;1;Tôma Toán;Tôma Toán;;;;0
+146;1;Irênê;Irênê;;;;0
+147;1;Phêrô;Phêrô;;;;0
+148;1;Phaolô;Phaolô;;;;0
+149;1;Vinhsơn Yến;Vinhsơn Yến;;;;0
+150;1;Junipero Serra;Junipero Serra;;;;0
+151;1;Tôma;Tôma;;;;0
+152;1;Philipphê Minh;Philipphê Minh;;;;0
+153;1;Êlisabeth;Êlisabeth;;;;0
+154;1;Giuse Uyển;Giuse Uyển;;;;0
+155;1;Antôn;Antôn;;;;0
+156;1;Maria Goretti;Maria Goretti;;;;0
+157;1;Antôn Quỳnh;Antôn Quỳnh;;;;0
+158;1;Phêrô Khắc Tự;Phêrô Khắc Tự;;;;0
+159;1;Bênêđictô;Bênêđictô;;;;0
+160;1;Clêmentê Inhaxiô Hy;Clêmentê Inhaxiô Hy;;;;0
+161;1;Inê Thành;Inê Thành;;;;0
+162;1;Phêrô Khanh;Phêrô Khanh;;;;0
+163;1;Henricô;Henricô;;;;0
+164;1;Camillô Lellis;Camillô Lellis;;;;0
+165;1;Kateri Tekakwitha;Kateri Tekakwitha;;;;0
+166;1;Bônaventura;Bônaventura;;;;0
+167;1;Anrê Thông;Anrê Thông;;;;0
+168;1;Phêrô Tuần;Phêrô Tuần;;;;0
+169;1;Maria;Maria;;;;0
+170;1;Đaminh Đạt;Đaminh Đạt;;;;0
+171;1;Giuse An;Giuse An;;;;0
+172;1;Laurensô;Laurensô;;;;0
+173;1;Maria Mađalêna;Maria Mađalêna;;;;0
+174;1;Brigitta;Brigitta;;;;0
+175;1;Sarbêliô Makhluf;Sarbêliô Makhluf;;;;0
+176;1;Giuse Hiền;Giuse Hiền;;;;0
+177;1;Giacôbê;Giacôbê;;;;0
+178;1;Gioakim;Gioakim;;;;0
+179;1;Anna;Anna;;;;0
+180;1;Anrê Phú Yên;Anrê Phú Yên;;;;0
+181;1;Melchor Xuyên;Melchor Xuyên;;;;0
+182;1;Martha;Martha;;;;0
+183;1;Phêrô;Phêrô;;;;0
+184;1;Ignatiô;Ignatiô;;;;0
+185;1;Emmanuel Phụng;Emmanuel Phụng;;;;0
+186;1;Phêrô Quý;Phêrô Quý;;;;0
+187;1;Alphongsô;Alphongsô;;;;0
+188;1;Bênađô Duệ;Bênađô Duệ;;;;0
+189;1;Đaminh Hạnh;Đaminh Hạnh;;;;0
+190;1;Eusêbiô;Eusêbiô;;;;0
+191;1;Eymard;Eymard;;;;0
+192;1;Vianney;Vianney;;;;0
+193;1;Maria;Maria;;;;0
+194;1;Xystô II;Xystô II;;;;0
+195;1;Gajêtanô;Gajêtanô;;;;0
+196;1;Đaminh;Đaminh;;;;0
+197;1;Têrêsa Bênêđicta;Têrêsa Bênêđicta;;;;0
+198;1;Laurensô;Laurensô;;;;0
+199;1;Clara;Clara;;;;0
+200;1;Joanna;Joanna;;;;0
+201;1;Antôn Đích;Antôn Đích;;;;0
+202;1;Giacôbê Năm;Giacôbê Năm;;;;0
+203;1;Micae Mỹ;Micae Mỹ;;;;0
+204;1;Pontianô;Pontianô;;;;0
+205;1;Hippôlytô;Hippôlytô;;;;0
+206;1;Maximilianô Kolbê;Maximilianô Kolbê;;;;0
+207;1;Maria;Maria;;;;0
+208;1;Stêphanô;Stêphanô;;;;0
+209;1;Gioan Êuđê;Gioan Êuđê;;;;0
+210;1;Bernarđô;Bernarđô;;;;0
+211;1;Piô X;Piô X;;;;0
+212;1;Giuse Viên;Giuse Viên;;;;0
+213;1;Maria;Maria;;;;0
+214;1;Rosa Lima;Rosa Lima;;;;0
+215;1;Barthôlômêô;Barthôlômêô;;;;0
+216;1;Giuse Calasanz;Giuse Calasanz;;;;0
+217;1;Luy;Luy;;;;0
+218;1;Monica;Monica;;;;0
+219;1;Augustinô;Augustinô;;;;0
+220;1;Gioan Bt.;Gioan Bt.;;;;0
+221;1;Grêgôriô;Grêgôriô;;;;0
+222;1;Giuse cảnh;Giuse cảnh;;;;0
+223;1;Phêrô Văn Tự;Phêrô Văn Tự;;;;0
+224;1;Maria;Maria;;;;0
+225;1;Phêrô Claver;Phêrô Claver;;;;0
+226;1;Gioan;Gioan;;;;0
+227;1;Maria;Maria;;;;0
+228;1;Conêliô;Conêliô;;;;0
+229;1;Cyprianô;Cyprianô;;;;0
+230;1;Robertô;Robertô;;;;0
+231;1;Emmanuel Triệu;Emmanuel Triệu;;;;0
+232;1;Đaminh Trạch;Đaminh Trạch;;;;0
+233;1;Januariô;Januariô;;;;0
+234;1;Anrê Kim Têgon;Anrê Kim Têgon;;;;0
+235;1;Phaolô Chung Hasang;Phaolô Chung Hasang;;;;0
+236;1;Mátthêu;Mátthêu;;;;0
+237;1;Phanxicô Phan;Phanxicô Phan;;;;0
+238;1;Tôma Thiện;Tôma Thiện;;;;0
+239;1;Piô;Piô;;;;0
+240;1;Cosma;Cosma;;;;0
+241;1;Đamianô;Đamianô;;;;0
+242;1;Vinhsơn Phaolô;Vinhsơn Phaolô;;;;0
+243;1;Venceslaô;Venceslaô;;;;0
+244;1;Laurensô Ruiz;Laurensô Ruiz;;;;0
+245;1;Micae;Micae;;;;0
+246;1;Gabriel;Gabriel;;;;0
+247;1;Raphael;Raphael;;;;0
+248;1;Giêrômiô;Giêrômiô;;;;0
+249;1;Têrêxa;Têrêxa;;;;0
+250;1;Phanxicô Assisi;Phanxicô Assisi;;;;0
+251;1;Brunô;Brunô;;;;0
+252;1;Maria Rosa;Maria Rosa;;;;0
+253;1;Phanxicô Trung;Phanxicô Trung;;;;0
+254;1;Maria;Maria;;;;0
+255;1;Điônisyô;Điônisyô;;;;0
+256;1;Gioan Lêônarđô;Gioan Lêônarđô;;;;0
+257;1;Gioan XXIII;Gioan XXIII;;;;0
+258;1;Phêrô Tùy;Phêrô Tùy;;;;0
+259;1;Callistô I;Callistô I;;;;0
+260;1;Têrêsa Giêsu;Têrêsa Giêsu;;;;0
+261;1;Hedviges;Hedviges;;;;0
+262;1;Margarita Alacoque;Margarita Alacoque;;;;0
+263;1;Phanxicô Kính;Phanxicô Kính;;;;0
+264;1;Ignatiô;Ignatiô;;;;0
+265;1;Luca;Luca;;;;0
+266;1;Isaac Jogues;Isaac Jogues;;;;0
+267;1;Gioan Brêbeuf;Gioan Brêbeuf;;;;0
+268;1;Phaolô Thánh Giá;Phaolô Thánh Giá;;;;0
+269;1;Gioan Phaolô II;Gioan Phaolô II;;;;0
+270;1;Gioan Capistranô;Gioan Capistranô;;;;0
+271;1;Phaolô Bường;Phaolô Bường;;;;0
+272;1;Antôn Clarét;Antôn Clarét;;;;0
+273;1;Giuse Thị;Giuse Thị;;;;0
+274;1;Simon;Simon;;;;0
+275;1;Giuđa;Giuđa;;;;0
+276;1;Gioan Đạt;Gioan Đạt;;;;0
+277;1;Giêrônimô Liêm;Giêrônimô Liêm;;;;0
+278;1;Berrio Vinh;Berrio Vinh;;;;0
+279;1;Phêrô Bình;Phêrô Bình;;;;0
+280;1;Martinô;Martinô;;;;0
+281;1;Phêrô Bắc;Phêrô Bắc;;;;0
+282;1;Carôlô;Carôlô;;;;0
+283;1;Đaminh Mầu;Đaminh Mầu;;;;0
+284;1;Henricô Gia;Henricô Gia;;;;0
+285;1;Vinhsơn Liêm;Vinhsơn Liêm;;;;0
+286;1;Gioan Bt. Côn;Gioan Bt. Côn;;;;0
+287;1;Giuse Nghi;Giuse Nghi;;;;0
+288;1;Martinô Thịnh;Martinô Thịnh;;;;0
+289;1;Martinô Thọ;Martinô Thọ;;;;0
+290;1;Phaolô Ngân;Phaolô Ngân;;;;0
+291;1;Lêô;Lêô;;;;0
+292;1;Martinô;Martinô;;;;0
+293;1;Josaphat;Josaphat;;;;0
+294;1;Frances X. Cabrini;Frances X. Cabrini;;;;0
+295;1;Stêphanô Thể;Stêphanô Thể;;;;0
+296;1;Albertô;Albertô;;;;0
+297;1;Margarita;Margarita;;;;0
+298;1;Gertruđê;Gertruđê;;;;0
+299;1;Elizabeth;Elizabeth;;;;0
+300;1;Phanxicô Cần;Phanxicô Cần;;;;0
+301;1;Maria;Maria;;;;0
+302;1;Cêcilia;Cêcilia;;;;0
+303;1;Clêmentê I;Clêmentê I;;;;0
+304;1;Columbanô;Columbanô;;;;0
+305;1;Miguel Pro;Miguel Pro;;;;0
+306;1;Phêrô Cao;Phêrô Cao;;;;0
+307;1;Phêrô Khoa;Phêrô Khoa;;;;0
+308;1;Vinhsơn Điểm;Vinhsơn Điểm;;;;0
+309;1;Catarina;Catarina;;;;0
+310;1;Đaminh Xuyên;Đaminh Xuyên;;;;0
+311;1;Tôma Dụ;Tôma Dụ;;;;0
+312;1;Anrê Trông;Anrê Trông;;;;0
+313;1;Anrê;Anrê;;;;0
+314;1;Giuse Du;Giuse Du;;;;0
+315;1;Phanxicô Xaviê;Phanxicô Xaviê;;;;0
+316;1;Gioan Đamas;Gioan Đamas;;;;0
+317;1;Nicôla;Nicôla;;;;0
+318;1;Giuse Khang;Giuse Khang;;;;0
+319;1;Ambrôsiô;Ambrôsiô;;;;0
+320;1;Maria;Maria;;;;0
+321;1;Gioan Điđacô;Gioan Điđacô;;;;0
+322;1;Đamasô;Đamasô;;;;0
+323;1;Maria;Maria;;;;0
+324;1;Simon Hòa;Simon Hòa;;;;0
+325;1;Luxia;Luxia;;;;0
+326;1;Gioan Thánh Giá;Gioan Thánh Giá;;;;0
+327;1;Phaolô Mỹ;Phaolô Mỹ;;;;0
+328;1;Phêrô Đường;Phêrô Đường;;;;0
+329;1;Phêrô Truật;Phêrô Truật;;;;0
+330;1;Augustinô Mới;Augustinô Mới;;;;0
+331;1;Đaminh Úy;Đaminh Úy;;;;0
+332;1;Phanxicô Mậu;Phanxicô Mậu;;;;0
+333;1;Stêphanô Vinh;Stêphanô Vinh;;;;0
+334;1;Tôma Đệ;Tôma Đệ;;;;0
+335;1;Phêrô Canisiô;Phêrô Canisiô;;;;0
+336;1;Anrê Dũng Lạc;Anrê Dũng Lạc;;;;0
+337;1;Phêrô Thi;Phêrô Thi;;;;0
+338;1;Gioan Kêty;Gioan Kêty;;;;0
+339;1;Emmanuel;Emmanuel;;;;0
+340;1;Stêphanô;Stêphanô;;;;0
+341;1;Gioan;Gioan;;;;0
+342;1;Tôma Becket;Tôma Becket;;;;0
+343;1;Sylvestê;Sylvestê;;;;0

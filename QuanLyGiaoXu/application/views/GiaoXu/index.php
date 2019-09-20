@@ -128,9 +128,9 @@
 				<form id="giaoxu-info-form">
 					<input type="hidden" id="isEdit" name="isEdit">
 					<input type="hidden" id="txt-giaoxu-id" name="txt-giaoxu-id">
-
+					<input type="hidden" id="txt-giaoxu-hinh" name="txt-giaoxu-hinh">
 					<div  class="form-group cb">
-						<label for="cb-giaophan-name">Thuộc giáo phận: </label>
+						<label for="cb-giaophan-name" id="thuocgiaophan">Thuộc giáo phận: </label>
 						<select name="cb-giaophan-name" class="form-control" id="cb-giaophan-name">
 
 						</select>
@@ -138,7 +138,7 @@
 						<p class="text-danger giaophan-note">Lưu ý : Tác vụ sẽ tạo ra 1 giáo phận mới, hãy kiểm tra lại danh sách giáo phận và chọn ra giáo phận phù hợp nếu có.</p>
 					</div>
 					<div class="form-group cb">
-						<label for="cb-giaohat-name">Thuộc giáo hạt: </label>
+						<label for="cb-giaohat-name" id="thuocgiaohat">Thuộc giáo hạt: </label>
 						<select name="cb-giaohat-name" class="form-control" id="cb-giaohat-name"></select>
 						<input type="hidden" id='hidden-giaohat' name="hidden-giaohat">
 						<p class="text-danger giaohat-note">Lưu ý : Tác vụ sẽ tạo ra 1 giáo hạt mới, hãy kiểm tra lại danh sách giáo hạt và chọn ra giáo hạt phù hợp nếu có.</p>
@@ -164,6 +164,10 @@
 					<div  class="form-group">
 						<label for="txt-diachi">Địa chỉ: </label>
 						<input type="text" class="form-control" id="txt-diachi" name="txt-diachi">
+					</div>
+					<div  class="form-group">
+						<label for="txt-ghichu">Ghi chú: </label>
+						<input type="text" class="form-control" id="txt-ghichu" name="txt-ghichu">
 					</div>
                                <!-- <div  class="form-group">
                                     <label for="image-giaoxu">Hình giáo xứ: </label>
