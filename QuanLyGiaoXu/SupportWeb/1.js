@@ -82,7 +82,7 @@
 				html+="</tr>"
 			}
 			if(html == ""){
-				$("#table-request tbody").html("<h4 class='text-center'>Không có yêu cầu nào!</h4>");
+				$("#table-request tbody").html("<h4 class='text-center'>Hiện tại không có yêu cầu nào!</h4>");
 				return false;
 			} else {
 				$("#table-request tbody").html(html);
@@ -424,10 +424,13 @@
 		}).done(function(data){
 			if(data.success == 'success'){
 				alert('Cập nhật thông tin thành công');
-				//getGiaoXuEdit(("#txt-giaoxu-id").val(),$("#txt-giaoxu-name").val());
 			} else {
 				alert('Cập nhật thông tin thất bại');
 			}
+			
+			$('#edit-modal').modal('hide');
+
+			getGiaoXusRequest();
 		})
 	})
 });

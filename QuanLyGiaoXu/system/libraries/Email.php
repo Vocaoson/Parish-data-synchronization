@@ -76,7 +76,7 @@ class CI_Email {
 	 *
 	 * @var	string
 	 */
-	public $smtp_host	= 'ssl://smtp.gmail.com';
+	public $smtp_host	= 'ssl://smtp.googlemail.com';
 
 	/**
 	 * SMTP Username

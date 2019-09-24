@@ -5,7 +5,6 @@ class GiaoXuCL extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('email');
 		$this->load->model('GiaoXuMD');
 		$this->load->model('GiaoXuDoiMD');
 		$this->load->model('GiaoPhanMD');
@@ -74,32 +73,7 @@ class GiaoXuCL extends CI_Controller {
 			return;
 		}
 	}
-	public function testMail()
-	{
-		$this->email->from('hieptest12345@gmail.com', 'Identification');
-		$this->email->to('tranquoc1171@gmail.com');
-		$this->email->subject('Send Email Codeigniter');
-		$this->email->message('The email send using codeigniter library');
-		if($this->email->send())
-		{
-			echo "Thành công";
-		}
-else{
-	echo "Thất bại";
-}
-		// //$to = 'gia010203@gmail.com';  
-		// $to = 'tranquoc1171@gmail.com';  
-		// $subject = 'Test email'; 
-		
-		// $message = "Hello World!\n\nThis is my first mail.";
-		
-		// $headers = "From: hieptest12345@gmail.com\r\nReply-To: hieptest12345@gmail.com";
-		
-		// $mail_sent = mail( $to, $subject, $message, $headers );
-		
-		// echo $mail_sent ? "Mail sent2" : "Mail failed2";
-		
-	}
+	
 	public function getPassWord()
 	{
 		foreach (getallheaders() as $name => $value) {
@@ -208,8 +182,7 @@ else{
 	}
 	public function sendMail()
 	{
-
-		if (true) {
+		if($_POST){
 			
 			$pathFile=explode("/",$this->input->post('path'));
 			$filename = $pathFile[count($pathFile)-1];
@@ -337,6 +310,18 @@ else{
 		}
 
 	}
+	public function MailRequest($tenGiaoXu)
+	{
+		$to = 'doanvanhiepebn951@gmail.com';  
+		
+		$subject = 'Giáo xứ Request'; 
+		
+		$message = 'Hiện tại có giáo xứ <b>'.$tenGiaoXu.'</b> yêu cầu phê duyệt lên hệ thống quản lý giáo xứ. Truy cập <a href="http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu">Quản lý giáo xứ</a> để xem';
+		
+		$headers = "Content-type: text/html; charset=utf-8\r\nFrom: hieptest12345@gmail.com\r\nReply-To: hieptest12345@gmail.com";
+		
+		mail( $to, $subject, $message, $headers );
+	}
 
 	public function insertGiaoXuDoi()
 	{
@@ -360,6 +345,7 @@ else{
 			}
 			if (count($maGiaoXuDoi)==1) {
 				echo json_encode($maGiaoXuDoi);
+				$this->MailRequest($this->input->post('GiaoXuTenGiaoXu'));
 				return;
 			}
 			else {
