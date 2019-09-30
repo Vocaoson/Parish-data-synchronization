@@ -20,4 +20,7 @@
 		"mikey179/vfsStream": "1.1.*",
 		"phpunit/phpunit": "4.* || 5.*"
 	}
+	 "require": {
+        "phpmailer/phpmailer": "^6.0"
+    }
 }

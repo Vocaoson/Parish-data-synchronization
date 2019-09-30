@@ -128,6 +128,7 @@
 				<form id="giaoxu-info-form">
 					<input type="hidden" id="isEdit" name="isEdit">
 					<input type="hidden" id="txt-giaoxu-id" name="txt-giaoxu-id">
+					<input type="hidden" id="status" name="status">
 					<input type="hidden" id="txt-giaoxu-hinh" name="txt-giaoxu-hinh">
 					<div  class="form-group cb">
 						<label for="cb-giaophan-name" id="thuocgiaophan">Thuộc giáo phận: </label>

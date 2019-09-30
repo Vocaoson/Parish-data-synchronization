@@ -59,7 +59,7 @@
 		$(".btn-edit").click(function(){
 			let giaoXuId = $(this).attr('data-id');
 			let title = $(this).attr('data-name');
-			getGiaoXuEdit(giaoXuId,title);
+			getGiaoXuEdit(giaoXuId,title,true);
 			$('#edit-modal').modal('show');
 		})
 	}
@@ -95,12 +95,19 @@
 			});
 		});
 	}
-	function getGiaoXuEdit(giaoXuId,title){
+	function getGiaoXuEdit(giaoXuId,title,edit=false){
 		$(".edit").text("Giáo xứ " + title);
-		getGiaoXu(giaoXuId);
+		getGiaoXu(giaoXuId,edit);
 	}
-	function getGiaoXu(maGiaoXuDoi){
-		let url = `GiaoXuCL/getGiaoXuDoiByMaGiaoXuDoi/${maGiaoXuDoi}`;
+	function getGiaoXu(maGiaoXuDoi,edit){
+		let url="";
+		if(edit)
+		{
+			url = `GiaoXuCL/getGxById/${maGiaoXuDoi}`;
+		}else{
+			url = `GiaoXuCL/getGiaoXuDoiByMaGiaoXuDoi/${maGiaoXuDoi}`;
+		}
+		
 		$.ajax({
 			url: path+url,
 			type: 'post',
@@ -120,8 +127,16 @@
 			$("#txt-website").val(giaoXu.Website);
 			$("#txt-diachi").val(giaoXu.DiaChi);
 			$("#txt-ghichu").val(giaoXu.GhiChu);
-			$("#txt-giaoxu-id").val(giaoXu.MaGiaoXuDoi);
+			if((giaoXu.ID)!=undefined)
+			{
+				$("#txt-giaoxu-id").val(giaoXu.ID);
+			}
+			else
+			{
+				$("#txt-giaoxu-id").val(giaoXu.MaGiaoXuDoi)
+			}
 			$("#txt-giaoxu-hinh").val(giaoXu.Hinh);
+			$("#status").val(giaoXu.status);
 			getGiaoPhan(giaoXu.MaGiaoPhan,giaoXu.Ma_GiaoHat);
 		});
 	}
@@ -401,8 +416,26 @@
 		getGiaoHat(giaoPhanId);
 	});
 	$("#submit-giaoxu-info").click(function(){
+		if($("#cb-giaophan-name").val()<=0)
+		{
+			alert("Vui lòng chọn giáo phận");
+			return;
+		}
+		if($("#cb-giaohat-name").val()<=0)
+		{
+			alert("Vui lòng chọn giáo hạt");
+			return;
+		}
+		var status=$("#status").val();
+		let urlparam="";
+		if(status==0)
+		{
+			urlparam=path+'GiaoXuCL/insertGiaoXu';
+		}else{
+			urlparam=path+'GiaoXuCL/updateGiaoXu';
+		}
 		$.ajax({
-			url: path+'GiaoXuCL/insertGiaoXu',
+			url: urlparam,
 			type: 'post',
 			dataType: 'json',
 			data: {
@@ -427,9 +460,7 @@
 			} else {
 				alert('Cập nhật thông tin thất bại');
 			}
-			
 			$('#edit-modal').modal('hide');
-
 			getGiaoXusRequest();
 		})
 	})

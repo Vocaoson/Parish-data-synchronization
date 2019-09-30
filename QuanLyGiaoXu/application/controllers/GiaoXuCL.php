@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 class GiaoXuCL extends CI_Controller {
 
@@ -10,6 +11,7 @@ class GiaoXuCL extends CI_Controller {
 		$this->load->model('GiaoPhanMD');
 		$this->load->model('GiaoHatMD');
 		$this->numrow=$this->config->item("numrow");
+		$this->load->library('MailHandler');
 	//Do your magic here
 	}
 	private $numrow;
@@ -186,34 +188,12 @@ class GiaoXuCL extends CI_Controller {
 			
 			$pathFile=explode("/",$this->input->post('path'));
 			$filename = $pathFile[count($pathFile)-1];
-			$file = $this->input->post('path');
-
-			$mailto = $this->input->post('to');
+			$attachment = $this->input->post('path');
+			$to = $this->input->post('to');
 			$subject = $this->input->post('subject');
-			$message = $this->input->post('content');
+			$body = $this->input->post('content');
 
-			$content = file_get_contents($file);
-			$content = chunk_split(base64_encode($content));
-			$separator = md5(time());
-
-			$eol = "\r\n";
-
-			$headers = "From: QLGX.net" . $eol;
-			$headers .= "MIME-Version: 1.0" . $eol;
-			$headers .= "Content-Type: multipart/mixed; boundary=\"" . $separator . "\"" . $eol;
-			$headers .= "Content-Transfer-Encoding: 7bit" . $eol;
-			$headers .= "This is a MIME encoded message." . $eol;
-			$body = "--" . $separator . $eol;
-			$body .= "Content-Type: text/plain; charset=\"iso-8859-1\"" . $eol;
-			$body .= "Content-Transfer-Encoding: 8bit" . $eol;
-			$body .= $message . $eol;
-			$body .= "--" . $separator . $eol;
-			$body .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"" . $eol;
-			$body .= "Content-Transfer-Encoding: base64" . $eol;
-			$body .= "Content-Disposition: attachment" . $eol;
-			$body .= $content . $eol;
-			$body .= "--" . $separator . "--";
-			if (mail($mailto, $subject, $body, $headers)) {
+			if ($this->mailhandler->SendMail($to,$subject,$body,$attachment)) {
 				echo 1;
 				return;
 			} else {
@@ -247,6 +227,25 @@ class GiaoXuCL extends CI_Controller {
 			echo -1;
 			return;
 		}
+	}
+	public function updateGiaoXu()
+	{
+		$maGiaoXu=$this->input->post('txt-giaoxu-id');
+		$tenGiaoXu=$this->input->post('txt-giaoxu-name');
+		$diaChi=$this->input->post('txt-diachi');
+		$dienThoai=$this->input->post('txt-sdt');
+		$email=$this->input->post('txt-email');
+		$website=$this->input->post('txt-website');
+		$hinh=$this->input->post('txt-giaoxu-hinh');
+		$ghiChu=$this->input->post('txt-ghichu');
+		$maGiaoHat=$this->input->post('cb-giaohat-nameMa');
+
+		$result = $this->GiaoXuMD->update($maGiaoXu,$tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu,$maGiaoHat);
+			if($result >= 0){
+				$json = json_encode(array('success'=>'success'));
+				die($json);
+			}
+			die(json_encode(array('success'=>'error')));
 	}
 	public function insertGiaoXu()
 	{
@@ -310,19 +309,6 @@ class GiaoXuCL extends CI_Controller {
 		}
 
 	}
-	public function MailRequest($tenGiaoXu)
-	{
-		$to = 'doanvanhiepebn951@gmail.com';  
-		
-		$subject = 'Giáo xứ Request'; 
-		
-		$message = 'Hiện tại có giáo xứ <b>'.$tenGiaoXu.'</b> yêu cầu phê duyệt lên hệ thống quản lý giáo xứ. Truy cập <a href="http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu">Quản lý giáo xứ</a> để xem';
-		
-		$headers = "Content-type: text/html; charset=utf-8\r\nFrom: hieptest12345@gmail.com\r\nReply-To: hieptest12345@gmail.com";
-		
-		mail( $to, $subject, $message, $headers );
-	}
-
 	public function insertGiaoXuDoi()
 	{
 		if (isset($_POST)&&count($_POST)>0) {
@@ -345,7 +331,10 @@ class GiaoXuCL extends CI_Controller {
 			}
 			if (count($maGiaoXuDoi)==1) {
 				echo json_encode($maGiaoXuDoi);
-				$this->MailRequest($this->input->post('GiaoXuTenGiaoXu'));
+				$to="doanvanhiepebn951@gmail.com";
+				$subject="Giáo xứ yêu cầu";
+				$body="Giáo xứ <b>".$this->input->post('GiaoXuTenGiaoXu')."</b> đã gửi yêu cầu lên hệ thống.Vui lòng <a href=\"http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu\">truy cập</a> để xem";
+				$this->mailhandler->SendMail($to,$subject,$body);
 				return;
 			}
 			else {

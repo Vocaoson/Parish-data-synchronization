@@ -17,7 +17,7 @@ class GiaoXuDoiMD extends CI_Model {
 		return $query->result();
 	}
 	public function getGiaoXuDangDoi(){
-		$this->db->where("`giaoxudoi.Status`",0);
+		$this->db->where("`giaoxudoi.status`",0);
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
@@ -51,7 +51,7 @@ class GiaoXuDoiMD extends CI_Model {
 			"Website"=>$website,
 			"Hinh"=>$hinh,
 			"GhiChu"=>$ghiChu,
-			"Status"=>1
+			"status"=>1
 			);
 		$this->db->where("`giaoxudoi.MaGiaoXuDoi`",$maGiaoXuDoi);
 		$this->db->update($this->table,$objectGiaoXuDoi);
