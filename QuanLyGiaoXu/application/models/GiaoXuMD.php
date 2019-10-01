@@ -21,10 +21,10 @@ class GiaoXuMD extends CI_Model {
 		return $data;
 
 	}
-	public function checkStatus($id)
+	public function checkStatus($maGiaoXuRieng)
 	{
 		$this->db->select('status');
-		$this->db->where('Id', $id);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
@@ -35,7 +35,7 @@ class GiaoXuMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-	public function insertMD($TenGiaoXu,$DiaChi,$DienThoai,$Email,$Website,$Hinh,$GhiChu,$Ma_GiaoHat,$status)
+	public function insertMD($TenGiaoXu,$DiaChi,$DienThoai,$Email,$Website,$Hinh,$GhiChu,$Ma_GiaoHat,$status,$MaGiaoXuRieng)
 	{
 		$objectGX=array(
 			"TenGiaoXu"=>$TenGiaoXu,
@@ -46,7 +46,8 @@ class GiaoXuMD extends CI_Model {
 			"Hinh"=>$Hinh,
 			"GhiChu"=>$GhiChu,
 			"Ma_GiaoHat"=>$Ma_GiaoHat,
-			"status"=>$status);
+			"status"=>$status,
+			"MaGiaoXuRieng"=>$MaGiaoXuRieng);
 		$this->db->insert($this->table, $objectGX);
 		return $this->db->insert_id();
 	}
@@ -80,7 +81,7 @@ class GiaoXuMD extends CI_Model {
 		$this->db->select('giaoxu.*,giaophan.TenGiaoPhan,giaohat.TenGiaoHat,giaophan.MaGiaoPhan');
 		$this->db->from('giaoxu,giaohat,giaophan');
 		$this->db->where('giaoxu.Ma_GiaoHat=giaohat.MaGiaoHat');
-		$this->db->where("giaohat.MaGiaoPhan=giaophan.MaGiaoPhan AND giaoxu.ID=$id");
+		$this->db->where("giaohat.MaGiaoPhan=giaophan.MaGiaoPhan AND giaoxu.MaGiaoXuRieng='$id'");
 		$query=$this->db->get();
 		return $query->result();
 	}
@@ -129,7 +130,7 @@ class GiaoXuMD extends CI_Model {
 			"Ma_GiaoHat"=>$maGiaoHat,
 			"status"=>1
 		);
-		$this->db->update($this->table,$objectGX,"ID=$id");
+		$this->db->update($this->table,$objectGX,"MaGiaoXuRieng='$id'");
 		return $this->db->affected_rows();
 	}
 	public function insertGiaoXuMD($id,$name,$add,$sdt,$email,$web,$img,$note,$maGiaoHat)

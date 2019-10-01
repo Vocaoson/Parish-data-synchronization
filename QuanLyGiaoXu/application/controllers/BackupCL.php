@@ -70,7 +70,7 @@ class BackupCL extends CI_Controller {
 	{
 		if (isset($_FILES) && count($_FILES) > 0) {
 			$status=$this->GiaoXuMD->checkStatus($maGiaoXuRieng);
-			if ($status->status==0) {
+			if ($status==null) {
 				echo 0;
 				return;
 			}

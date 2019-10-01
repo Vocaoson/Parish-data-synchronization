@@ -23,9 +23,9 @@
 			noidung+='<div class="col-xs-2">'+data[i].DienThoai+'</div>';
 			noidung+='<div class="col-xs-3 txtWeb"><a target="_blank" href="'+data[i].Website+'">'+data[i].Website+'</a></div>';
 			noidung+='<div class="col-xs-3">';
-			noidung+='<b class="btn btn-success btnDetail"data-name="'+data[i].TenGiaoXu+'" data-id="'+data[i].ID+'">Tệp</b>';
+			noidung+='<b class="btn btn-success btnDetail"data-name="'+data[i].TenGiaoXu+'" data-id="'+data[i].MaGiaoXuRieng+'">Tệp</b>';
 			noidung+=" ";
-			noidung+='<b class="btn btn-primary btn-edit" data-name="'+data[i].TenGiaoXu+'" data-id="'+data[i].ID+'">Sửa giáo xứ</b>';
+			noidung+='<b class="btn btn-primary btn-edit" data-name="'+data[i].TenGiaoXu+'" data-id="'+data[i].MaGiaoXuRieng+'">Sửa giáo xứ</b>';
 			noidung+='</div>';
 			noidung+='</div>';
 		}
@@ -129,7 +129,7 @@
 			$("#txt-ghichu").val(giaoXu.GhiChu);
 			if((giaoXu.ID)!=undefined)
 			{
-				$("#txt-giaoxu-id").val(giaoXu.ID);
+				$("#txt-giaoxu-id").val(giaoXu.MaGiaoXuRieng);
 			}
 			else
 			{

@@ -12,6 +12,7 @@ class GiaoXuCL extends CI_Controller {
 		$this->load->model('GiaoHatMD');
 		$this->numrow=$this->config->item("numrow");
 		$this->load->library('MailHandler');
+		$this->load->helper('string');
 	//Do your magic here
 	}
 	private $numrow;
@@ -263,8 +264,9 @@ class GiaoXuCL extends CI_Controller {
 			$status=1;
 			$tenGiaoPhan=$this->input->post('cb-giaophan-nameTen');
 			$maGiaoPhan=$this->input->post('cb-giaophan-nameMa');
-			$maGiaoXuRieng = $this->GiaoXuMD->insertMD($tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu,$maGiaoHat,$status);
-			if($maGiaoXuRieng >= 0){
+			$maGiaoXuRieng=random_string('alpha', 16);
+			$maGiaoXu = $this->GiaoXuMD->insertMD($tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu,$maGiaoHat,$status,$maGiaoXuRieng);
+			if($maGiaoXu > 0){
 				$result=$this->GiaoXuDoiMD->updateGiaoXuDoiMD($maGiaoXuDoi,$tenGiaoPhan,$maGiaoPhan,$tenGiaoHat,$maGiaoHat,$tenGiaoXu,$maGiaoXuRieng,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu);
 				$json = json_encode(array('success'=>'success'));
 				die($json);

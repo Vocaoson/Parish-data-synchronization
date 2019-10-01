@@ -33,7 +33,7 @@ class BackupMD extends CI_Model {
 		$this->db->where('giaoxu.ID', $idgx);
 		$this->db->where('backup.ID=(SELECT backup.ID
 			FROM backup
-			WHERE backup.ID_GiaoXu=giaoxu.ID
+			WHERE backup.MaGiaoXuRieng=giaoxu.ID
 			ORDER  by backup.ID ASC LIMIT 1
 		)');
 		$query=$this->db->get();
@@ -41,19 +41,19 @@ class BackupMD extends CI_Model {
 	}
 	public function countFile($id)
 	{
-		$this->db->where('ID_GiaoXu', $id);
+		$this->db->where('MaGiaoXuRieng', $id);
 		return $this->db->count_all_results($this->table);
 	}
 	public function getBackupGx($idgx)
 	{
-		$this->db->where('ID_GiaoXu', $idgx);
+		$this->db->where('MaGiaoXuRieng', $idgx);
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
 	public function getLastUploadMD($maGiaoXuRieng)
 	{
 		$this->db->select('Time');
-		$this->db->where('ID_GiaoXu', $maGiaoXuRieng);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->row();
 
@@ -64,7 +64,7 @@ class BackupMD extends CI_Model {
 			"Name"=>$name,
 			"PathFile"=>$path,
 			"Time"=>$dateUL,
-			"ID_GiaoXu"=>$idgx);
+			"MaGiaoXuRieng"=>$idgx);
 		$this->db->insert($this->table, $objectBK);
 		return $this->db->affected_rows();
 	}
