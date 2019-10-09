@@ -76,11 +76,13 @@
 					<div class="col-xs-4">Thời gian tải lên</div>
 					<div class="col-xs-4">Gửi mail</div>
 				</div>
+				
+	<div style="overflow-y:scroll; height:420px;width:96%; display:block" >
 				<div class="wrap-backup">
+				</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 	<footer class="footer">
 		<h6 class="float-right">Version 1.0</h6>

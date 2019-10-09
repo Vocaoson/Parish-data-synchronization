@@ -44,9 +44,16 @@ class BackupMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng', $id);
 		return $this->db->count_all_results($this->table);
 	}
-	public function getBackupGx($idgx)
+	public function getBackupGx($idgx,$maDinhDanh)
 	{
 		$this->db->where('MaGiaoXuRieng', $idgx);
+		$this->db->where('MaDinhDanh', $maDinhDanh);
+		$query=$this->db->get($this->table);
+		return $query->result();
+	}
+	public function getAllBackupByMaDinhDanh($maDinhDanh)
+	{
+		$this->db->where('MaDinhDanh',$maDinhDanh);
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
@@ -56,15 +63,16 @@ class BackupMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->row();
-
 	}
-	public function insertGiaoXuBackupMD($name,$path,$idgx,$dateUL)
+	public function insertGiaoXuBackupMD($name,$path,$idgx,$dateUL,$maDinhDanh,$tenMay)
 	{
 		$objectBK=array(
 			"Name"=>$name,
 			"PathFile"=>$path,
 			"Time"=>$dateUL,
-			"MaGiaoXuRieng"=>$idgx);
+			"MaGiaoXuRieng"=>$idgx,
+			"MaDinhDanh"=>$maDinhDanh,
+			"TenMay"=>$tenMay);
 		$this->db->insert($this->table, $objectBK);
 		return $this->db->affected_rows();
 	}

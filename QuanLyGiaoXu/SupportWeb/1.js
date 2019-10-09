@@ -355,28 +355,13 @@
 		$('#nameGx').text('Giáo xứ: '+$(this).data("name"));
 		var id=$(this).data('id');
 		$.ajax({
-			url: path+'BackupCL/getBackup/'+id,
+			url: path+'BackupCL/getAllFileByMaGiaoXuRieng/'+id,
 			type: 'post',
 			dataType: 'json',
 		})
 		.always(function(data) {
 			if (data!=-1) {
-				var noidung="";
-				for (var i = 0; i < data.length; i++) {
-					noidung+='<div class="one-file">';
-					noidung+='<hr>';
-					noidung+='<div class="row">';
-					noidung+='<div class="col-xs-4">';
-					noidung+='<input type="hidden" name="" value="'+data[i].ID+'">';
-					noidung+='<p class="btnDowload" data-id="'+data[i].ID+'" data-path="'+data[i].PathFile+'"><i class="fa fa-file-archive"></i> '+data[i].Name+'</p>';
-					noidung+='</div>';
-					noidung+='<div class="col-xs-4">'+data[i].Time+'</div>';
-					noidung+='<div class="col-xs-4">';
-					noidung+='<b class="btn btn-danger btnNewEmail">Soạn Email</b>';
-					noidung+='</div>';
-					noidung+='</div>';
-					noidung+='</div>';
-				}
+				var noidung=data["noidung"];
 				$('.wrap-backup').append(noidung);
 			}
 		});

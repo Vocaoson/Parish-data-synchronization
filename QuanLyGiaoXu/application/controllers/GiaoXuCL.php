@@ -10,6 +10,7 @@ class GiaoXuCL extends CI_Controller {
 		$this->load->model('GiaoXuDoiMD');
 		$this->load->model('GiaoPhanMD');
 		$this->load->model('GiaoHatMD');
+		$this->load->model('MayNhapMD');
 		$this->numrow=$this->config->item("numrow");
 		$this->load->library('MailHandler');
 		$this->load->helper('string');
@@ -526,7 +527,36 @@ class GiaoXuCL extends CI_Controller {
 			return;
 		}
 	}
-
+	public function insertMayNhap($maGiaoXuRieng)
+	{
+		if(isset($_POST)&&count($_POST)>0)
+		{
+			$id=array();
+			$rscount=$this->MayNhapMD->getMayNhap($maGiaoXuRieng,$this->input->post("MaDinhDanh"),$this->input->post("TenMay"));
+			if(count($rscount)>0)
+			{
+				$id["ID"]=$rscount[0]->ID;
+				echo json_encode($id);
+				return;
+			}
+			else{
+				$rs=$this->MayNhapMD->insertMayNhapMD(
+					$this->input->post("MaDinhDanh"),
+					$this->input->post("TenMay"),
+					$maGiaoXuRieng
+				);
+				if($rs>0)
+				$id["ID"]=$rs;
+				echo json_encode($id);
+				return;
+			}
+			
+		}else
+		{
+			echo -1;
+			return;
+		}
+	}
 }
 
 /* End of file GiaoXuCL.php */

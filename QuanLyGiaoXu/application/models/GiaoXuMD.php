@@ -31,7 +31,7 @@ class GiaoXuMD extends CI_Model {
 	public function downloadImgMD($id)
 	{
 		$this->db->select('Hinh');
-		$this->db->where('ID', $id);
+		$this->db->where('MaGiaoXuRieng', $id);
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
