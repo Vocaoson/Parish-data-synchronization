@@ -7,6 +7,7 @@ class GiaoPhanCL extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('GiaoPhanMD');
+		$this->load->library('GetAllHeader');
 	}
 	public function index()
 	{
@@ -14,7 +15,7 @@ class GiaoPhanCL extends CI_Controller {
 	}
 	public function getPassWord()
 	{
-		foreach (getallheaders() as $name => $value) {
+		foreach ($this->getallheader->getAllHeaders() as $name => $value) {
 			if (strtolower($name)=="password") {
 				if ($value=="admin") {
 					return true;

@@ -7,6 +7,7 @@ class GiaoHatCL extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('GiaoHatMD');
+		$this->load->library('GetAllHeader');
 	}
 	public function index()
 	{
@@ -30,7 +31,7 @@ class GiaoHatCL extends CI_Controller {
 	}
 	public function getPassWord()
 	{
-		foreach (getallheaders() as $name => $value) {
+		foreach ($this->getallheader->getAllHeaders() as $name => $value) {
 			if ($name=="PassWord") {
 				if ($value=="admin") {
 					return true;

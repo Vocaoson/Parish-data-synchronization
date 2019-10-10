@@ -29,7 +29,7 @@ $config["numrow"]=4;
 |
 */
 
-$config['base_url'] = 'http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu';
+$config['base_url'] = 'http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu/';
 
 /*
 |--------------------------------------------------------------------------

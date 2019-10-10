@@ -13,6 +13,7 @@ class GiaoXuCL extends CI_Controller {
 		$this->load->model('MayNhapMD');
 		$this->numrow=$this->config->item("numrow");
 		$this->load->library('MailHandler');
+		$this->load->library('GetAllHeader');
 		$this->load->helper('string');
 	//Do your magic here
 	}
@@ -80,7 +81,7 @@ class GiaoXuCL extends CI_Controller {
 	
 	public function getPassWord()
 	{
-		foreach (getallheaders() as $name => $value) {
+		foreach ($this->getallheader->getAllHeaders() as $name => $value) {
 			if (strtolower($name)=="password") {
 				if ($value=="admin") {
 					return true;
@@ -531,6 +532,15 @@ class GiaoXuCL extends CI_Controller {
 	{
 		if(isset($_POST)&&count($_POST)>0)
 		{
+			$rs=$this->MayNhapMD->insertMayNhapMD(
+					$this->input->post("MaDinhDanh"),
+					$this->input->post("TenMay"),
+					$maGiaoXuRieng
+				);
+				if($rs>0)
+				$id["ID"]=$rs;
+				echo json_encode($id);
+				return;
 			$id=array();
 			$rscount=$this->MayNhapMD->getMayNhap($maGiaoXuRieng,$this->input->post("MaDinhDanh"),$this->input->post("TenMay"));
 			if(count($rscount)>0)

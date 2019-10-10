@@ -56,18 +56,18 @@ class BackupCL extends CI_Controller {
 			return;
 		}
 	}
-	public function getAllFileByMaGiaoXuRieng($id=-1)
+	public function getAllFileByMaGiaoXuRieng($maGiaoXuRieng=-1)
 	{
-		if ($id!=-1) {
+		if ($maGiaoXuRieng!=-1) {
 			$success=array();
 			$noidung="";
-			$rs=$this->MayNhapMD->getAllMaDinhDanhByMaGiaoXuRieng($id);
+			$rs=$this->MayNhapMD->getAllMaDinhDanhByMaGiaoXuRieng($maGiaoXuRieng);
 			if (count($rs)>0) {
 				for($i=0;$i<count($rs);$i++)
 				{
 					$noidung.='<hr>';
 					$noidung.='<div class="col-xs-4">'.$rs[$i]->TenMay.'</div>';
-					$rsListFile=$this->BackupMD->getAllBackupByMaDinhDanh($rs[$i]->MaDinhDanh);
+					$rsListFile=$this->BackupMD->getAllBackupByMaDinhDanh($rs[$i]->MaDinhDanh,$maGiaoXuRieng);
 					if(count($rsListFile)>0)
 					{
 						for($j=0;$j<count($rsListFile);$j++)

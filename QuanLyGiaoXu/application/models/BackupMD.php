@@ -51,9 +51,10 @@ class BackupMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
-	public function getAllBackupByMaDinhDanh($maDinhDanh)
+	public function getAllBackupByMaDinhDanh($maDinhDanh,$maGiaoXuRieng)
 	{
 		$this->db->where('MaDinhDanh',$maDinhDanh);
+		$this->db->where('MaGiaoXuRieng',$maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
