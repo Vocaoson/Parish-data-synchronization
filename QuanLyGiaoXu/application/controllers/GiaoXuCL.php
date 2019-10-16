@@ -337,7 +337,7 @@ class GiaoXuCL extends CI_Controller {
 				echo json_encode($maGiaoXuDoi);
 				$to="doanvanhiepebn951@gmail.com";
 				$subject="Giáo xứ yêu cầu";
-				$body="Giáo xứ <b>".$this->input->post('GiaoXuTenGiaoXu')."</b> đã gửi yêu cầu lên hệ thống.Vui lòng <a href=\"http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu\">truy cập</a> để xem";
+				$body="Giáo xứ <b>".$this->input->post('GiaoXuTenGiaoXu')."</b> đã gửi yêu cầu lên hệ thống.Vui lòng <a href=\"http://localhost:80/Parish-data-synchronization/QuanLyGiaoXu\">truy cập</a> để xem";
 				$this->mailhandler->SendMail($to,$subject,$body);
 				return;
 			}
@@ -532,15 +532,6 @@ class GiaoXuCL extends CI_Controller {
 	{
 		if(isset($_POST)&&count($_POST)>0)
 		{
-			$rs=$this->MayNhapMD->insertMayNhapMD(
-					$this->input->post("MaDinhDanh"),
-					$this->input->post("TenMay"),
-					$maGiaoXuRieng
-				);
-				if($rs>0)
-				$id["ID"]=$rs;
-				echo json_encode($id);
-				return;
 			$id=array();
 			$rscount=$this->MayNhapMD->getMayNhap($maGiaoXuRieng,$this->input->post("MaDinhDanh"),$this->input->post("TenMay"));
 			if(count($rscount)>0)
