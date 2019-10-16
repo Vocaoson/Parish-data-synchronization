@@ -48,8 +48,8 @@
 								<a href="<?= $value->Website ?>" target="_blank"><?= $value->Website ?></a>
 							</div>
 							<div class="col-xs-3">
-								<b class="btn btn-success btnDetail"data-name="<?= $value->TenGiaoXu ?>" data-id="<?= $value->ID ?>">Tệp</b>
-								<b class="btn btn-primary btn-edit"data-name="<?= $value->TenGiaoXu ?>" data-id="<?= $value->ID ?>">Sửa giáo xứ</b>
+								<b class="btn btn-success btnDetail"data-name="<?= $value->TenGiaoXu ?>" data-id="<?= $value->MaGiaoXuRieng ?>">Tệp</b>
+								<b class="btn btn-primary btn-edit"data-name="<?= $value->TenGiaoXu ?>" data-id="<?= $value->MaGiaoXuRieng ?>">Sửa giáo xứ</b>
 							</div>
 						</div>
 					<?php endforeach ?>
