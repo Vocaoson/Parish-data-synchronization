@@ -320,7 +320,9 @@ class GiaoXuCL extends CI_Controller {
 			if (isset($_POST["GiaoXu"])) {
 				$rs=$this->GiaoXuDoiMD->insertGiaoXuDoiMD(
 					$this->input->post('GiaoXuTenGiaoPhan'),
+					$this->input->post('GiaoXuMaGiaoPhanRieng'),
 					$this->input->post('GiaoXuTenGiaoHat'),
+					$this->input->post('GiaoXuMaGiaoHatRieng'),
 					$this->input->post('GiaoXuTenGiaoXu'),
 					$this->input->post('GiaoXuDiaChi'),
 					$this->input->post('GiaoXuDienThoai'),

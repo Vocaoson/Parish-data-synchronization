@@ -117,6 +117,8 @@
 			dataType: 'json',
 		}).always((data)=>{
 			let giaoXu = data[0];
+			let maGiaoPhan;
+			let maGiaoHat;
 			$("#thuocgiaophan").text("Thuộc giáo phận: "+giaoXu.TenGiaoPhan);
 			$("#thuocgiaohat").text("Thuộc giáo hạt: "+giaoXu.TenGiaoHat);
 			$("#txt-giaophan-name").val(giaoXu.TenGiaoPhan);
@@ -137,7 +139,15 @@
 			}
 			$("#txt-giaoxu-hinh").val(giaoXu.Hinh);
 			$("#status").val(giaoXu.status);
-			getGiaoPhan(giaoXu.MaGiaoPhan,giaoXu.Ma_GiaoHat);
+			if(edit)
+			{
+				maGiaoPhan=giaoXu.MaGiaoPhan;
+				maGiaoHat=giaoXu.Ma_GiaoHat;				
+			}else{
+				maGiaoPhan=giaoXu.MaGiaoPhanRieng;
+				maGiaoHat=giaoXu.MaGiaoHatRieng;
+			}
+			getGiaoPhan(maGiaoPhan,maGiaoHat);
 		});
 	}
 	function getGiaoHat(giaoPhanId,giaoHatCurrentId){

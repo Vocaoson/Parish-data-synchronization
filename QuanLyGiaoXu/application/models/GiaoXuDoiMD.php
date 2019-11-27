@@ -21,11 +21,13 @@ class GiaoXuDoiMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
-	public function insertGiaoXuDoiMD($tenGiaoPhan,$tenGiaoHat,$tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu)
+	public function insertGiaoXuDoiMD($tenGiaoPhan,$maGiaoPhanRieng,$tenGiaoHat,$maGiaoHatRieng,$tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu)
 	{
 		$objectGiaoXuDoi=array(
 			"TenGiaoPhan"=>$tenGiaoPhan,
+			"MaGiaoPhanRieng"=>$maGiaoPhanRieng,
 			"TenGiaoHat"=>$tenGiaoHat,
+			"MaGiaoHatRieng"=>$maGiaoHatRieng,
 			"TenGiaoXu"=>$tenGiaoXu,
 			"DiaChi"=>$diaChi,
 			"DienThoai"=>$dienThoai,
