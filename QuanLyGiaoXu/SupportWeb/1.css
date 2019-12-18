@@ -10,6 +10,48 @@ body.wait *, body.wait
 {
 	cursor: progress !important;
 }
+.CopyFile.active{
+	opacity: 1;
+	visibility: visible;
+}
+.CopyFile{
+	opacity: 0;
+	visibility: hidden;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	width: 600px;
+	background-color: white;
+	z-index: 10;
+	border: 0.5px solid black;
+}
+.CopyFile .head-copyfile{
+
+	background-color: #404040;
+	color: white;
+}
+.CopyFile .head-copyfile p{
+	padding: 5px;	
+}
+.CopyFile .head-copyfile .nut-removeCopyFile{
+	position: absolute;
+	top: 0;
+	right: 3%;
+	cursor: pointer;
+}
+.CopyFile .head-copyfile .nut-removeCopyFile:hover{
+
+	color: red;
+}
+
+.containerCopyFile{
+	margin-top: 50px;
+	padding-left: 50px;
+}
+.CopyFile .containerCopyFile{
+	margin: auto;
+	padding: auto;
+}
 .tooltip:after{
 	content: "";
 	top: -9px;
@@ -280,4 +322,7 @@ p.btnDowload:hover{
 		margin: 0!important;
 		padding: 0!important;
 	}
+	
+	
+	
 }

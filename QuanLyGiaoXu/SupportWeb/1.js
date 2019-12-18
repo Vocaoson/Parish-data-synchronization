@@ -360,6 +360,98 @@
 		$('#filekem').append('<i class="fa fa-paperclip"></i>'+name);
 
 	});
+	//chuyển file
+	$('body').on('click', '.btnCopyFile', function() {
+		//Call ajax Lấy máy nhập
+		var father=$(this).closest('.one-file');
+		var pathBackup=father.find('.btnDowload').data('path'); 
+		var name=father.find('.btnDowload').text();
+		var contentMail="Hiện tại hệ thống qlgx.net đã chuyển tệp tin có tên "+name;
+		contentMail+=" vào máy của bạn. Vui lòng mở ứng dụng qlgx và vào";
+		contentMail+=" Hệ thống->Khôi phục dữ liệu->Máy chủ của hệ thống qlgx.net.";
+		contentMail+=" Chọn tệp tin "+name+" để khôi phục";
+		var MaGiaoXuRiengGetMayNhap=pathBackup.split("/");
+		$.ajax({
+			url:path+'BackupCL/getMayNhapByMaGiaoXuRieng/'+MaGiaoXuRiengGetMayNhap[1]+'/'+MaGiaoXuRiengGetMayNhap[2],
+			type:'post',
+			dataType:'json'
+		}).always(function(data) {
+			if (data!=-1) {
+				var noidung=data["noidung"];
+				$('#cb-MayNhap').empty().append(noidung);
+				$('#inputToCopyFile').val('');
+				$('#inputSubjectCopyFile').val('Yêu cầu nhận tệp tin từ máy nhập khác');
+				$('#txtContentEmailCopyFile').val(contentMail);
+				$('#pathName').val(pathBackup);
+				$('.CopyFile').addClass('active');
+			}
+			else
+			{
+				alert("Hiện tại giáo xứ chỉ có duy nhất một máy nhập");
+			}
+		});;
+
+		
+		/* var father=$(this).closest('.one-file');
+		var path=father.find('.btnDowload').data('path');
+		var name=father.find('.btnDowload').text();
+		$('#btnSendEmail').data('path',path);
+		$('#filekem').append('<i class="fa fa-paperclip"></i>'+name);
+		alert("shut up"+path+"/"+name); */
+
+	});
+
+	//Button gửi
+	$('body').on('click', '#btnCopyFile', function() {
+		$pathBackup=$('#pathName').val().split('/');
+		var email=$('#inputToCopyFile').val();
+		if (!validateEmail(email)) {
+			$('.tooltip').addClass('active');
+			setTimeout(function () { 
+				$('.tooltip').removeClass('active');
+			},2000);
+			return;
+		}	
+		$maynhap=$('#cb-MayNhap').val();
+		if($maynhap==null)
+		{
+			alert("Vui lòng chọn máy nhập cần chuyển tệp tin");
+			return;
+		}
+
+		//Bắt đầu chuyển file và gửi mail
+		$.ajax({
+			url:path+'BackupCL/copyFile',
+			type:'post',
+			dataType:'json',
+			data:{
+				"MaGiaoXuRieng":$pathBackup[1],
+				"MaDinhDanhMayNhan":$('#cb-MayNhap').val(),
+				"MaDinhDanhMayGui":$pathBackup[2],
+				"FileName":$pathBackup[3],
+				"TenMayNhan":$('#cb-MayNhap option:selected').text(),
+				"To":$('#inputToCopyFile').val(),
+				"Subject":$('#inputSubjectCopyFile').val(),
+				"Body":$('#txtContentEmailCopyFile').val(),
+			}
+		}).always(function(data) {
+			if (data!=-1) {
+				alert("Đã chuyển file thành công!");
+				$('.CopyFile').removeClass('active');
+			}
+			else
+			{
+				alert("Hiện tại giáo xứ chỉ có duy nhất một máy nhập");
+			}
+		});;
+	});
+
+	$('.nut-removeCopyFile').click(function() {
+		
+		//close
+		$('.CopyFile').removeClass('active');
+	});
+
 	$('body').on('click', '.btnDetail', function() {
 		$('.wrap-content').addClass('active');
 		$('#nameGx').text('Giáo xứ: '+$(this).data("name"));

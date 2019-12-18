@@ -337,9 +337,9 @@ class GiaoXuCL extends CI_Controller {
 			}
 			if (count($maGiaoXuDoi)==1) {
 				echo json_encode($maGiaoXuDoi);
-				$to="doanvanhiepebn951@gmail.com";
+				$to=$this->config->item("email");
 				$subject="Giáo xứ yêu cầu";
-				$body="Giáo xứ <b>".$this->input->post('GiaoXuTenGiaoXu')."</b> đã gửi yêu cầu lên hệ thống.Vui lòng <a href=\"http://localhost:80/Parish-data-synchronization/QuanLyGiaoXu\">truy cập</a> để xem";
+				$body="Giáo xứ <b>".$this->input->post('GiaoXuTenGiaoXu')."</b> đã gửi yêu cầu lên hệ thống.Vui lòng <a href=\"".$this->config->item("urlDashboard")."\">truy cập</a> để xem";
 				$this->mailhandler->SendMail($to,$subject,$body);
 				return;
 			}
@@ -560,6 +560,38 @@ class GiaoXuCL extends CI_Controller {
 			return;
 		}
 	}
+	public function getAllMayNhap($idgx)
+	{
+		$rs= $this->MayNhapMD->getAllMayNhapByMaGiaoXuRieng($idgx);
+		echo json_encode($rs);
+		return;
+	}
+
+	public function sendMailYeuCauNhanFile()
+	{
+		$rs=0;
+		if(isset($_POST)&&count($_POST)>0)
+		{
+			$to=$this->config->item('email');
+			$subject="[".$this->input->post('TenGiaoXu')."] Yêu cầu nhận dữ liệu từ máy nhập khác!";
+
+			$body="Giáo xứ <b>".$this->input->post('TenGiaoXu')."</b> ";
+			$body.="có máy nhập <b>".$this->input->post('TenMay')."</b> ";
+			$body.="(Email : ".$this->input->post('Email').") ";
+			$body.="đã gửi yêu cầu lên hệ thống xin nhận file database từ máy nhập <b>".$this->input->post('TenMayNhap')."</b>.<br/>";
+			if($this->input->post('GhiChu')!="")
+			{
+				$body.="Ghi chú: <br/>";
+				$body.="<b>".$this->input->post('GhiChu')."</b> <br/>";
+			}
+			$body.="Vui lòng <a href=\"".$this->config->item('urlDashboard')."\">truy cập</a> để xem";
+			$this->mailhandler->SendMail($to,$subject,$body);
+			$rs=1;
+		}
+		echo json_encode($rs);
+		return;
+	}
+
 }
 
 /* End of file GiaoXuCL.php */

@@ -73,8 +73,9 @@
 				<hr>
 				<div class="row">
 					<div class="col-xs-4">Tên file</div>
-					<div class="col-xs-4">Thời gian tải lên</div>
-					<div class="col-xs-4">Gửi mail</div>
+					<div class="col-xs-3">Thời gian tải lên</div>
+					<div class="col-xs-2">Gửi mail</div>
+					<div style ="margin-left:-49px" class="col-xs-3">Chuyển file</div> 
 				</div>
 				
 	<div style="overflow-y:scroll; height:420px;width:96%; display:block" >
@@ -187,7 +188,8 @@
                 </div>
             </div>
 
-        </div>
+		</div>
+		
         <div class="SoanEmail">
         	<div class="head-email">
         		<div class="container">
@@ -229,4 +231,49 @@
         			<b class="btn btn-primary" id="btnSendEmail" data-path="">Gửi</b>
         		</div>
         	</div>
+		</div>
+		<!-- chuyển file -->
+		<div class="CopyFile">
+		<div class="head-copyfile">
+        		<div class="containerCopyFile">
+        			<p>Chuyển File</p>
+        		</div>
+        		<div class="nut-removeCopyFile">
+					<i class="fa fa-times"></i>
+        		</div>
+        	</div>
+        	<div class="containerCopyFile">
+        		<div class="form-group row">
+        			<label for="inputTo" class="col-xs-2 form-control-label text-muted">Tới</label>
+        			<div class="col-xs-10">
+        				<input type="email" name="txtEmail" class="form-control" id="inputToCopyFile"placeholder="Enter your email">
+        				<div class="tooltip">
+        					<span class="tooltiptext">Email không hợp lệ</span>
+        				</div>
+        			</div>
+        		</div>
+        		<div class="form-group row">
+        			<label for="inputSubject" class="col-xs-2 form-control-label text-muted">Chủ đề</label>
+        			<div class="col-xs-10">
+        				<input type="text" class="form-control" id="inputSubjectCopyFile">
+        			</div>
+        		</div>
+        		<div class="form-group row">
+        			<label  class="col-xs-2 form-control-label text-muted">Nội dung</label>
+        			<div class="col-xs-10">
+        				<textarea name="" id="txtContentEmailCopyFile" rows="7" class="form-control"></textarea>
+        			</div>
+        		</div>
+        		<div class="form-group row">
+        			<label for="inputMayNhap" class="col-xs-2 form-control-label text-muted">Máy nhập</label>
+        			<div class="col-xs-10">
+        				<select name="inputMayNhap" id="cb-MayNhap" class="form-control" required></select>
+        			</div>
+				</div>
+				<input type="hidden" id="pathName">
+        		<div class="form-group row">
+        			<b class="btn btn-primary" id="btnCopyFile" data-path="">Chuyển</b>
+        		</div>
+        	</div>
         </div>
+		

@@ -35,6 +35,13 @@ class MayNhapMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
+	public function getAllMayNhapByMaGiaoXuRieng($idgx)
+	{
+		$this->db->select('TenMay');
+		$this->db->where('MaGiaoXuRieng', $idgx);
+		$query=$this->db->get($this->table);
+		return $query->result();
+	}
 }
 
 /* End of file MayNhapMD.php */
