@@ -10,6 +10,11 @@ body.wait *, body.wait
 {
 	cursor: progress !important;
 }
+.btnright{
+	float: right;
+	margin:5px;
+}
+
 .CopyFile.active{
 	opacity: 1;
 	visibility: visible;

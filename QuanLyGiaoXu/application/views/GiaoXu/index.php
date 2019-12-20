@@ -173,23 +173,66 @@
 						<label for="txt-ghichu">Ghi chú: </label>
 						<input type="text" class="form-control" id="txt-ghichu" name="txt-ghichu">
 					</div>
-                               <!-- <div  class="form-group">
-                                    <label for="image-giaoxu">Hình giáo xứ: </label>
-                                    <input type="file" class="form-control" id="image-giaoxu" name="image-giaoxu">
-                                </div> -->
-                                <input type="button" id="submit-giaoxu-info" name="submit" value="Lưu" class="form-control btn btn-primary" id="submit">
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                        	<button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
-                        </div>
-                    </div>
+					<div  class="form-group" style="height:40px; margin-bottom: 0px" style="float:right">
+						<button type="button" class="btn btn-light btnright" data-dismiss="modal">Quay lại</button>
+						<button type="button" id="deny-giaoxu-info" class="btn btn-danger btnright" >Từ chối</button>
+						<button type="button" id="submit-giaoxu-info" class="btn btn-primary btnright">Lưu</button>
+						<button type="button" id="move-giaoxu-info" class="btn btn-warning btnright" >Chuyển</button>
+					</div>
+				</form>
+			</div>
+                    <!--  <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
+                    </div> -->
+        </div>
+    </div>
+</div>
 
-                </div>
-            </div>
+<!-- move giáo xứ -->
+<div id="move-giaoxu-modal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">        
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close btnclosemove" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title edit"></h4>
+			</div>
+			<div class="modal-body">
+				<form id="move-giaoxu-info-form">
+					<input type="hidden" id="txt-giaoxu-doiid" name="txt-giaoxu-doiid">
+					<input type="hidden" id="txt-giaoxu-doiname" name="txt-giaoxu-doiname">
+					<input type="hidden" id="txt-email-doi" name="txt-email-doi">
+					<div  class="form-group cb">
+						<label for="cb-giaophan-list" id="thuocgiaophan">Chọn giáo phận: </label>
+						<select name="cb-giaophan-list" class="form-control" id="cb-giaophan-list">
 
-		</div>
-		
+						</select>
+					</div>
+					<div class="form-group cb">
+						<label for="cb-giaohat-list" id="thuocgiaohat">Chọn giáo hạt: </label>
+						<select name="cb-giaohat-list" class="form-control" id="cb-giaohat-list">
+
+						</select>
+					</div>
+					<div class="form-group cb">
+						<label for="cb-giaoxu-list" id="thuocgiaohat">Chọn giáo xứ: </label>
+						<select name="cb-giaoxu-list" class="form-control" id="cb-giaoxu-list">
+
+						</select>
+					</div>
+					<div  class="form-group" style="height:40px; margin-bottom: 0px" style="float:right">
+						<button type="button" class="btn btn-light btnright btnclosemove" data-dismiss="modal">Quay lại</button>
+						<button type="button" id="btnmove-giaoxu-info" class="btn btn-warning btnright" >Chuyển</button>
+					</div>
+				</form>
+			</div>
+                    <!--  <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
+                    </div> -->
+        </div>
+    </div>
+</div>
+		<!-- Soạn mail -->
         <div class="SoanEmail">
         	<div class="head-email">
         		<div class="container">
@@ -276,4 +319,5 @@
         		</div>
         	</div>
         </div>
+
 		

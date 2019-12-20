@@ -32,7 +32,7 @@ class GiaoPhanCL extends CI_Controller {
 			return false;
 		}
 		if($status == 'web'){	
-			$rs=$this->GiaoPhanMD->getGPjsonMDWeb();
+			$rs=$this->GiaoPhanMD->getGPjsonMDWeb(); 
 		} else {
 			$rs=$this->GiaoPhanMD->getGPjsonMD();
 		}

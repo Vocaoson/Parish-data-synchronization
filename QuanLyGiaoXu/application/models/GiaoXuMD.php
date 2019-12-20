@@ -53,7 +53,6 @@ class GiaoXuMD extends CI_Model {
 	}
 	public function getGXByIDjsonMD($id)
 	{
-
 		$this->db->where('ID', $id);
 		$query=$this->db->get($this->table);
 		return $query->row();

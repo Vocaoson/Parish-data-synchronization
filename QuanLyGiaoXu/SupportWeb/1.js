@@ -60,6 +60,8 @@
 			let giaoXuId = $(this).attr('data-id');
 			let title = $(this).attr('data-name');
 			getGiaoXuEdit(giaoXuId,title,true);
+			$("#deny-giaoxu-info").remove();
+			$("#move-giaoxu-info").remove();
 			$('#edit-modal').modal('show');
 		})
 	}
@@ -501,6 +503,150 @@
 		$("#hidden-giaophan").val(selectd.attr('status'));
 		let giaoPhanId = selectd.val();
 		getGiaoHat(giaoPhanId);
+	});
+	$("#deny-giaoxu-info").click(function(){
+
+		$.ajax({
+			url: path+'GiaoXuCL/denyGiaoXu',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				'txt-giaoxu-id':$("#txt-giaoxu-id").val(),
+				'txt-email':$("#txt-email").val()
+			}
+		}).done(function(data){
+			if(data.success == 'success'){
+				alert('Từ chối thành công');
+			} else {
+				alert('Từ chối thất bại');
+			}
+			$('#edit-modal').modal('hide');
+			getGiaoXusRequest();
+		})
+	});
+	$("#move-giaoxu-info").click(function(){
+		let giaoXuId = $("#txt-giaoxu-id").val();
+		let title = $("#txt-giaoxu-name").val();
+		let email= $("#txt-email").val();
+		$('#txt-giaoxu-doiid').val(giaoXuId);
+		$('#txt-giaoxu-doiname').val(title);
+		$('#txt-email-doi').val(email);
+		$('#edit-modal').modal('hide');
+		$('#move-giaoxu-modal').modal('show');
+		getListGiaoPhan();
+	});
+	function getListGiaoPhan()
+	{
+		$.ajax({
+			url: path+"GiaoPhanCL/getGPjson/web",
+			type: 'post',
+			headers:{
+				'password':'admin',
+			},
+			dataType: 'json',
+		}).always((data)=>{
+			let html="";
+			for(let i = 0;i<data.length;i++){
+					html+=`<option value='${data[i].MaGiaoPhan}' status='${data[i].status}'>${data[i].TenGiaoPhan}</option>`;
+				}	
+			$("#cb-giaophan-list").html(html);
+			getListGiaoHat($("#cb-giaophan-list").val());
+		})
+	}
+	$("#cb-giaophan-list").change(function(){
+		getListGiaoHat($(this).val())
+	});
+	function getListGiaoHat(maGiaoPhan)
+	{
+		$.ajax({
+			url: path+"GiaoHatCL/getGHByIdGP/"+maGiaoPhan+"\/web",
+			type: 'post',
+			headers:{
+				'password':'admin',
+			},
+			dataType: 'json',
+		}).always((data)=>{
+			let html = "";
+			for(let i = 0;i<data.length;i++){
+				html+=`<option value='${data[i].MaGiaoHat}' status='${data[i].status}'>${data[i].TenGiaoHat}</option>`;
+			}
+			$("#cb-giaohat-list").html(html);
+			getListGiaoXu($("#cb-giaohat-list").val());
+		});
+	}
+	$("#cb-giaohat-list").change(function(){
+		getListGiaoXu($(this).val())
+	});
+	function getListGiaoXu(maGiaoHat)
+	{
+		$.ajax({
+			url: path+"GiaoXuCL/getGXByIdGH/"+maGiaoHat,
+			type: 'post',
+			headers:{
+				'password':'admin',
+			},
+			dataType: 'json',
+		}).always((data)=>{
+			let html = "";
+			for(let i = 0;i<data.length;i++){
+					html+=`<option value='${data[i].MaGiaoXuRieng}' status='${data[i].status}'>${data[i].TenGiaoXu}</option>`;
+				}
+			$("#cb-giaoxu-list").html(html);
+			if(html=="")
+			{
+				alert("Hiện tại giáo hạt chưa có giáo xứ nào");
+			}
+		});
+	}
+
+	$(".btnclosemove").click(function(){
+		/* let giaoXuId = $('#txt-giaoxu-doiid').val();
+		let title = $('#txt-giaoxu-doiname').val();
+		getGiaoXuEdit(giaoXuId,title); */
+		//$('#edit-modal').modal('show');
+	});
+	$("#btnmove-giaoxu-info").click(function(){
+		if($("#cb-giaophan-list").val()<=0)
+		{
+			alert("Vui lòng chọn giáo phận");
+			return;
+		}
+		if($("#cb-giaohat-list").val()<=0)
+		{
+			alert("Vui lòng chọn giáo hạt");
+			return;
+		}
+		if($("#cb-giaoxu-list").val()<=0)
+		{
+			alert("Vui lòng chọn giáo xứ");
+			return;
+		}
+		//chuyển
+		$.ajax({
+			url:path+"GiaoXuCL/updateGiaoXuDoiMove",
+			type:"post",
+			data:{
+				'MaGiaoXuDoi':$('#txt-giaoxu-doiid').val(),
+				'TenGiaoPhan':$("#cb-giaophan-list option:selected").text(),
+				'MaGiaoPhanRieng':$("#cb-giaophan-list").val(),
+				'TenGiaoHat':$("#cb-giaohat-list option:selected").text(),
+				'MaGiaoHatRieng':$("#cb-giaohat-list").val(),
+				'MaGiaoXuRieng':$("#cb-giaoxu-list").val(),
+				'TenGiaoXu':$("#cb-giaoxu-list option:selected").text(),
+				'Email':$('#txt-email-doi').val()
+			},
+			headers:{
+				'password':'admin'
+			},
+			dataType:'json'
+		}).always((data)=>{
+			if(data.success == 'success'){
+				alert('Chuyển thành công');
+			} else {
+				alert('Chuyển thất bại');
+			}
+			$('#edit-modal').modal('hide');
+		});
 	});
 	$("#submit-giaoxu-info").click(function(){
 		if($("#cb-giaophan-name").val()<=0)

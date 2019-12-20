@@ -21,9 +21,10 @@ class GiaoXuDoiMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
-	public function insertGiaoXuDoiMD($tenGiaoPhan,$maGiaoPhanRieng,$tenGiaoHat,$maGiaoHatRieng,$tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu)
+	public function insertGiaoXuDoiMD($maGiaoXuDoi,$tenGiaoPhan,$maGiaoPhanRieng,$tenGiaoHat,$maGiaoHatRieng,$tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu)
 	{
 		$objectGiaoXuDoi=array(
+			"MaGiaoXuDoi"=>$maGiaoXuDoi,
 			"TenGiaoPhan"=>$tenGiaoPhan,
 			"MaGiaoPhanRieng"=>$maGiaoPhanRieng,
 			"TenGiaoHat"=>$tenGiaoHat,
@@ -37,7 +38,7 @@ class GiaoXuDoiMD extends CI_Model {
 			"GhiChu"=>$ghiChu,
 			);
 		$this->db->insert($this->table, $objectGiaoXuDoi);
-		return $this->db->insert_id();
+		return 1;
 	}
 	public function updateGiaoXuDoiMD($maGiaoXuDoi,$tenGiaoPhan,$maGiaoPhan,$tenGiaoHat,$maGiaoHat,$tenGiaoXu,$maGiaoXuRieng,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu){
 		$objectGiaoXuDoi=array(
@@ -59,11 +60,32 @@ class GiaoXuDoiMD extends CI_Model {
 		$this->db->update($this->table,$objectGiaoXuDoi);
 		return $this->db->affected_rows();
 	}
+	public function updateDenyGiaoXuDoiMD($maGiaoXuDoi){
+		$objectGiaoXuDoi=array(
+			"status"=>-1
+			);
+		$this->db->where("`giaoxudoi.MaGiaoXuDoi`",$maGiaoXuDoi);
+		$this->db->update($this->table,$objectGiaoXuDoi);
+		return $this->db->affected_rows();
+	}
 	public function getGiaoXuDoiByMaGiaoXuDoi($maGiaoXuDoi)
 	{
 		$this->db->where("`giaoxudoi.MaGiaoXuDoi`",$maGiaoXuDoi);
 		$query=$this->db->get($this->table);
 		return $query->result();
+	}
+	public function updateGiaoXuDoiMove($maGiaoXuDoi,$tenGiaoPhan,$maGiaoPhanRieng,$tenGiaoHat,$maGiaoHatRieng,$maGiaoXuRieng){
+		$objectGiaoXuDoi=array(
+			"TenGiaoPhan"=>$tenGiaoPhan,
+			"MaGiaoPhanRieng"=>$maGiaoPhanRieng,
+			"TenGiaoHat"=>$tenGiaoHat,
+			"MaGiaoHatRieng"=>$maGiaoHatRieng,
+			"MaGiaoXuRieng"=>$maGiaoXuRieng,
+			"Status"=>1
+			);
+		$this->db->where("`giaoxudoi.MaGiaoXuDoi`",$maGiaoXuDoi);
+		$this->db->update($this->table,$objectGiaoXuDoi);
+		return $this->db->affected_rows();
 	}
 
 }

@@ -250,6 +250,29 @@ class GiaoXuCL extends CI_Controller {
 			}
 			die(json_encode(array('success'=>'error')));
 	}
+	public function denyGiaoXu()
+	{
+		if(isset($_POST) && count($_POST) > 0){
+			$maGiaoXuDoi=$this->input->post('txt-giaoxu-id');
+			$email=$this->input->post('txt-email');
+			
+			$result=$this->GiaoXuDoiMD->updateDenyGiaoXuDoiMD($maGiaoXuDoi);
+				if($result>0)
+				{
+					//sendmail cho người dùng biết
+					if($email!="")
+					{
+						$to=$email;
+						$subject="Từ chối giáo xứ yêu cầu";
+						$body="Hiện tại giáo xứ của bạn đã bị hệ thống từ chối.Vui lòng liên hệ quản trị viên qlgx.net để được hỗ trợ!</br>Xin cảm ơn!";
+						$this->mailhandler->SendMail($to,$subject,$body);
+					}
+					$json = json_encode(array('success'=>'success'));
+					die($json);
+				}
+			die(json_encode(array('success'=>'error')));
+		}
+	}
 	public function insertGiaoXu()
 	{
 		if(isset($_POST) && count($_POST) > 0){
@@ -270,6 +293,14 @@ class GiaoXuCL extends CI_Controller {
 			$maGiaoXu = $this->GiaoXuMD->insertMD($tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu,$maGiaoHat,$status,$maGiaoXuRieng);
 			if($maGiaoXu > 0){
 				$result=$this->GiaoXuDoiMD->updateGiaoXuDoiMD($maGiaoXuDoi,$tenGiaoPhan,$maGiaoPhan,$tenGiaoHat,$maGiaoHat,$tenGiaoXu,$maGiaoXuRieng,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu);
+				//sendmail cho người dùng biết
+				if($email!="")
+				{
+					$to=$email;
+					$subject="Chấp nhận giáo xứ yêu cầu";
+					$body="Hiện tại giáo xứ <b>".$tenGiaoXu."</b> đã được hệ thống chấp nhận.Vui lòng khởi động ứng dụng qlgx để tải dữ liệu!</br>Xin cảm ơn!";
+					$this->mailhandler->SendMail($to,$subject,$body);
+				}
 				$json = json_encode(array('success'=>'success'));
 				die($json);
 			}
@@ -317,8 +348,10 @@ class GiaoXuCL extends CI_Controller {
 	{
 		if (isset($_POST)&&count($_POST)>0) {
 			$maGiaoXuDoi=array();
+			$maGiaoXuDoi["MaGiaoXuDoi"]="error";
 			if (isset($_POST["GiaoXu"])) {
-				$rs=$this->GiaoXuDoiMD->insertGiaoXuDoiMD(
+				$maGXD=random_string('alpha', 16);
+				$rs=$this->GiaoXuDoiMD->insertGiaoXuDoiMD($maGXD,
 					$this->input->post('GiaoXuTenGiaoPhan'),
 					$this->input->post('GiaoXuMaGiaoPhanRieng'),
 					$this->input->post('GiaoXuTenGiaoHat'),
@@ -331,11 +364,11 @@ class GiaoXuCL extends CI_Controller {
 					$this->input->post('GiaoXuHinh'),
 					$this->input->post('GiaoXuGhiChu'));
 				if ($rs>0) {
-					$maGiaoXuDoi["MaGiaoXuDoi"]=$rs;
+					$maGiaoXuDoi["MaGiaoXuDoi"]=$maGXD;
 				}
 				
 			}
-			if (count($maGiaoXuDoi)==1) {
+			if ($maGiaoXuDoi["MaGiaoXuDoi"]!="error") {
 				echo json_encode($maGiaoXuDoi);
 				$to=$this->config->item("email");
 				$subject="Giáo xứ yêu cầu";
@@ -344,11 +377,11 @@ class GiaoXuCL extends CI_Controller {
 				return;
 			}
 			else {
-				echo -1;
+				echo json_encode($maGiaoXuDoi);
 				return;
 			}
 		}
-		echo -1;
+		echo json_encode($maGiaoXuDoi);
 		return;
 	}
 	
@@ -590,6 +623,32 @@ class GiaoXuCL extends CI_Controller {
 		}
 		echo json_encode($rs);
 		return;
+	}
+	//moveGiaoXuDoi
+	public function updateGiaoXuDoiMove()
+	{
+		$maGiaoXuDoi=$this->input->post('MaGiaoXuDoi');
+		$tenGiaoPhan=$this->input->post('TenGiaoPhan');
+		$maGiaoPhanRieng=$this->input->post('MaGiaoPhanRieng');
+		$tenGiaohat=$this->input->post('TenGiaoHat');
+		$maGiaoHatRieng=$this->input->post('MaGiaoHatRieng');
+		$maGiaoXuRieng=$this->input->post('MaGiaoXuRieng');
+		$tenGiaoXu=$this->input->post('TenGiaoXu');
+		$email=$this->input->post('Email');
+
+		$result = $this->GiaoXuDoiMD->updateGiaoXuDoiMove($maGiaoXuDoi,$tenGiaoPhan,$maGiaoPhanRieng,$tenGiaohat,$maGiaoHatRieng,$maGiaoXuRieng);
+			if($result >= 0){
+				$json = json_encode(array('success'=>'success'));
+				if($email!="")
+				{
+					$to=$email;
+					$subject="Chấp nhận giáo xứ yêu cầu";
+					$body="Hiện tại giáo xứ <b>".$tenGiaoXu."</b> đã được hệ thống chấp nhận.Vui lòng khởi động ứng dụng qlgx để tải dữ liệu!</br>Xin cảm ơn!";
+					$this->mailhandler->SendMail($to,$subject,$body);
+				}
+				die($json);
+			}
+			die(json_encode(array('success'=>'error')));
 	}
 
 }
