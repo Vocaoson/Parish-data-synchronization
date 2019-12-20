@@ -645,7 +645,8 @@
 			} else {
 				alert('Chuyển thất bại');
 			}
-			$('#edit-modal').modal('hide');
+			$('#move-giaoxu-modal').modal('hide');
+			getGiaoXusRequest();
 		});
 	});
 	$("#submit-giaoxu-info").click(function(){
