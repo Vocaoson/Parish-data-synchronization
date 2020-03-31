@@ -2,23 +2,41 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class CsvImport
 { 
+    private $enclosure;
     private $fp; 
     private $parse_header; 
     private $header; 
     private $delimiter; 
     private $length; 
+    public $ListTable=[
+        "MaChuyenXu"    =>"ChuyenXu",
+        "MaDotBiTich"   =>"DotBiTich",
+        "MaGiaDinh"     =>"GiaDinh",
+        "MaGiaoDan"     =>"GiaoDan",
+        "MaGiaoHo"      =>"GiaoHo",
+        "MaHoiDoan"     =>"HoiDoan",
+        "MaHonPhoi"     =>"HonPhoi",
+        "MaKhoi"        =>"KhoiGiaoLy",
+        "MaLinhMuc"     =>"LinhMuc",
+        "MaLop"         =>"LopGiaoLy",
+        "MaRaoHonPhoi"  =>"RaoHonPhoi",
+        "MaTanHien"     =>"TanHien",
+        "ID"            =>"ChiTietHoiDoan"
+    ];
+    private $ListID=[];
     //-------------------------------------------------------------------- 
-    function __construct($parse_header=true, $delimiter=";", $length=8000) 
+    function __construct($parse_header=true, $delimiter=";", $length=8000,$enclosure="`") 
     {
         $this->parse_header = $parse_header; 
         $this->delimiter = $delimiter; 
         $this->length = $length; 
+        $this->enclosure=$enclosure;
     } 
     public function setFileName($file_name){
         $this->fp = fopen($file_name, "r"); 
         if ($this->parse_header) 
         { 
-           $this->header = fgetcsv($this->fp, $this->length, $this->delimiter); 
+           $this->header = fgetcsv($this->fp, $this->length, $this->delimiter,$this->enclosure); 
         }
     }
     //-------------------------------------------------------------------- 
@@ -42,8 +60,7 @@ class CsvImport
         else {
             $line_count = -1; // so loop limit is ignored 
         }
-
-        while ($line_count < $max_lines && ($row = fgetcsv($this->fp, $this->length, $this->delimiter)) !== FALSE) 
+        while ($line_count < $max_lines && ($row = fgetcsv($this->fp, $this->length, $this->delimiter,$this->enclosure)) !== FALSE) 
         { 
             if ($this->parse_header) 
             { 
@@ -57,11 +74,78 @@ class CsvImport
             { 
                 $data[] = $row; 
             } 
-
             if ($max_lines > 0) 
                 $line_count++; 
         } 
         return $data; 
+    }
+
+
+    public function CreateFileAndFolder($dataDir)
+    {
+        $check=false;
+        if(!is_dir($dataDir . '/dongboID')) {
+            $check= mkdir($dataDir . '/dongboID',0777,TRUE);
+            if(!$check)
+            return false;
+        }
+        if(!is_file($dataDir . '/dongboID/dongbo.csv')) {
+            try {
+                $fopen=fopen($dataDir . '/dongboID/dongbo.csv','w');
+                fwrite($fopen,"`TenBang`;`MaIDMayKhach`;`MaIDMayChu`;`UpdateDate`");
+                fclose($fopen);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public function getTableNameByID($id)
+    {
+        return $this->ListTable[$id];
+    }
+    public function WriteData($id,$IDClient,$IDServer,$dataDir)
+    {
+        try {
+            $timestamp = time()+date("Z");
+            $nowUTC= gmdate("Y-m-d H:i:s",$timestamp);
+            $fopen=fopen($dataDir . '/dongboID/dongbo.csv','a');
+            fwrite($fopen,"\n");
+            $tableName=$this->getTableNameByID($id);
+            fwrite($fopen,'`'.$tableName.'`;`'.$IDClient.'`;`'.$IDServer.'`;`'.$nowUTC.'`');
+            fclose($fopen);
+            $values["TenBang"]=$tableName;
+            $values["MaIDMayKhach"]=$IDClient;
+            $values["MaIDMayChu"]=$IDServer;
+            $values["UpdateDate"]=$nowUTC;
+            if($tableName=="GiaoDan")
+            {
+                $keyServer=$tableName."+server+".$IDServer;
+                $this->setListID($keyServer,$values);
+            }
+            $key=$tableName."+".$IDClient;
+            $this->setListID($key,$values);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    private function setListID($key,$values)
+    {
+        $this->ListIDClient[$key]=$values;
+        return;
+    }
+    public function getListID($id,$IDClient)
+    {
+        $tableName="GiaoDan";
+        if($id != "MaGiaoDan1" && $id != "MaGiaoDan2")
+        {
+
+            $tableName=$this->getTableNameByID($id);
+        }
+        $keyIDClient=$tableName."+".$IDClient;
+        if(array_key_exists($keyIDClient, $this->ListIDClient))
+        return $this->ListIDClient[$keyIDClient];
+        return null;
     }
     
     //-------------------------------------------------------------------- 

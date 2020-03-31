@@ -5,47 +5,74 @@ class DotBiTichCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		require_once(APPPATH.'models/DotBiTichMD.php');
-		$this->DotBiTichMD=new DotBiTichMD();
-		require_once(APPPATH.'models/BiTichChiTietMD.php');
-		$this->BiTichChiTietMD=new BiTichChiTietMD();
+		$this->load->model("DotBiTichMD");
 	}
-	private $DotBiTichMD;
-	private $BiTichChiTietMD;
-	private $listBiTichChiTietCSV;
-	private $listGDThayDoi;
-	private $listBTCThayDoi;
-
 	public function compare()
 	{
 		foreach ($this->data as $data) {
-			$dotBTSV=$this->findDotBiTich($data);
-			if ($this->deleteObjectMaster($data,$dotBTSV,$this,$this->DotBiTichMD)) {
-				continue;
+			if($data["MaDotBiTich"]!=null)
+			{
+				$dotBiTichServer=$this->findDotBiTich($data);
+				if($dotBiTichServer!=null)
+				{
+					if(!empty($data["KhoaChinh"]))
+					{
+						$this->csvimport->WriteData("MaDotBiTich",$data["MaDotBiTich"],$dotBiTichServer->MaDotBiTich,$this->dirData);
+						$data["MaDotBiTich"]=$dotBiTichServer->MaDotBiTich;
+					}
+					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$dotBiTichServer->UpdateDate);
+					if($compareDate>=0 )
+					{
+						$this->updateObject($data,$dotBiTichServer,$this->DotBiTichMD);
+					}
+					continue;
+				}
+				else 
+				{
+				$idClient=$data["MaDotBiTich"];
+				$idServerNew=$this->DotBiTichMD->insert($data);
+				$this->csvimport->WriteData("MaDotBiTich",$idClient,$idServerNew,$this->dirData);
+				}
 			}
-			$objectTrack=$this->importObjectMaster($data,'MaDotBiTich',$dotBTSV,$this->DotBiTichMD);
-			$this->tracks[]=$objectTrack;
 		}
-		
 	}
-	public function delete($data)
-	{
-		//Delete DotBiTich
-		$this->DotBiTichMD->delete($data->MaDotBiTich,$data->MaGiaoXuRieng);
-					//Delete Bi tich chi tiet
-		$this->BiTichChiTietMD->deleteMaDotBiTich($data->MaDotBiTich,$data->MaGiaoXuRieng);
-	}
-	public function getListGiaoDanTracks($tracks)
-	{
-		$this->listGDThayDoi=$tracks;
-	}
-	
 	public function findDotBiTich($data)
 	{
-		$rs=$this->DotBiTichMD->getByDK1($data['MoTa'],$data['NgayBiTich'],$data['LoaiBiTich'],$data['LinhMuc'],$data['MaGiaoXuRieng']);
-		if ($rs) {
-			return $rs;
+		if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->DotBiTichMD->getByMaDotBiTich($data["MaDotBiTich"]);
+			if ($rs) {
+				return $rs;
+			}
 		}
+		$maGiaoXuRieng=$data['MaGiaoXuRieng'];
+		$dieuKien="";
+		if(!empty($data['MoTa']))
+		{
+			$dieuKien.=" and MoTa = '".str_replace("'","\'",$data['MoTa'])."'";
+		}
+		if(!empty($data['NgayBiTich']))
+		{
+			$dieuKien.=" and NgayBiTich = '".str_replace("'","\'",$data['NgayBiTich'])."'";
+		}
+		if(!empty($data['Loai']))
+		{
+			$dieuKien.=" and Loai = '".str_replace("'","\'",$data['Loai'])."'";
+		}
+		if(!empty($data['LinhMuc']))
+		{
+			$dieuKien.=" and LinhMuc = '".str_replace("'","\'",$data['LinhMuc'])."'";
+		}
+		
+		if(!empty($dieuKien))
+		{
+			$dieuKien="true ".$dieuKien;
+			$rs=$this->DotBiTichMD->getByInfo($dieuKien,$maGiaoXuRieng);
+			if ($rs) {
+				return $rs;
+			}
+		}
+		
 		return null;
 	}
 }

@@ -9,6 +9,43 @@ class BiTichChiTietMD extends CI_Model {
 		parent::__construct();
 		$this->table='bitichchitiet';
 	}
+	public function getByMaDotBiTichMaGiaoDan($maDotBiTich,$maGiaoDan)
+	{
+		$this->db->where('MaDotBiTich', $maDotBiTich);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+	public function insert($data)
+	{
+		unset($data['KhoaChinh']);
+		unset($data['DeleteClient']);
+		$this->db->insert($this->table, $data);
+	}
+	public function update($data)
+	{
+		$maDotBiTich=$data['MaDotBiTich'];
+		$maGiaoDan=$data['MaGiaoDan'];
+		unset($data['DeleteClient']);
+		unset($data['MaDotBiTich']);
+		unset($data['MaGiaoDan']);
+		unset($data['KhoaChinh']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaDotBiTich', $maDotBiTich);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$this->db->update($this->table, $data);
+	}
+	public function delete($objectSV)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaDotBiTich', $objectSV->MaDotBiTich);
+		$this->db->where('MaGiaoDan', $objectSV->MaGiaoDan);
+		$this->db->update($this->table);
+	}
+
+
+	//Tạm xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
 
@@ -33,14 +70,7 @@ class BiTichChiTietMD extends CI_Model {
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
-	public function delete($maGiaoDan,$MaDotBiTich,$magiaoxurieng)
-	{
-		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
-		$this->db->where('MaGiaoDan', $maGiaoDan);
-		$this->db->where('MaDotBiTich', $MaDotBiTich);
-		$this->db->set('DeleteSV',1);
-		$this->db->update($this->table);
-	}
+	
 	public function deleteMaDotBiTich($MaDotBiTich,$MaGiaoXuRieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
@@ -48,38 +78,9 @@ class BiTichChiTietMD extends CI_Model {
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
-	public function insert($data,$maGiaoDan,$MaDotBiTich)
-	{
-		unset($data['UpdateDate']);
-		//2018/10/29 son add start
-		unset($data['DeleteClient']);
-		//2018/10/29 son add start
-		$data['MaDotBiTich']=$MaDotBiTich;
-		$data['MaGiaoDan']=$maGiaoDan;
-		$this->db->insert($this->table, $data);
-		
-	}
-	public function update($data,$maGiaoDan,$MaDotBiTich)
-	{
-		unset($data['UpdateDate']);
-		//2018/10/29 son add start
-		unset($data['DeleteClient']);
-		//2018/10/29 son add start
-		unset($data['MaDotBiTich']);
-		unset($data['MaGiaoDan']);
-		$this->db->where('MaDotBiTich', $MaDotBiTich);
-		$this->db->where('MaGiaoDan', $maGiaoDan);
-		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
-		$this->db->update($this->table, $data);
-	}
-	public function findwithID($maDotBiTich,$maGiaoDan,$magiaoxurieng)
-	{
-		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
-		$this->db->where('MaDotBiTich', $maDotBiTich);
-		$this->db->where('MaGiaoDan', $maGiaoDan);
-		$query=$this->db->get($this->table);
-		return $query->row();
-	}
+	
+	
+	
 	public function deleteMaGiaoDan($maGiaoDan,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
@@ -87,7 +88,7 @@ class BiTichChiTietMD extends CI_Model {
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
-
+	*/
 }
 
 /* End of file BiTichChiTietMD.php */

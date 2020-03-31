@@ -2,14 +2,47 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class GiaoLyVienMD extends CI_Model {
-
-	
 	private $table;
 	public function __construct()
 	{
 		parent::__construct();
 		$this->table="GiaoLyVien";
 	}
+
+	public function getByMaLopMaGiaoDan($maLop,$maGiaoDan)
+	{
+		$this->db->where("MaLop",$maLop);
+		$this->db->where("MaGiaoDan",$maGiaoDan);
+		return $this->db->get($this->table)->row();
+	}
+	public function insert($data){
+		unset($data["KhoaChinh"]);
+		unset($data["DeleteClient"]);
+		$this->db->insert($this->table,$data);
+	}
+	public function delete($objectSV)
+	{
+		$this->db->set("DeleteSV",1);
+		$this->db->where("MaLop",$objectSV->MaLop);
+		$this->db->where("MaGiaoDan",$objectSV->MaGiaoDan);
+		$this->db->update($this->table);
+	}
+	public function update($data)
+	{
+		$maLop=$data['MaLop'];
+		$maGiaoDan=$data['MaGiaoDan'];
+		unset($data['DeleteClient']);
+		unset($data['MaLop']);
+		unset($data['MaGiaoDan']);
+		unset($data['KhoaChinh']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaLop', $maLop);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$this->db->update($this->table,$data);
+	}
+
+	//Tạm xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
 
@@ -57,29 +90,7 @@ class GiaoLyVienMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-	public function insert($data,$maGiaoDan,$MaLop)
-	{
-		unset($data['UpdateDate']);
-		//2018/10/29 son add start
-		unset($data['DeleteClient']);
-		//2018/10/29 son add start
-		$data['MaLop']=$MaLop;
-		$data['MaGiaoDan']=$maGiaoDan;
-		$this->db->insert($this->table, $data);
-	}
-	public function update($data,$maGiaoDan,$MaLop)
-	{
-		unset($data['UpdateDate']);
-		//2018/10/29 son add start
-		unset($data['DeleteClient']);
-		//2018/10/29 son add start
-		unset($data['MaLop']);
-		unset($data['MaGiaoDan']);
-		$this->db->where('MaLop', $MaLop);
-		$this->db->where('MaGiaoDan', $maGiaoDan);
-		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
-		$this->db->update($this->table, $data);
-	}
+	*/
 }
 
 /* End of file GiaoLyVienMD.php */

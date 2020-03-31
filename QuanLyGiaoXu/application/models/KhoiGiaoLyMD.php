@@ -9,6 +9,51 @@ class KhoiGiaoLyMD extends CI_Model {
 		parent::__construct();
 		$this->table='khoigiaoly';
 	}
+	public function getByMaKhoi($maKhoi)
+	{
+		$this->db->select('*');
+		$this->db->where('MaKhoi', $maKhoi);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+	public function getByInfo($dieuKien,$maGiaoXuRieng)
+	{
+		$this->db->where($dieuKien);
+		$this->db->where("MaGiaoXuRieng",$maGiaoXuRieng);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+
+	public function delete($objectSV)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaKhoi', $objectSV->MaKhoi);
+		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->update($this->table);
+	}
+	public function update($data)
+	{
+		$maKhoi=$data['MaKhoi'];
+		unset($data['MaKhoi']);
+		unset($data['KhoaChinh']);
+		unset($data['KhoaNgoai']);
+		unset($data['DeleteClient']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaKhoi', $maKhoi);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		$this->db->update($this->table, $data);
+	}
+	public function insert($data)
+	{
+		unset($data['MaKhoi']);
+		unset($data['KhoaChinh']);
+		unset($data['KhoaNgoai']);
+		unset($data['DeleteClient']);;
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
+	//Tạm xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
 
@@ -61,7 +106,7 @@ class KhoiGiaoLyMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
-
+*/
 }
 
 /* End of file KhoiGiaoLyMD.php */

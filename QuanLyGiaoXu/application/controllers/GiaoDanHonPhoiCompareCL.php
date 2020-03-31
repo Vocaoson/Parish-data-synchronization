@@ -5,33 +5,47 @@ class GiaoDanHonPhoiCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		require_once(APPPATH.'models/GiaoDanHonPhoiMD.php');
-        $this->GiaoDanHonPhoiMD=new GiaoDanHonPhoiMD();
+		$this->load->model("GiaoDanHonPhoiMD");
 	}
-	private $GiaoDanHonPhoiMD;
-	private $listHonPhoiTracks;
-	private $listGiaoDanTracks;
 	public function compare()
 	{
-		if (isset($this->listHonPhoiTracks)&&count($this->listHonPhoiTracks)>0) {
-			foreach ($this->listHonPhoiTracks as $value) {
-				$this->importObjectChild($value,$this->data,"MaHonPhoi",$this->listGiaoDanTracks,"MaGiaoDan",$this->GiaoDanHonPhoiMD);
+		foreach ($this->data as $data) 
+		{
+			if($data["MaHonPhoi"]!=null)
+			{
+				//xử lý khóa chính
+				if(!empty($data["KhoaChinh"]))
+				{
+					$data=$this->changeID($data);
+				}
+				if($data !== null)
+				{
+					$giaoDanHonPhoiServer=$this->findGiaoDanHonPhoi($data);
+					if($giaoDanHonPhoiServer!=null)
+					{
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoDanHonPhoiServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$giaoDanHonPhoiServer,$this->GiaoDanHonPhoiMD);
+						}
+						continue;
+					}
+					$this->GiaoDanHonPhoiMD->insert($data);
+				}
 			}
 		}
 	}
-	public function delete($maGiaoXuRieng)
+	public function findGiaoDanHonPhoi($data)
 	{
-		$this->deleteObjecChild($this->tracks,"MaHonPhoi","MaGiaoDan",$this->GiaoDanHonPhoiMD,$maGiaoXuRieng);
+		if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->GiaoDanHonPhoiMD->getByMaHonPhoiMaGiaoDan($data["MaHonPhoi"],$data["MaGiaoDan"]);
+			if ($rs) {
+				return $rs;
+			}
+		}
+		return null;
 	}
-	public function getListGiaoDanTracks($listTracks)
-	{
-		$this->listGiaoDanTracks=$listTracks;
-	}
-	public function getlistHonPhoiTracks($listTracks)
-	{
-		$this->listHonPhoiTracks=$listTracks;
-	}
-
 }
 
 /* End of file GiaoDanHonPhoiCompareCL.php */

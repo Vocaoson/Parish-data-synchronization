@@ -5,45 +5,46 @@ class GiaoLyVienCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		require_once(APPPATH.'models/GiaoLyVienMD.php');
-        $this->GiaoLyVienMD=new GiaoLyVienMD();
+		$this->load->model("GiaoLyVienMD");
 	}
-	private $GiaoLyVienMD;
-	private $listLopGiaoLyTracks;
-	private $listGiaoDanTracks;
 	public function compare()
 	{
-		if (isset($this->listLopGiaoLyTracks)&&count($this->listLopGiaoLyTracks)>0) {
-			foreach ($this->listLopGiaoLyTracks as $value) {
-				$this->importObjectChild($value,$this->data,"MaLop",$this->listGiaoDanTracks,"MaGiaoDan",$this->GiaoLyVienMD);
+		foreach($this->data as $data)
+		{
+			//xử lý khóa chính
+			if(!empty($data["KhoaChinh"]))
+			{
+				$data=$this->changeID($data);
+			}
+			if($data !== null)
+			{
+				$giaoLyVienServer=$this->findGiaoLyVien($data);
+				if($giaoLyVienServer!=null)
+				{
+					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoLyVienServer->UpdateDate);
+					if($compareDate>=0 )
+					{
+						$this->updateObject($data,$giaoLyVienServer,$this->GiaoLyVienMD);
+					}
+					continue;
+				}
+				$this->GiaoLyVienMD->insert($data);
 			}
 		}
 	}
-	public function delete($maGiaoXuRieng)
+
+	public function findGiaoLyVien($data)
 	{
-		$this->deleteObjecChild($this->tracks,"MaLop","MaGiaoDan",$this->GiaoLyVienMD,$maGiaoXuRieng);
+		if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->GiaoLyVienMD->getByMaLopMaGiaoDan($data["MaLop"],$data["MaGiaoDan"]);
+			if ($rs) {
+				return $rs;
+			}
+		}
+		return null;
 	}
-	public function getListGiaoDanTracks($listTracks)
-	{
-		$this->listGiaoDanTracks=$listTracks;
-	}
-	public function getlistLopGiaoLyTracks($listTracks)
-	{
-		$this->listLopGiaoLyTracks=$listTracks;
-	}
-	// public function delete($listBTCTThayDoi)
-	// {
-	// 	$listBTCT=$this->BiTichChiTietMD->getAll();
-	// 	if (isset($listBTCT)&&count($listBTCT)>0) {
-	// 		foreach ($listBTCT as $data) {
-	// 			$rs=$this->findBTCT($data,$listBTCTThayDoi);
-	// 			if ($rs==0) {
-	// 				//delete
-	// 				$this->BiTichChiTietMD->delete($data->MaGiaoDan,$data->MaDotBiTich,$data->MaGiaoXuRieng);
-	// 			}
-	// 		}
-	// 	}
-	// }
+	
 }
 
 /* End of file GiaoLyVienCompareCL.php */

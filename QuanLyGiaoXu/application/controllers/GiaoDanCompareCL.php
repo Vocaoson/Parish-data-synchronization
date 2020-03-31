@@ -5,64 +5,112 @@ class GiaoDanCompareCL extends CompareCL {
     public function __construct($file,$syn) 
     {
         parent::__construct($file,$syn);
-        require_once(APPPATH.'models/GiaoDanMD.php');
-        $this->GiaoDanMD=new GiaoDanMD();
-        require_once(APPPATH.'models/ThanhVienGiaDinhMD.php');
-        $this->ThanhVienGiaDinhMD=new ThanhVienGiaDinhMD();
-        require_once(APPPATH.'models/BiTichChiTietMD.php');
-        $this->BiTichChiTietMD=new BiTichChiTietMD();
-        require_once(APPPATH.'models/GiaoDanHonPhoiMD.php');
-        $this->GiaoDanHonPhoiMD=new GiaoDanHonPhoiMD();
-        require_once(APPPATH.'models/ChuyenXuMD.php');
-        $this->ChuyenXuMD=new ChuyenXuMD();
-        require_once(APPPATH.'models/TanHienMD.php');
-        $this->TanHienMD=new TanHienMD();
-        require_once(APPPATH.'models/RaoHonPhoiMD.php');
-        $this->RaoHonPhoiMD=new RaoHonPhoiMD();
-        require_once(APPPATH.'models/GiaoLyVienMD.php');
-        $this->GiaoLyVienMD=new GiaoLyVienMD();
-        require_once(APPPATH.'models/ChiTietLopGiaoLyMD.php');
-        $this->ChiTietLopGiaoLyMD=new ChiTietLopGiaoLyMD();
+		$this->load->model('GiaoDanMD');
     }
-    //2018/09/22 Gia add start
-    private $GiaoDanMD;
-    private $listGHThayDoi;
-    public function getListGiaoHoTracks($tracks)
-    {
-        $this->listGHThayDoi=$tracks;
-    }
-    //2018/09/22 Gia add end
+
     public function compare()
     {
         foreach($this->data as $data) {
-            $giaoDans = array();
-            if(!empty($data['MaNhanDang'])) {
-                $giaoDans = $this->GiaoDanMD->getByMaNhanDang($data['MaNhanDang'],$this->MaGiaoXuRieng);
-            }
-            if(count($giaoDans) <= 0) {
-                if(!empty($data['HoTen']) && !empty($data['NgaySinh']) && !empty($data['TenThanh'])) {
-                    $giaoDans = $this->GiaoDanMD->getByInfo($data['HoTen'],$data['TenThanh'],$data['NgaySinh'],$this->MaGiaoXuRieng);
+            if($data["MaGiaoDan"]!=null)
+            {
+                if(!empty($data["KhoaNgoai"]))
+                {
+                    $ListDataKhoa = $this->csvimport->getListID("MaGiaoHo",$data[$data["KhoaNgoai"]]);
+                    if($ListDataKhoa!=null)
+                    $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
                 }
+                $giaoDanServer =$this->findGiaoDan($data);
+                if($giaoDanServer!=null)
+                {
+                    //add maGiaoDan file csv
+                    if(!empty($data["KhoaChinh"]))
+                    {
+                        $this->csvimport->WriteData("MaGiaoDan",$data["MaGiaoDan"],$giaoDanServer->MaGiaoDan,$this->dirData);
+                        $data["MaGiaoDan"]=$giaoDanServer->MaGiaoDan;
+                    }
+                    $compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoDanServer->UpdateDate);
+                    if($compareDate>=0 )
+                    {
+                        $this->updateObject($data,$giaoDanServer,$this->GiaoDanMD);
+                    }
+                    continue;
+                }
+                $idClient=$data["MaGiaoDan"];
+                $idServerNew=$this->GiaoDanMD->insert($data);
+                $this->csvimport->WriteData("MaGiaoDan",$idClient,$idServerNew,$this->dirData);
             }
-            //delete giaodan
-            if(count($giaoDans) > 0 && $this->deleteObjectMaster($data,$giaoDans[0],$this,$this->GiaoDanMD)) {
-                continue;
-            }
-            $data['MaGiaoHo']=$this->findIdObjectSV($this->listGHThayDoi,$data['MaGiaoHo']);
-            if(count($giaoDans) > 0) {
-                $this->tracks[] = $this->importObjectMaster($data,"MaGiaoDan",$giaoDans[0],$this->GiaoDanMD);
-            } else {
-                $this->tracks[] = $this->importObjectMaster($data,"MaGiaoDan",null,$this->GiaoDanMD);
-            }     
         }
     }
-    public function delete($data) {
-        $this->GiaoDanMD->deleteMaGiaoDan($data->MaGiaoDan,$data->MaGiaoXuRieng);
-        $this->ThanhVienGiaDinhMD->deleteMaGiaoDan($data->MaGiaoDan,$data->MaGiaoXuRieng);
-        $this->BiTichChiTietMD->deleteMaGiaoDan($data->MaGiaoDan,$data->MaGiaoXuRieng);
-        $this->ChuyenXuMD->deleteMaGiaoDan($data->MaGiaoDan,$data->MaGiaoXuRieng);
-        $this->TanHienMD->deleteMaGiaoDan($data->MaGiaoDan,$data->MaGiaoXuRieng);
-        $this->RaoHonPhoiMD->deleteMaGiaoDan($data->MaGiaoDan,$data->MaGiaoXuRieng);
-        $this->ChiTietLopGiaoLyMD->deleteMaGiaoDan($data->MaGiaoDan,$data->MaGiaoXuRieng);
+    public function findGiaoDan($data)
+    {
+        if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->GiaoDanMD->getByMaGiaoDan($data["MaGiaoDan"]);
+			if ($rs) {
+				return $rs;
+			}
+		}
+		$maGiaoXuRieng=$data['MaGiaoXuRieng'];
+		if (!empty($data["MaNhanDang"])) {
+			$rs=$this->GiaoDanMD->getByMaNhanDang($data["MaNhanDang"],$maGiaoXuRieng);
+			if ($rs) {
+				return $rs;
+			}
+        }
+        //find Ten thanh, Ho ten, phai, Ho ten cha, ho ten me, ngay sinh
+        $dieuKien="";
+        if(!empty($data['TenThanh']))
+        {
+            $dieuKien.=" and TenThanh = '".str_replace("'","\'",$data['TenThanh'])."'";
+        }
+        if(!empty($data['HoTen']))
+        {
+            $dieuKien.=" and HoTen = '".str_replace("'","\'",$data['HoTen'])."'";
+        }
+        if(!empty($data['Phai']))
+        {
+            $dieuKien.=" and Phai = '".str_replace("'","\'",$data['Phai'])."'";
+        }
+        if(!empty($data['HoTenCha']))
+        {
+            $dieuKien.=" and HoTenCha = '".str_replace("'","\'",$data['HoTenCha'])."'";
+        }
+        if(!empty($data['HoTenMe']))
+        {
+            $dieuKien.=" and HoTenMe = '".str_replace("'","\'",$data['HoTenMe'])."'";
+        }
+        if(!empty($data['NgaySinh']))
+        {
+            $dieuKien.=" and NgaySinh = '".str_replace("'","\'",$data['NgaySinh'])."'";
+        }
+        if(!empty($dieuKien))
+        {
+            $dieuKien="true ".$dieuKien;
+            $rs = $this->GiaoDanMD->getByInfo($dieuKien,$this->MaGiaoXuRieng);    
+            if ($rs) {
+                //Check giáo dẫn existed in file DongBo
+                // if($this->csvimport->getListID("MaGiaoDan","server+".$rs->MaGiaoDan))
+                // {
+                //     $maGiaoDan=$rs->MaGiaoDan;
+                //     $dieukienNew=" and MaGiaoDan <> '"."$maGiaoDan'";
+                //     $dieukien.=$dieukienNew;
+                //     $rsNew = $this->GiaoDanMD->getByInfo($dieuKien,$this->MaGiaoXuRieng);      
+                //     while($rsNew)
+                //     {
+                //         if(!$this->csvimport->getListID("MaGiaoDan","server+".$rsNew->MaGiaoDan))
+                //         {
+                //             return $rsNew;
+                //         }
+                //         $maGiaoDan=$rsNew->MaGiaoDan;
+                //         $dieukienNew=" and MaGiaoDan <> '"."$maGiaoDan'";
+                //         $dieukien.=$dieukienNew;
+                //         $rsNew = $this->GiaoDanMD->getByInfo($dieuKien,$this->MaGiaoXuRieng);      
+                //     }
+                //     return null;
+                // }
+				return $rs;
+			} 
+        }
+        return null;
     }
 }

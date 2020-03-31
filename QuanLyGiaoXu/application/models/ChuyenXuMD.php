@@ -9,15 +9,54 @@ class ChuyenXuMD extends CI_Model {
 		parent::__construct();
 		$this->table="chuyenxu";
 	}
+	public function getByMaChuyenXu($maChuyenXu)
+	{
+		$this->db->where("MaChuyenXu",$maChuyenXu);
+		return $this->db->get($this->table)->row();
+	}
+	public function getByMaGiaoDan($maGiaoDan)
+	{
+		$this->db->where("MaGiaoDan",$maGiaoDan);
+		return $this->db->get($this->table)->row();
+	}
+	public function delete($objectSV)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaChuyenXu', $objectSV->MaChuyenXu);
+		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->update($this->table);
+	}
+	public function update($data)
+	{
+		$maChuyenXu=$data['MaChuyenXu'];
+		unset($data['MaChuyenXu']);
+		unset($data['KhoaChinh']);
+		unset($data['KhoaNgoai']);
+		unset($data['DeleteClient']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaChuyenXu', $maChuyenXu);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		$this->db->update($this->table, $data);
+	}
+	public function insert($data)
+	{
+		unset($data['MaChuyenXu']);
+		unset($data['KhoaChinh']);
+		unset($data['KhoaNgoai']);
+		unset($data['DeleteClient']);;
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
+
+	//Tạm xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
-
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
-
 	}
 	public function deleteById($maChuyenXu,$magiaoxurieng)
 	{
@@ -25,18 +64,6 @@ class ChuyenXuMD extends CI_Model {
 		$this->db->where('MaChuyenXu', $maChuyenXu);
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
-	}
-	public function insert($chuyenXuArray)
-	{
-		unset($chuyenXuArray['MaChuyenXu']);
-		unset($chuyenXuArray['UpdateDate']);
-		$this->db->insert($this->table, $chuyenXuArray);
-		return $this->db->insert_id();
-	}
-	public function update($chuyenXuArray,$id)
-	{
-		unset($chuyenXuArray['MaChuyenXu']);
-		return $this->db->update($this->table, $chuyenXuArray,"MaChuyenXu='$id'");
 	}
 	public function getAll($MaGiaoXuRieng)
 	{
@@ -58,6 +85,7 @@ class ChuyenXuMD extends CI_Model {
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
+	*/
 }
 
 /* End of file ChuyenXuMD.php */

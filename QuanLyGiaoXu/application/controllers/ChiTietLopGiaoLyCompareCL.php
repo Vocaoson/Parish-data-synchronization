@@ -5,33 +5,44 @@ class ChiTietLopGiaoLyCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		require_once(APPPATH.'models/ChiTietLopGiaoLyMD.php');
-        $this->ChiTietLopGiaoLyMD=new ChiTietLopGiaoLyMD();
+		$this->load->model("ChiTietLopGiaoLyMD");
 	}
-	private $ChiTietLopGiaoLyMD;
-	private $listLopGiaoLyTracks;
-	private $listGiaoDanTracks;
 	public function compare()
 	{
-		if (isset($this->listLopGiaoLyTracks)&&count($this->listLopGiaoLyTracks)>0) {
-			foreach ($this->listLopGiaoLyTracks as $value) {
-				$this->importObjectChild($value,$this->data,"MaLop",$this->listGiaoDanTracks,"MaGiaoDan",$this->ChiTietLopGiaoLyMD);
+		foreach($this->data as $data)
+		{
+			//xử lý khóa chính
+			if(!empty($data["KhoaChinh"]))
+			{
+				$data=$this->changeID($data);
+			}
+			if($data !== null)
+			{
+				$chiTietLopGiaoLyServer=$this->findChiTietLopGiaoLy($data);
+				if($chiTietLopGiaoLyServer!=null)
+				{
+					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$chiTietLopGiaoLyServer->UpdateDate);
+					if($compareDate>=0 )
+					{
+						$this->updateObject($data,$chiTietLopGiaoLyServer,$this->ChiTietLopGiaoLyMD);
+					}
+					continue;
+				}
+				$this->ChiTietLopGiaoLyMD->insert($data);
 			}
 		}
 	}
-	public function delete($maGiaoXuRieng)
+	public function findChiTietLopGiaoLy($data)
 	{
-		$this->deleteObjecChild($this->tracks,"MaLop","MaGiaoDan",$this->ChiTietLopGiaoLyMD,$maGiaoXuRieng);
+		if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->ChiTietLopGiaoLyMD->getByMaLopMaGiaoDan($data["MaLop"],$data["MaGiaoDan"]);
+			if ($rs) {
+				return $rs;
+			}
+		}
+		return null;
 	}
-	public function getListGiaoDanTracks($listTracks)
-	{
-		$this->listGiaoDanTracks=$listTracks;
-	}
-	public function getlistLopGiaoLyTracks($listTracks)
-	{
-		$this->listLopGiaoLyTracks=$listTracks;
-	}
-
 
 }
 

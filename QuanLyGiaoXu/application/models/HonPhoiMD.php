@@ -9,15 +9,63 @@ class HonPhoiMD extends CI_Model {
 		parent::__construct();
 		$this->table='honphoi';
 	}
+	public function delete($objectSV)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaHonPhoi', $objectSV->MaHonPhoi);
+		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->update($this->table);
+	}
+	public function update($data)
+	{
+		$maHonPhoi=$data['MaHonPhoi'];
+		unset($data['MaHonPhoi']);
+		unset($data['DeleteClient']);
+		unset($data['KhoaChinh']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaHonPhoi', $maHonPhoi);
+		$this->db->update($this->table, $data);
+	}
+	public function insert($data)
+	{
+		unset($data['MaHonPhoi']);
+		unset($data['DeleteClient']);
+		unset($data['KhoaChinh']);
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
+	public function getByMaHonPhoi($maHonPhoi)
+	{
+		$this->db->where('MaHonPhoi', $maHonPhoi);
+		$query=$this->db->get($this->table);
+		return $query->result()->row();
+	}
+	public function getByMaNhanDang($maNhanDang,$maGiaoXuRieng)
+	{
+		$this->db->where('MaNhanDang', $maNhanDang);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+	public function getByInfo($dieuKien,$maGiaoXuRieng)
+	{
+		$this->db->where($dieuKien);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+
+
+
+	//Tạm thời xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
-
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
-
 	}
 	public function getAll($maGiaoXuRieng)
 	{
@@ -32,47 +80,7 @@ class HonPhoiMD extends CI_Model {
 
 		$this->db->delete($this->table);
 	}
-	public function delete($MaHonPhoi,$maGiaoXuRieng)
-	{
-		$this->db->where('MaHonPhoi', $MaHonPhoi);
-		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
-		$this->db->set('DeleteSV',1);
-		$this->db->update($this->table);
-	}
-	public function getHonPhoiByDK1($data)
-	{
-		$this->db->where('MaNhanDang', $data['MaNhanDang']);
-		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
-		
-
-		$query=$this->db->get($this->table);
-		return $query->row();
-	}
-	public function getHonPhoiByDK2($data)
-	{
-		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
-		
-
-		$this->db->where('TenHonPhoi', $data['TenHonPhoi']);
-		$this->db->where('NgayHonPhoi', $data['NgayHonPhoi']);
-		$this->db->where('SoHonPhoi', $data['SoHonPhoi']);
-		$query=$this->db->get($this->table);
-		return $query->row();
-	}
-	public function insert($data)
-	{
-		unset($data['MaHonPhoi']);
-		unset($data['UpdateDate']);
-		$this->db->insert($this->table, $data);
-		return $this->db->insert_id();
-	}
-	public function update($data,$maHonPhoi)
-	{
-		unset($data['MaHonPhoi']);
-		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
-		$this->db->where('MaHonPhoi', $maHonPhoi);
-		$this->db->update($this->table, $data);
-	}
+	*/
 }
 
 /* End of file HonPhoiMD.php */

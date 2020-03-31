@@ -9,6 +9,44 @@ class LopGiaoLyMD extends CI_Model {
 		parent::__construct();
 		$this->table='lopgiaoly';
 	}
+	public function getByInfo($dieuKien,$MaGiaoXuRieng){
+		$this->db->select('*');
+		$this->db->where($dieuKien);
+		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+	public function delete($objectSV)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaLop', $objectSV->MaLop);
+		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->update($this->table);
+	}
+	public function update($data)
+	{
+		$maLop=$data['MaLop'];
+		unset($data['MaLop']);
+		unset($data['KhoaChinh']);
+		unset($data['KhoaNgoai']);
+		unset($data['DeleteClient']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaLop', $maLop);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		$this->db->update($this->table, $data);
+	}
+	public function insert($data)
+	{
+		unset($data['MaLop']);
+		unset($data['KhoaChinh']);
+		unset($data['KhoaNgoai']);
+		unset($data['DeleteClient']);;
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
+
+	//Tạm xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
 
@@ -72,7 +110,7 @@ class LopGiaoLyMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-
+*/
 }
 
 /* End of file LopGiaoLyMD.php */

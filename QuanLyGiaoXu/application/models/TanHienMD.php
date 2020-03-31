@@ -2,22 +2,33 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class TanHienMD extends CI_Model {
-
 	private $table;
 	public function __construct()
 	{
 		parent::__construct();
 		$this->table="TanHien";
 	}
+	public function getByMaTanHien($maTanHien){
+		$this->db->where("MaTanHien",$maTanHien);
+		return $this->db->get($this->table)->row();
+	}
+	public function getByInfo($dieuKien,$MaGiaoXuRieng){
+		$this->db->select('*');
+		$this->db->where($dieuKien);
+		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}    
+
+	//Tạm xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
-
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
-
 	}
   	public function insert($tanHienArray)
 	{
@@ -51,6 +62,7 @@ class TanHienMD extends CI_Model {
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
+	*/
 
 }
 

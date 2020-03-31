@@ -5,85 +5,76 @@ class LopGiaoLyCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		require_once(APPPATH.'models/LopGiaoLyMD.php');
-		$this->LopGiaoLyMD=new LopGiaoLyMD();
-
-		require_once(APPPATH.'models/GiaoLyVienMD.php');
-		$this->GiaoLyVienMD=new GiaoLyVienMD();
-
-		require_once(APPPATH.'models/ChiTietLopGiaoLyMD.php');
-		$this->ChiTietLopGiaoLyMD=new ChiTietLopGiaoLyMD();
-
-		require_once('GiaoLyVienCompareCL.php');
-		$GLV=new GiaoLyVienCompareCL('GiaoLyVien.csv',$this->dir);
-		$this->listGiaoLyVienCSV=$GLV->data;
-
-		require_once('ChiTietLopGiaoLyCompareCl.php');
-		$CTLGL=new ChiTietLopGiaoLyCompareCl('ChiTietLopGiaoLy.csv',$this->dir);
-		$this->listCTLGLCSV=$CTLGL->data;
+		$this->load->model("LopGiaoLyMD");
 	}
-	private $LopGiaoLyMD;
-	private $GiaoLyVienMD;
-	private $ChiTietLopGiaoLyMD;
-	private $listKhoiLopThayDoi;
-	private $listGDThayDoi;
-	private $listGLVThayDoi;
-	private $listCTLGLThayDoi;
-	private $listGiaoLyVienCSV;
-	private $listCTLGLCSV;
 
 	public function compare()
 	{
-
-		
 		foreach ($this->data as $data) {
-			$maKhoi=$this->findIdObjectSV($this->listKhoiLopThayDoi,$data['MaKhoi']);
-			
-			if ($maKhoi==0) {
+			if($data["MaKhoi"]!=null)
+			{
+				if(!empty($data["KhoaNgoai"]))
+            {
+                $ListDataKhoa = $this->csvimport->getListID("MaKhoi",$data[$data["KhoaNgoai"]]);
+                if($ListDataKhoa!=null)
+                $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
+            }
+			$lopGiaoLyServer=$this->findLopGiaoLy($data);
+			if($lopGiaoLyServer!=null)
+            {
+                if(!empty($data["KhoaChinh"]))
+				{
+                    $this->csvimport->WriteData("MaLop",$data["MaLop"],$lopGiaoLyServer->MaLop,$this->dirData);
+                    $data["MaLop"]=$lopGiaoLyServer->MaLop;
+                }
+				$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$lopGiaoLyServer->UpdateDate);
+        		if($compareDate>=0 )
+				{
+					$this->updateObject($data,$lopGiaoLyServer,$this->LopGiaoLyMD);
+				}
 				continue;
+            }
+            $idClient=$data["MaLop"];
+			$idServerNew=$this->LopGiaoLyMD->insert($data);
+			$this->csvimport->WriteData("MaLop",$idClient,$idServerNew,$this->dirData);
 			}
-			else {
-				$data['MaKhoi']=$maKhoi;
-			}
-			$lopGiaoLySV=$this->findLopGiaoLy($data);
-			if ($this->deleteObjectMaster($data,$lopGiaoLySV,$this,$this->LopGiaoLyMD)) {
-				continue;
-			}
-			$objectTrack=$this->importObjectMaster($data,'MaLop',$lopGiaoLySV,$this->LopGiaoLyMD);
-				// $this->listGLVThayDoi=$this->importObjectChild($objectTrack,$this->listGiaoLyVienCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->GiaoLyVienMD);
-
-				// $this->listCTLGLThayDoi=$this->importObjectChild($objectTrack,$this->listCTLGLCSV,'MaLop',$this->listGDThayDoi,'MaGiaoDan',$this->ChiTietLopGiaoLyMD);
-			$this->tracks[]=$objectTrack;
 		}
 		
-		
-		// $this->deleteObjecChild($this->listGLVThayDoi,'MaLop','MaGiaoDan',$this->GiaoLyVienMD,$this->MaGiaoXuRieng);
-		// $this->deleteObjecChild($this->listCTLGLThayDoi,'MaLop','MaGiaoDan',$this->ChiTietLopGiaoLyMD,$this->MaGiaoXuRieng);
-	}
-	public function getListKhoiLopTracks($tracks)
-	{
-		$this->listKhoiLopThayDoi=$tracks;
-	}
-	public function getListGiaoDanTracks($tracks)
-	{
-		$this->listGDThayDoi=$tracks;
-	}
-	public function delete($data)
-	{
-		$this->LopGiaoLyMD->deleteMaLop($data->MaLop,$data->MaGiaoXuRieng);
-
-		$this->GiaoLyVienMD->deleteMaLop($data->MaDotBiTich,$data->MaGiaoXuRieng);
-
-		$this->ChiTietLopGiaoLyMD->deleteMaLop($data->MaDotBiTich,$data->MaGiaoXuRieng);
 	}
 	public function findLopGiaoLy($data)
 	{
-		//Ten Lop,Nam,Khoi
-		$rs=$this->LopGiaoLyMD->getByDK1($data);
-		if ($rs) {
-			if ($this->compareHocVien($rs,$data)) {
+		if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->LopGiaoLyMD->getByMaLop($data["MaLop"]);
+			if ($rs) {
 				return $rs;
 			}
+		}
+		//TenLop,Nam,MaKhoi,PhongHoc
+		$dieuKien="";
+		if(!empty($data['TenLop']))
+		{
+			$dieuKien.=" and TenLop = '".str_replace("'","\'",$data['TenLop'])."'";
+		}
+		if(!empty($data['Nam']))
+		{
+			$dieuKien.=" and Nam = '".str_replace("'","\'",$data['Nam'])."'";
+		}
+		if(!empty($data['MaKhoi']))
+		{
+			$dieuKien.=" and MaKhoi = '".str_replace("'","\'",$data['MaKhoi'])."'";
+		}
+		if(!empty($data['PhongHoc']))
+		{
+			$dieuKien.=" and PhongHoc = '".str_replace("'","\'",$data['PhongHoc'])."'";
+		}
+		if(!empty($dieuKien))
+		{
+			$dieuKien="true ".$dieuKien;
+			$rs = $this->LopGiaoLyMD->getByInfo($dieuKien,$this->MaGiaoXuRieng);    
+			if ($rs) {
+				return $rs;
+			} 
 		}
 		return null;
 	}

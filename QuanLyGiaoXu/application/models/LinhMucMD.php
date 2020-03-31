@@ -9,9 +9,11 @@ class LinhMucMD extends CI_Model {
 		parent::__construct();
 		$this->table="LinhMuc";
 	}
+
+	//Tạm xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
-
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
@@ -55,4 +57,5 @@ class LinhMucMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
+	 */
 } 

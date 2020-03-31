@@ -25,12 +25,20 @@ class SynFileCL extends CI_Controller
             }
             
             $res = $zip->open($file);
-            if($res === true){
+            if($res === true)
+            {
                 $synId = $this->insert($maGiaoXuSyn);
-                if($synId) {
+                if($synId) 
+                {
                     $path = $this->getStorePath($maGiaoXuSyn,$synId);
-                    if(is_dir($path)){
+                    if(is_dir($path))
+                    {
                         $zip->extractTo($path);
+                        echo 1;
+                    }
+                    else
+                    {
+                        echo 0;
                     }
                 }
             } else {

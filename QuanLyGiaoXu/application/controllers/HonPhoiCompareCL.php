@@ -5,60 +5,79 @@ class HonPhoiCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		require_once(APPPATH.'models/HonPhoiMD.php');
-		$this->HonPhoiMD=new HonPhoiMD();
-		require_once(APPPATH.'models/GiaoDanHonPhoiMD.php');
-		$this->GiaoDanHonPhoiMD=new GiaoDanHonPhoiMD();
+		$this->load->model('HonPhoiMD');
 	}
-	private $listGiaoDanHonPhoiCSV;
-	private $GiaoDanHonPhoiMD;
-	private $HonPhoiMD;
-	private $listGDThayDoi;
-	private $listGDHPThayDoi;
-
 	public function compare()
 	{
-
 		foreach ($this->data as $data) {
-			
-			$honPhoiServer=$this->findHonPhoi($data);
-			if ($this->deleteObjectMaster($data,$honPhoiServer,$this,$this->HonPhoiMD)) {
-				continue;
+			if($data["MaHonPhoi"]!=null)
+			{
+				$honPhoiServer=$this->findHonPhoi($data);
+				if($honPhoiServer!=null)
+				{
+					if(!empty($data["KhoaChinh"]))
+					{
+						$this->csvimport->WriteData("MaHonPhoi",$data["MaHonPhoi"],$honPhoiServer->MaHonPhoi,$this->dirData);
+						$data["MaHonPhoi"]=$honPhoiServer->MaHonPhoi;
+					}
+					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$honPhoiServer->UpdateDate);
+					if($compareDate>=0 )
+					{
+						$this->updateObject($data,$honPhoiServer,$this->HonPhoiMD);
+					}
+					continue;
+				}
+				else 
+				{
+				$idClient=$data["MaHonPhoi"];
+				$idServerNew=$this->HonPhoiMD->insert($data);
+				$this->csvimport->WriteData("MaHonPhoi",$idClient,$idServerNew,$this->dirData);
+				}
 			}
-			$objectTrack=$this->importObjectMaster($data,'MaHonPhoi',$honPhoiServer,$this->HonPhoiMD);
-			$this->tracks[]=$objectTrack;
 		}
-		// $this->deleteObjecChild($this->listGDHPThayDoi,'MaHonPhoi','MaGiaoDan',$this->GiaoDanHonPhoiMD,$this->MaGiaoXuRieng);
-	}
-	public function getListGiaoDanTracks($tracks)
-	{
-		$this->listGDThayDoi=$tracks;
-	}
-	public function delete($data)
-	{
-		
-		$this->HonPhoiMD->delete($data->MaHonPhoi,$data->MaGiaoXuRieng);
-
-		$this->GiaoDanHonPhoiMD->deleteMaHonPhoi($data->MaHonPhoi,$data->MaGiaoXuRieng);
 	}
 	public function findHonPhoi($data)
 	{
-		//check ma nhan dang
-		if (!empty($data["MaNhanDang"])) {
-			$rs=$this->HonPhoiMD->getHonPhoiByDK1($data);
+		if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->HonPhoiMD->getByMaHonPhoi($data["MaHonPhoi"]);
+			if ($rs) {
+				return $rs;
+			}
 		}
 		
-		if ($rs!=null) {
-			return $rs;
+		$maGiaoXuRieng=$data["MaGiaoXuRieng"];
+		//check ma nhan dang
+		if (!empty($data["MaNhanDang"])) {
+			$rs=$this->HonPhoiMD->getByMaNhanDang($data["MaNhanDang"],$maGiaoXuRieng);
+			if ($rs) {
+				return $rs;
+			}
 		}
-		//check ten hon phoi ngay hon phoi so hon phoi
-		$rs=$this->HonPhoiMD->getHonPhoiByDK2($data);
-		if ($rs!=null) {
-			return $rs;
+		//find NgayHonPhoi, SoHonPhoi, TenHonPhoi
+		$dieuKien="";
+		if(!empty($data['NgayHonPhoi']))
+		{
+			$dieuKien.=" and NgayHonPhoi = '".str_replace("'","\'",$data['NgayHonPhoi'])."'";
+		}
+		if(!empty($data['SoHonPhoi']))
+		{
+			$dieuKien.=" and SoHonPhoi = '".str_replace("'","\'",$data['SoHonPhoi'])."'";
+		}
+		if(!empty($data['TenHonPhoi']))
+		{
+			$dieuKien.=" and TenHonPhoi = '".str_replace("'","\'",$data['TenHonPhoi'])."'";
+		}
+		if(!empty($dieuKien))
+		{
+			$dieuKien="true ".$dieuKien;
+			$rs=$this->HonPhoiMD->getByInfo($dieuKien,$maGiaoXuRieng);
+			if ($rs!=null) {
+				return $rs;
+			}
 		}
 		return null;
 	}
-
 }
 
 /* End of file HonPhoiCompareCL.php */

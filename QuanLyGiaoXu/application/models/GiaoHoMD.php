@@ -9,6 +9,56 @@ class GiaoHoMD extends CI_Model {
 		parent::__construct();
 		$this->table='GiaoHo';
 	}
+
+	public function delete($objectSV)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaGiaoHo', $objectSV->MaGiaoHo);
+		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->update($this->table);
+	}
+	public function update($data)
+	{
+		$maGiaoHo=$data['MaGiaoHo'];
+		unset($data['MaGiaoHo']);
+		unset($data['DeleteClient']);
+		unset($data['KhoaChinh']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		$this->db->where('MaGiaoHo', $maGiaoHo);
+		$this->db->update($this->table, $data);
+	}
+	public function insert($data)
+	{
+		unset($data['MaGiaoHo']);
+		unset($data['DeleteClient']);
+		unset($data['KhoaChinh']);
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
+	public function getByMaNhanDang($maNhanDang,$maGiaoXu)
+	{
+		$this->db->where('MaNhanDang', $maNhanDang);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXu);	
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+	public function getByMaGiaoHo($maGiaoHo)
+	{
+		$this->db->where('MaGiaoHo',$maGiaoHo);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+	public function getByNameGiaoHo($nameGiaoHo,$maGiaoXuRieng)
+	{
+		$this->db->where('TenGiaoHo', $nameGiaoHo);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);	
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+
+	//
+	/*
 	public function updateMaGiaoHoCha($data,$maGiaoHoCha)
 	{
 		$this->db->set("MaGiaoHoCha",$maGiaoHoCha);
@@ -18,37 +68,13 @@ class GiaoHoMD extends CI_Model {
 	}
 	public function getAllActive($maGiaoXu)
 	{
-
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
-
 	}
-	public function deleteReal($dataSV)
-	{
-		$this->db->where('MaGiaoHo', $dataSV->MaGiaoHo);
-		$this->db->where('MaGiaoXuRieng', $dataSV->MaGiaoXuRieng);
-
-		$this->db->delete($this->table);
-	}
-	public function getByNameGiaoHo($nameGiaoHo,$maGiaoXuRieng)
-	{
-		$this->db->where('TenGiaoHo', $nameGiaoHo);
-		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);	
-		
-		$query=$this->db->get($this->table);
-		return $query->row();
-	}
-	public function delete($maGiaoHo,$maGiaoXu)
-	{
-		$this->db->set('DeleteSV',1);
-		$this->db->where('MaGiaoHo', $maGiaoHo);
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$this->db->update($this->table);
-
-	}
+	
 	public function getAllListIDGiaoHo($maGiaoXu)
 	{
 		// $this->db->select('MaGiaoHo');
@@ -56,29 +82,8 @@ class GiaoHoMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
-	public function update($data,$maGiaoHo)
-	{
-		unset($data['MaGiaoHo']);
-		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
-		$this->db->where('MaGiaoHo', $maGiaoHo);
-		$this->db->update($this->table, $data);
-	}
-	public function insert($data)
-	{
-		unset($data['MaGiaoHo']);
-		unset($data['UpdateDate']);
-		$this->db->insert($this->table, $data);
-		return $this->db->insert_id();
-	}
-	public function getByMaNhanDang($maNhanDang,$maGiaoXu)
-	{
-		$this->db->where('MaNhanDang', $maNhanDang);
-		
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);	
-		$query=$this->db->get($this->table);
-		return $query->row();
-	}
-
+	 */
+	
 }
 
 /* End of file GiaoHoMD.php */

@@ -8,6 +8,44 @@ class GiaoDanHonPhoiMD extends CI_Model {
 		parent::__construct();
 		$this->table="GiaoDanHonPhoi";
 	}
+
+	public function getByMaHonPhoiMaGiaoDan($maHonPhoi,$maGiaoDan)
+	{
+		$this->db->where('MaHonPhoi', $maHonPhoi);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}
+
+	public function insert($data)
+	{
+		unset($data['KhoaChinh']);
+		unset($data['DeleteClient']);
+		$this->db->insert($this->table, $data);
+	}
+	public function update($data)
+	{
+		$maHonPhoi=$data['MaHonPhoi'];
+		$maGiaoDan=$data['MaGiaoDan'];
+		unset($data['DeleteClient']);
+		unset($data['MaHonPhoi']);
+		unset($data['MaGiaoDan']);
+		unset($data['KhoaChinh']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaHonPhoi', $maHonPhoi);
+		$this->db->where('MaGiaoDan', $maGiaoDan);
+		$this->db->update($this->table, $data);
+	}
+	public function delete($objectSV)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaHonPhoi', $objectSV->MaHonPhoi);
+		$this->db->where('MaGiaoDan', $objectSV->MaGiaoDan);
+		$this->db->update($this->table);
+	}
+
+	//tạm xóa
+	/*
 	public function getAllActive($maGiaoXu)
 	{
 
@@ -85,7 +123,7 @@ class GiaoDanHonPhoiMD extends CI_Model {
 		$this->db->set('DeleteSV',1);
 		$this->db->update($this->table);
 	}
-
+*/
 }
 
 /* End of file GiaoDanHonPhoiMD.php */

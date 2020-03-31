@@ -5,56 +5,46 @@ class BiTichChiTietCompareCL extends CompareCL {
 
 	public function __construct($file,$syn) {
 		parent::__construct($file,$syn);
-		require_once(APPPATH.'models/BiTichChiTietMD.php');
-        $this->BiTichChiTietMD=new BiTichChiTietMD();
-
+		$this->load->model("BiTichChiTietMD");
 	}
-	private $listGiaoDanTracks;
-	private $listDotBiTichTracks;
-	private $BiTichChiTietMD;
 	public function compare()
 	{
-		if (isset($this->listDotBiTichTracks)&&count($this->listDotBiTichTracks)>0) {
-			foreach ($this->listDotBiTichTracks as $value) {
-				$this->importObjectChild($value,$this->data,"MaDotBiTich",$this->listGiaoDanTracks,"MaGiaoDan",$this->BiTichChiTietMD);
+		foreach ($this->data as $data) {
+			if($data["MaDotBiTich"]!=null)
+			{
+				//xử lý khóa chính
+				if(!empty($data["KhoaChinh"]))
+				{
+					$data=$this->changeID($data);
+				}
+				if($data !== null)
+				{
+					$biTichChiTietServer=$this->findBiTichChiTiet($data);
+					if($biTichChiTietServer!=null)
+					{
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$biTichChiTietServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$biTichChiTietServer,$this->BiTichChiTietMD);
+						}
+						continue;
+					}
+					$this->BiTichChiTietMD->insert($data);
+				}
 			}
 		}
 	}
-	public function delete($maGiaoXuRieng)
+	public function findBiTichChiTiet($data)
 	{
-		$this->deleteObjecChild($this->tracks,"MaDotBiTich","MaGiaoDan",$this->BiTichChiTietMD,$maGiaoXuRieng);
+		if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->BiTichChiTietMD->getByMaDotBiTichMaGiaoDan($data["MaDotBiTich"],$data["MaGiaoDan"]);
+			if ($rs) {
+				return $rs;
+			}
+		}
+		return null;
 	}
-	public function getListGiaoDanTracks($listTracks)
-	{
-		$this->listGiaoDanTracks=$listTracks;
-	}
-	public function getListDotBiTichTracks($listTracks)
-	{
-		$this->listDotBiTichTracks=$listTracks;
-	}
-	// public function delete($listBTCTThayDoi,$maGiaoXuRieng)
-	// {
-	// 	$listBTCT=$this->BiTichChiTietMD->getAll($maGiaoXuRieng);
-	// 	if (isset($listBTCT)&&count($listBTCT)>0) {
-	// 		foreach ($listBTCT as $data) {
-	// 			$rs=$this->findBTCT($data,$listBTCTThayDoi);
-	// 			if ($rs==0) {
-	// 				//delete
-	// 				$this->BiTichChiTietMD->delete($data->MaGiaoDan,$data->MaDotBiTich,$data->MaGiaoXuRieng);
-	// 			}
-	// 		}
-	// 	}
-	// }
-	// public function findBTCT($data,$listBTCTThayDoi)
-	// {
-	// 	foreach ($listBTCTThayDoi as $value) {
-	// 		if ($value->MaDotBiTich=$data->MaDotBiTich&&$value->MaGiaoDan==$data->MaGiaoDan) {
-	// 			return 1;
-	// 		}
-	// 	}
-	// 	return 0;
-	// }
-
 }
 
 /* End of file BiTichChiTietCompareCL.php */

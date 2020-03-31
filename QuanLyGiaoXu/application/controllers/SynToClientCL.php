@@ -80,7 +80,8 @@ class SynToClientCL extends CI_Controller {
 				}
 				fwrite($fp,"\n");
 			}
-			fclose($fp);
+			
+			
 			
 		}
 		$tempGloble=glob($dirtemp."\*.csv");

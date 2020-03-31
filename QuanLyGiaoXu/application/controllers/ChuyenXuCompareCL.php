@@ -2,40 +2,56 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 include_once('CompareCL.php');
 class ChuyenXuCompareCL extends CompareCL {
-    private $ChuyenXuMD;
-    private $listGDThayDoi;
-    public $MaGiaoXuRieng;
-    public function __construct($file,$syn) 
-    {
+    public function __construct($file,$syn) {
         parent::__construct($file,$syn);
-        require_once(APPPATH.'models/ChuyenXuMD.php');
-        $this->ChuyenXuMD=new ChuyenXuMD();
+        $this->load->model("ChuyenXuMD");
     }
     public function Compare() 
     {
         foreach($this->data as $data) {
-            $chuyenXus = array();
-            $data['MaGiaoDan']=$this->findIdObjectSV($this->listGDThayDoi,$data['MaGiaoDan']);
-            // if GiaoDan is deleted
-            if($data['MaGiaoDan'] == 0) {
-                continue;
-            }
-            $chuyenXus = $this->ChuyenXuMD->getByIdGiaoDan($data['MaGiaoDan']);
-            if(count($chuyenXus) > 0 && $this->deleteObjectMaster($data,$chuyenXus[0],$this,$this->ChuyenXuMD)) {
-                continue;
-            }
-            if(count($chuyenXus) > 0) {
-                $this->tracks[] = $this->importObjectMaster($data,"MaChuyenXu",$chuyenXus[0],$this->ChuyenXuMD);
-            } else {
-                $this->tracks[] = $this->importObjectMaster($data,"MaChuyenXu",null,$this->ChuyenXuMD);
-            }
+            if($data["MaChuyenXu"]!=null)
+			{
+                if(!empty($data["KhoaNgoai"]))
+                {
+                    $ListDataKhoa = $this->csvimport->getListID("MaGiaoDan",$data[$data["KhoaNgoai"]]);
+                    if($ListDataKhoa!=null)
+                    $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
+                }
+                $chuyenXuServer=$this->findChuyenXu($data);
+                if($chuyenXuServer!=null)
+                {
+                    if(!empty($data["KhoaChinh"]))
+                    {
+                        $this->csvimport->WriteData("MaChuyenXu",$data["MaChuyenXu"],$chuyenXuServer->MaChuyenXu,$this->dirData);
+                        $data["MaChuyenXu"]=$chuyenXuServer->MaChuyenXu;
+                    }
+                    $compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$chuyenXuServer->UpdateDate);
+                    if($compareDate>=0 )
+                    {
+                        $this->updateObject($data,$chuyenXuServer,$this->ChuyenXuMD);
+                    }
+                    continue;
+                }
+                $idClient=$data["MaChuyenXu"];
+                $idServerNew=$this->ChuyenXuMD->insert($data);
+                $this->csvimport->WriteData("MaChuyenXu",$idClient,$idServerNew,$this->dirData);
+			}
         }
     }
-    public function getListGiaoDanTracks($tracks)
-	{
-		$this->listGDThayDoi=$tracks;
-	}
-    public function delete($data) {
-        $this->ChuyenXuMD->deleteById($data->MaChuyenXu,$data->MaGiaoXuRieng);
+    public function findChuyenXu($data)
+    {
+        if(empty($data["KhoaChinh"]))
+		{
+			$rs=$this->ChuyenXuMD->getByMaChuyenXu($data["MaChuyenXu"]);
+			if ($rs) {
+				return $rs;
+			}
+        }
+        //find MaGiaoDan
+		$rs=$this->ChuyenXuMD->getByMaGiaoDan($data["MaGiaoDan"]);
+		if ($rs) {
+			return $rs;
+		}
+		return null;
     }
 }
