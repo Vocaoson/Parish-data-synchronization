@@ -10,34 +10,41 @@ class GiaoDanCompareCL extends CompareCL {
 
     public function compare()
     {
-        foreach($this->data as $data) {
-            if($data["MaGiaoDan"]!=null)
-            {
-                if(!empty($data["KhoaNgoai"]))
+        if($this->data!=null)
+        {
+            foreach($this->data as $data) {
+                if($data["MaGiaoDan"]!=null)
                 {
-                    $ListDataKhoa = $this->csvimport->getListID("MaGiaoHo",$data[$data["KhoaNgoai"]]);
-                    if($ListDataKhoa!=null)
-                    $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
-                }
-                $giaoDanServer =$this->findGiaoDan($data);
-                if($giaoDanServer!=null)
-                {
-                    //add maGiaoDan file csv
-                    if(!empty($data["KhoaChinh"]))
+                    if(!empty($data["KhoaNgoai"]))
                     {
-                        $this->csvimport->WriteData("MaGiaoDan",$data["MaGiaoDan"],$giaoDanServer->MaGiaoDan,$this->dirData);
-                        $data["MaGiaoDan"]=$giaoDanServer->MaGiaoDan;
+                        $ListDataKhoa = $this->csvimport->getListID("MaGiaoHo",$data[$data["KhoaNgoai"]]);
+                        if($ListDataKhoa!=null)
+                        $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
                     }
-                    $compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoDanServer->UpdateDate);
-                    if($compareDate>=0 )
+                    $giaoDanServer =$this->findGiaoDan($data);
+                    if($giaoDanServer!=null)
                     {
-                        $this->updateObject($data,$giaoDanServer,$this->GiaoDanMD);
+                        //add maGiaoDan file csv
+                        if(!empty($data["KhoaChinh"]))
+                        {
+                            $this->csvimport->WriteData("MaGiaoDan",$data["MaGiaoDan"],$giaoDanServer->MaGiaoDan,$this->dirData,$this->MaGiaoXuRieng);
+                            $data["MaGiaoDan"]=$giaoDanServer->MaGiaoDan;
+                        }
+                        $compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoDanServer->UpdateDate);
+                        if($compareDate>=0 )
+                        {
+                            $this->updateObject($data,$giaoDanServer,$this->GiaoDanMD);
+                        }
+                        continue;
                     }
-                    continue;
+                    if($data["DeleteClient"]==0)
+                    {
+                        $idClient=$data["MaGiaoDan"];
+                        $idServerNew=$this->GiaoDanMD->insert($data);
+                        $this->csvimport->WriteData("MaGiaoDan",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+                    }
+                    
                 }
-                $idClient=$data["MaGiaoDan"];
-                $idServerNew=$this->GiaoDanMD->insert($data);
-                $this->csvimport->WriteData("MaGiaoDan",$idClient,$idServerNew,$this->dirData);
             }
         }
     }

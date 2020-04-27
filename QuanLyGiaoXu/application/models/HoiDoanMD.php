@@ -44,8 +44,16 @@ class HoiDoanMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng',$maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->row();
+	}  
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
+	{
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaDinhDanh !=', $maDinhDanh);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
 	}
-
 
 }
 

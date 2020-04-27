@@ -8,34 +8,40 @@ class ChuyenXuCompareCL extends CompareCL {
     }
     public function Compare() 
     {
-        foreach($this->data as $data) {
-            if($data["MaChuyenXu"]!=null)
-			{
-                if(!empty($data["KhoaNgoai"]))
+        if($this->data!=null)
+        {
+            foreach($this->data as $data) {
+                if($data["MaChuyenXu"]!=null)
                 {
-                    $ListDataKhoa = $this->csvimport->getListID("MaGiaoDan",$data[$data["KhoaNgoai"]]);
-                    if($ListDataKhoa!=null)
-                    $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
-                }
-                $chuyenXuServer=$this->findChuyenXu($data);
-                if($chuyenXuServer!=null)
-                {
-                    if(!empty($data["KhoaChinh"]))
+                    if(!empty($data["KhoaNgoai"]))
                     {
-                        $this->csvimport->WriteData("MaChuyenXu",$data["MaChuyenXu"],$chuyenXuServer->MaChuyenXu,$this->dirData);
-                        $data["MaChuyenXu"]=$chuyenXuServer->MaChuyenXu;
+                        $ListDataKhoa = $this->csvimport->getListID("MaGiaoDan",$data[$data["KhoaNgoai"]]);
+                        if($ListDataKhoa!=null)
+                        $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
                     }
-                    $compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$chuyenXuServer->UpdateDate);
-                    if($compareDate>=0 )
+                    $chuyenXuServer=$this->findChuyenXu($data);
+                    if($chuyenXuServer!=null)
                     {
-                        $this->updateObject($data,$chuyenXuServer,$this->ChuyenXuMD);
+                        if(!empty($data["KhoaChinh"]))
+                        {
+                            $this->csvimport->WriteData("MaChuyenXu",$data["MaChuyenXu"],$chuyenXuServer->MaChuyenXu,$this->dirData,$this->MaGiaoXuRieng);
+                            $data["MaChuyenXu"]=$chuyenXuServer->MaChuyenXu;
+                        }
+                        $compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$chuyenXuServer->UpdateDate);
+                        if($compareDate>=0 )
+                        {
+                            $this->updateObject($data,$chuyenXuServer,$this->ChuyenXuMD);
+                        }
+                        continue;
                     }
-                    continue;
+                    if($data["DeleteClient"]==0)
+                    {
+                        $idClient=$data["MaChuyenXu"];
+                        $idServerNew=$this->ChuyenXuMD->insert($data);
+                        $this->csvimport->WriteData("MaChuyenXu",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+                    }
                 }
-                $idClient=$data["MaChuyenXu"];
-                $idServerNew=$this->ChuyenXuMD->insert($data);
-                $this->csvimport->WriteData("MaChuyenXu",$idClient,$idServerNew,$this->dirData);
-			}
+            }
         }
     }
     public function findChuyenXu($data)

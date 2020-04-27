@@ -8,32 +8,38 @@ class GiaoHoCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaGiaoHo"]!=null)
+		if($this->data!=null)
 			{
-				$giaoHoServer=$this->findGiaoHo($data);
-				if($giaoHoServer!=null)
-				{
-					if(!empty($data["KhoaChinh"]))
+				foreach ($this->data as $data) {
+					if($data["MaGiaoHo"]!=null)
 					{
-						$this->csvimport->WriteData("MaGiaoHo",$data["MaGiaoHo"],$giaoHoServer->MaGiaoHo,$this->dirData);
-						$data["MaGiaoHo"]=$giaoHoServer->MaGiaoHo;
+						$giaoHoServer=$this->findGiaoHo($data);
+						if($giaoHoServer!=null)
+						{
+							if(!empty($data["KhoaChinh"]))
+							{
+								$this->csvimport->WriteData("MaGiaoHo",$data["MaGiaoHo"],$giaoHoServer->MaGiaoHo,$this->dirData,$this->MaGiaoXuRieng);
+								$data["MaGiaoHo"]=$giaoHoServer->MaGiaoHo;
+							}
+							$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoHoServer->UpdateDate);
+							if($compareDate>=0 )
+							{
+								$this->updateObject($data,$giaoHoServer,$this->GiaoHoMD);
+							}
+							continue;
+						}
+						else 
+						{
+							if($data["DeleteClient"]==0)
+							{
+								$idClient=$data["MaGiaoHo"];
+								$idServerNew=$this->GiaoHoMD->insert($data);
+								$this->csvimport->WriteData("MaGiaoHo",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+							}
+						}
 					}
-					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoHoServer->UpdateDate);
-					if($compareDate>=0 )
-					{
-						$this->updateObject($data,$giaoHoServer,$this->GiaoHoMD);
-					}
-					continue;
-				}
-				else 
-				{
-				$idClient=$data["MaGiaoHo"];
-				$idServerNew=$this->GiaoHoMD->insert($data);
-				$this->csvimport->WriteData("MaGiaoHo",$idClient,$idServerNew,$this->dirData);
 				}
 			}
-		}
 		//Chưa làm
 
 		//$this->processMaGiaoHoCha();

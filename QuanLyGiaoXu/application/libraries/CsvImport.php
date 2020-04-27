@@ -9,6 +9,7 @@ class CsvImport
     private $delimiter; 
     private $length; 
     public $ListTable=[
+        "MaCauHinh"    =>"CauHinh",
         "MaChuyenXu"    =>"ChuyenXu",
         "MaDotBiTich"   =>"DotBiTich",
         "MaGiaDinh"     =>"GiaDinh",
@@ -33,11 +34,16 @@ class CsvImport
         $this->enclosure=$enclosure;
     } 
     public function setFileName($file_name){
-        $this->fp = fopen($file_name, "r"); 
-        if ($this->parse_header) 
-        { 
-           $this->header = fgetcsv($this->fp, $this->length, $this->delimiter,$this->enclosure); 
+        if(file_exists($file_name))
+        {
+            $this->fp = fopen($file_name, "r"); 
+            if ($this->parse_header) 
+            { 
+                $this->header = fgetcsv($this->fp, $this->length, $this->delimiter,$this->enclosure); 
+            }
+            return true;
         }
+        return false;
     }
     //-------------------------------------------------------------------- 
     function __destruct() 
@@ -81,22 +87,20 @@ class CsvImport
     }
 
 
-    public function CreateFileAndFolder($dataDir)
+    public function CreateFileAndFolder($dataDir,$maGiaoXuRieng)
     {
         $check=false;
-        if(!is_dir($dataDir . '/dongboID')) {
-            $check= mkdir($dataDir . '/dongboID',0777,TRUE);
+        if(!is_dir($dataDir . '/dongboID/'.$maGiaoXuRieng)) {
+            $check= mkdir($dataDir . '/dongboID/'.$maGiaoXuRieng,0777,TRUE);
             if(!$check)
             return false;
         }
-        if(!is_file($dataDir . '/dongboID/dongbo.csv')) {
-            try {
-                $fopen=fopen($dataDir . '/dongboID/dongbo.csv','w');
-                fwrite($fopen,"`TenBang`;`MaIDMayKhach`;`MaIDMayChu`;`UpdateDate`");
-                fclose($fopen);
-            } catch (Exception $e) {
-                return false;
-            }
+        try {
+            $fopen=fopen($dataDir . '/dongboID/'.$maGiaoXuRieng.'/dongbo.csv','w');
+            fwrite($fopen,"`TenBang`;`MaIDMayKhach`;`MaIDMayChu`;`UpdateDate`");
+            fclose($fopen);
+        } catch (Exception $e) {
+            return false;
         }
         return true;
     }
@@ -104,12 +108,12 @@ class CsvImport
     {
         return $this->ListTable[$id];
     }
-    public function WriteData($id,$IDClient,$IDServer,$dataDir)
+    public function WriteData($id,$IDClient,$IDServer,$dataDir,$maGiaoXuRieng)
     {
         try {
             $timestamp = time()+date("Z");
             $nowUTC= gmdate("Y-m-d H:i:s",$timestamp);
-            $fopen=fopen($dataDir . '/dongboID/dongbo.csv','a');
+            $fopen=fopen($dataDir . '/dongboID/'.$maGiaoXuRieng.'/dongbo.csv','a');
             fwrite($fopen,"\n");
             $tableName=$this->getTableNameByID($id);
             fwrite($fopen,'`'.$tableName.'`;`'.$IDClient.'`;`'.$IDServer.'`;`'.$nowUTC.'`');

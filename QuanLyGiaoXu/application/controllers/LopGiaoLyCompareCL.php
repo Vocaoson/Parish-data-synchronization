@@ -10,36 +10,40 @@ class LopGiaoLyCompareCL extends CompareCL {
 
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaKhoi"]!=null)
-			{
-				if(!empty($data["KhoaNgoai"]))
-            {
-                $ListDataKhoa = $this->csvimport->getListID("MaKhoi",$data[$data["KhoaNgoai"]]);
-                if($ListDataKhoa!=null)
-                $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
-            }
-			$lopGiaoLyServer=$this->findLopGiaoLy($data);
-			if($lopGiaoLyServer!=null)
-            {
-                if(!empty($data["KhoaChinh"]))
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["MaKhoi"]!=null)
 				{
-                    $this->csvimport->WriteData("MaLop",$data["MaLop"],$lopGiaoLyServer->MaLop,$this->dirData);
-                    $data["MaLop"]=$lopGiaoLyServer->MaLop;
-                }
-				$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$lopGiaoLyServer->UpdateDate);
-        		if($compareDate>=0 )
+					if(!empty($data["KhoaNgoai"]))
 				{
-					$this->updateObject($data,$lopGiaoLyServer,$this->LopGiaoLyMD);
+					$ListDataKhoa = $this->csvimport->getListID("MaKhoi",$data[$data["KhoaNgoai"]]);
+					if($ListDataKhoa!=null)
+					$data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
 				}
-				continue;
-            }
-            $idClient=$data["MaLop"];
-			$idServerNew=$this->LopGiaoLyMD->insert($data);
-			$this->csvimport->WriteData("MaLop",$idClient,$idServerNew,$this->dirData);
+				$lopGiaoLyServer=$this->findLopGiaoLy($data);
+				if($lopGiaoLyServer!=null)
+				{
+					if(!empty($data["KhoaChinh"]))
+					{
+						$this->csvimport->WriteData("MaLop",$data["MaLop"],$lopGiaoLyServer->MaLop,$this->dirData,$this->MaGiaoXuRieng);
+						$data["MaLop"]=$lopGiaoLyServer->MaLop;
+					}
+					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$lopGiaoLyServer->UpdateDate);
+					if($compareDate>=0 )
+					{
+						$this->updateObject($data,$lopGiaoLyServer,$this->LopGiaoLyMD);
+					}
+					continue;
+				}
+				if($data["DeleteClient"]==0)
+						{
+				$idClient=$data["MaLop"];
+				$idServerNew=$this->LopGiaoLyMD->insert($data);
+				$this->csvimport->WriteData("MaLop",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+				}}
 			}
 		}
-		
 	}
 	public function findLopGiaoLy($data)
 	{

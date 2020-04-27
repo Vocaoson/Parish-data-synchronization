@@ -41,21 +41,18 @@ class ThanhVienGiaDinhMD extends CI_Model {
 		$this->db->where('MaGiaDinh', $objectSV->MaGiaDinh);
 		$this->db->where('MaGiaoDan', $objectSV->MaGiaoDan);
 		$this->db->update($this->table);
-	}
-
-
-/*
-
-	public function getAllActive($maGiaoXu)
+	}  
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
 	{
-
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
-
 	}
+/*
+
 	public function deleteTwoKey($MaGiaDinh,$MaGiaoDan,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);

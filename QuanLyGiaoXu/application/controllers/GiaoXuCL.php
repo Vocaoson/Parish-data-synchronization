@@ -17,6 +17,24 @@ class GiaoXuCL extends CI_Controller {
 		$this->load->helper('string');
 	//Do your magic here
 	}
+	///
+	public function checkPermission($maGiaoXuRieng)
+	{
+		$GX=$this->GiaoXuMD->getGiaoXuByMaGiaoXuRieng($maGiaoXuRieng);
+		if($GX!=null)
+		{
+			if($GX->lockSync!=1)
+			{
+				$this->GiaoXuMD->setLockSync($maGiaoXuRieng,1);
+				echo 1;
+				return;
+			}
+			echo 0;
+			return;
+		}
+		echo -1;
+	}
+	///
 	private $numrow;
 	public function checkStatus($idgx=-1)
 	{
@@ -509,7 +527,7 @@ class GiaoXuCL extends CI_Controller {
 		$rs=$this->GiaoXuMD->getPhanTrang($numPage,$offset);
 		$this->configPagi($numPage,$totalRow,base_url().'GiaoXuCL/index',0);
 		$data["pagi"]=$this->pagination->create_links();
-		if (count($rs)>0) {
+		if (count($rs)>=0) {
 			if ($option==0) {
 				$data["data"]=$rs;
 				$data["subview"]="GiaoXu/index";

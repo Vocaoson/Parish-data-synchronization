@@ -9,33 +9,37 @@ class RaoHonPhoiCompareCL extends CompareCL {
     }
     public function Compare() 
     {
-        foreach($this->data as $data) {
-            if($data["MaRaoHonPhoi"]!=null)
-			{
-				if(!empty($data["KhoaNgoai"]))
+		if($this->data!=null)
+		{
+			foreach($this->data as $data) {
+				if($data["MaRaoHonPhoi"]!=null)
 				{
-					$data=$this->changeID($data,true);
-				}
-				$raoHonPhoiServer=$this->findRaoHonPhoi($data);
-				if($raoHonPhoiServer!=null)
-				{
-					if(!empty($data["KhoaChinh"]))
+					if(!empty($data["KhoaNgoai"]))
 					{
-						$this->csvimport->WriteData("MaRaoHonPhoi",$data["MaRaoHonPhoi"],$raoHonPhoiServer->MaRaoHonPhoi,$this->dirData);
-						$data["ID"]=$raoHonPhoiServer->MaRaoHonPhoi;
+						$data=$this->changeID($data,true);
 					}
-					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$raoHonPhoiServer->UpdateDate);
-					if($compareDate>=0 )
+					$raoHonPhoiServer=$this->findRaoHonPhoi($data);
+					if($raoHonPhoiServer!=null)
 					{
-						$this->updateObject($data,$raoHonPhoiServer,$this->RaoHonPhoiMD);
-					}
-					continue;
-				}
-				$idClient=$data["MaRaoHonPhoi"];
-				$idServerNew=$this->RaoHonPhoiMD->insert($data);
-				$this->csvimport->WriteData("MaRaoHonPhoi",$idClient,$idServerNew,$this->dirData);
+						if(!empty($data["KhoaChinh"]))
+						{
+							$this->csvimport->WriteData("MaRaoHonPhoi",$data["MaRaoHonPhoi"],$raoHonPhoiServer->MaRaoHonPhoi,$this->dirData,$this->MaGiaoXuRieng);
+							$data["MaRaoHonPhoi"]=$raoHonPhoiServer->MaRaoHonPhoi;
+						}
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$raoHonPhoiServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$raoHonPhoiServer,$this->RaoHonPhoiMD);
+						}
+						continue;
+					}if($data["DeleteClient"]==0)
+					{
+					$idClient=$data["MaRaoHonPhoi"];
+					$idServerNew=$this->RaoHonPhoiMD->insert($data);
+					$this->csvimport->WriteData("MaRaoHonPhoi",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+				}}
 			}
-        }
+		}
     }
     public function findRaoHonPhoi($data){
         if(empty($data["KhoaChinh"]))

@@ -9,31 +9,37 @@ class ChiTietHoiDoanCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["ID"]!=null)
-			{
-				if(!empty($data["KhoaNgoai"]))
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["ID"]!=null)
 				{
-					$data=$this->changeID($data,true);
-				}
-				$chiTietHoiDoanServer=$this->findChiTietHoiDoan($data);
-				if($chiTietHoiDoanServer!=null)
-				{
-					if(!empty($data["KhoaChinh"]))
+					if(!empty($data["KhoaNgoai"]))
 					{
-						$this->csvimport->WriteData("ID",$data["ID"],$chiTietHoiDoanServer->ID,$this->dirData);
-						$data["ID"]=$chiTietHoiDoanServer->ID;
+						$data=$this->changeID($data,true);
 					}
-					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$chiTietHoiDoanServer->UpdateDate);
-					if($compareDate>=0 )
+					$chiTietHoiDoanServer=$this->findChiTietHoiDoan($data);
+					if($chiTietHoiDoanServer!=null)
 					{
-						$this->updateObject($data,$chiTietHoiDoanServer,$this->ChiTietHoiDoanMD);
+						if(!empty($data["KhoaChinh"]))
+						{
+							$this->csvimport->WriteData("ID",$data["ID"],$chiTietHoiDoanServer->ID,$this->dirData,$this->MaGiaoXuRieng);
+							$data["ID"]=$chiTietHoiDoanServer->ID;
+						}
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$chiTietHoiDoanServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$chiTietHoiDoanServer,$this->ChiTietHoiDoanMD);
+						}
+						continue;
 					}
-					continue;
+					if($data["DeleteClient"]==0)
+						{
+							$idClient=$data["ID"];
+							$idServerNew=$this->ChiTietHoiDoanMD->insert($data);
+							$this->csvimport->WriteData("ID",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+						}
 				}
-				$idClient=$data["ID"];
-				$idServerNew=$this->ChiTietHoiDoanMD->insert($data);
-				$this->csvimport->WriteData("ID",$idClient,$idServerNew,$this->dirData);
 			}
 		}
 	}

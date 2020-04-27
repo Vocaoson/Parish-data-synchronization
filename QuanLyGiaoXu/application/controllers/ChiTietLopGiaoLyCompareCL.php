@@ -9,26 +9,32 @@ class ChiTietLopGiaoLyCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach($this->data as $data)
+		if($this->data!=null)
 		{
-			//xử lý khóa chính
-			if(!empty($data["KhoaChinh"]))
+			foreach($this->data as $data)
 			{
-				$data=$this->changeID($data);
-			}
-			if($data !== null)
-			{
-				$chiTietLopGiaoLyServer=$this->findChiTietLopGiaoLy($data);
-				if($chiTietLopGiaoLyServer!=null)
+				//xử lý khóa chính
+				if(!empty($data["KhoaChinh"]))
 				{
-					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$chiTietLopGiaoLyServer->UpdateDate);
-					if($compareDate>=0 )
-					{
-						$this->updateObject($data,$chiTietLopGiaoLyServer,$this->ChiTietLopGiaoLyMD);
-					}
-					continue;
+					$data=$this->changeID($data);
 				}
-				$this->ChiTietLopGiaoLyMD->insert($data);
+				if($data !== null)
+				{
+					$chiTietLopGiaoLyServer=$this->findChiTietLopGiaoLy($data);
+					if($chiTietLopGiaoLyServer!=null)
+					{
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$chiTietLopGiaoLyServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$chiTietLopGiaoLyServer,$this->ChiTietLopGiaoLyMD);
+						}
+						continue;
+					}
+					if($data["DeleteClient"]==0)
+						{
+							$this->ChiTietLopGiaoLyMD->insert($data);
+						}
+				}
 			}
 		}
 	}

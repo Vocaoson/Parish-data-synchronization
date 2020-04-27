@@ -9,29 +9,35 @@ class HonPhoiCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaHonPhoi"]!=null)
-			{
-				$honPhoiServer=$this->findHonPhoi($data);
-				if($honPhoiServer!=null)
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["MaHonPhoi"]!=null)
 				{
-					if(!empty($data["KhoaChinh"]))
+					$honPhoiServer=$this->findHonPhoi($data);
+					if($honPhoiServer!=null)
 					{
-						$this->csvimport->WriteData("MaHonPhoi",$data["MaHonPhoi"],$honPhoiServer->MaHonPhoi,$this->dirData);
-						$data["MaHonPhoi"]=$honPhoiServer->MaHonPhoi;
+						if(!empty($data["KhoaChinh"]))
+						{
+							$this->csvimport->WriteData("MaHonPhoi",$data["MaHonPhoi"],$honPhoiServer->MaHonPhoi,$this->dirData,$this->MaGiaoXuRieng);
+							$data["MaHonPhoi"]=$honPhoiServer->MaHonPhoi;
+						}
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$honPhoiServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$honPhoiServer,$this->HonPhoiMD);
+						}
+						continue;
 					}
-					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$honPhoiServer->UpdateDate);
-					if($compareDate>=0 )
+					else 
 					{
-						$this->updateObject($data,$honPhoiServer,$this->HonPhoiMD);
+						if($data["DeleteClient"]==0)
+						{
+					$idClient=$data["MaHonPhoi"];
+					$idServerNew=$this->HonPhoiMD->insert($data);
+					$this->csvimport->WriteData("MaHonPhoi",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
 					}
-					continue;
 				}
-				else 
-				{
-				$idClient=$data["MaHonPhoi"];
-				$idServerNew=$this->HonPhoiMD->insert($data);
-				$this->csvimport->WriteData("MaHonPhoi",$idClient,$idServerNew,$this->dirData);
 				}
 			}
 		}

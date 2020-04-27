@@ -9,27 +9,33 @@ class BiTichChiTietCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaDotBiTich"]!=null)
-			{
-				//xử lý khóa chính
-				if(!empty($data["KhoaChinh"]))
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["MaDotBiTich"]!=null)
 				{
-					$data=$this->changeID($data);
-				}
-				if($data !== null)
-				{
-					$biTichChiTietServer=$this->findBiTichChiTiet($data);
-					if($biTichChiTietServer!=null)
+					//xử lý khóa chính
+					if(!empty($data["KhoaChinh"]))
 					{
-						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$biTichChiTietServer->UpdateDate);
-						if($compareDate>=0 )
-						{
-							$this->updateObject($data,$biTichChiTietServer,$this->BiTichChiTietMD);
-						}
-						continue;
+						$data=$this->changeID($data);
 					}
-					$this->BiTichChiTietMD->insert($data);
+					if($data !== null)
+					{
+						$biTichChiTietServer=$this->findBiTichChiTiet($data);
+						if($biTichChiTietServer!=null)
+						{
+							$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$biTichChiTietServer->UpdateDate);
+							if($compareDate>=0 )
+							{
+								$this->updateObject($data,$biTichChiTietServer,$this->BiTichChiTietMD);
+							}
+							continue;
+						}
+						if($data["DeleteClient"]==0)
+						{
+							$this->BiTichChiTietMD->insert($data);
+						}
+					}
 				}
 			}
 		}

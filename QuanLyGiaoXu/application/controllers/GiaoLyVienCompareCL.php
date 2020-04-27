@@ -9,7 +9,9 @@ class GiaoLyVienCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach($this->data as $data)
+		if($this->data!=null)
+		{
+			foreach($this->data as $data)
 		{
 			//xử lý khóa chính
 			if(!empty($data["KhoaChinh"]))
@@ -28,8 +30,12 @@ class GiaoLyVienCompareCL extends CompareCL {
 					}
 					continue;
 				}
+				if($data["DeleteClient"]==0)
+					{
 				$this->GiaoLyVienMD->insert($data);
+					}
 			}
+		}
 		}
 	}
 

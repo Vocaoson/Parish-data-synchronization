@@ -38,7 +38,7 @@ class HonPhoiMD extends CI_Model {
 	{
 		$this->db->where('MaHonPhoi', $maHonPhoi);
 		$query=$this->db->get($this->table);
-		return $query->result()->row();
+		return $query->row();
 	}
 	public function getByMaNhanDang($maNhanDang,$maGiaoXuRieng)
 	{
@@ -53,20 +53,20 @@ class HonPhoiMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$query=$this->db->get($this->table);
 		return $query->row();
-	}
-
-
-
-	//Tạm thời xóa
-	/*
-	public function getAllActive($maGiaoXu)
+	}  
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
 	{
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
 	}
+
+
+	//Tạm thời xóa
+	/*
 	public function getAll($maGiaoXuRieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);

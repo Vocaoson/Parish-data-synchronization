@@ -9,33 +9,37 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaKhoi"]!=null)
-			{
-				if(!empty($data["KhoaNgoai"]))
-            {
-                $ListDataKhoa = $this->csvimport->getListID("MaGiaoDan",$data[$data["KhoaNgoai"]]);
-                if($ListDataKhoa!=null)
-                $data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
-            }
-			$khoiGiaoLyServer=$this->findKhoiGiaoLy($data);
-			if($khoiGiaoLyServer!=null)
-            {
-                if(!empty($data["KhoaChinh"]))
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["MaKhoi"]!=null)
 				{
-                    $this->csvimport->WriteData("MaGiaDinh",$data["MaGiaDinh"],$khoiGiaoLyServer->MaKhoi,$this->dirData);
-                    $data["MaGiaDinh"]=$khoiGiaoLyServer->MaKhoi;
-                }
-				$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$khoiGiaoLyServer->UpdateDate);
-        		if($compareDate>=0 )
+					if(!empty($data["KhoaNgoai"]))
 				{
-					$this->updateObject($data,$khoiGiaoLyServer,$this->KhoiGiaoLyMD);
+					$ListDataKhoa = $this->csvimport->getListID("MaGiaoDan",$data[$data["KhoaNgoai"]]);
+					if($ListDataKhoa!=null)
+					$data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
 				}
-				continue;
-            }
-            $idClient=$data["MaKhoi"];
-			$idServerNew=$this->KhoiGiaoLyMD->insert($data);
-			$this->csvimport->WriteData("MaKhoi",$idClient,$idServerNew,$this->dirData);
+				$khoiGiaoLyServer=$this->findKhoiGiaoLy($data);
+				if($khoiGiaoLyServer!=null)
+				{
+					if(!empty($data["KhoaChinh"]))
+					{
+						$this->csvimport->WriteData("MaGiaDinh",$data["MaGiaDinh"],$khoiGiaoLyServer->MaKhoi,$this->dirData,$this->MaGiaoXuRieng);
+						$data["MaGiaDinh"]=$khoiGiaoLyServer->MaKhoi;
+					}
+					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$khoiGiaoLyServer->UpdateDate);
+					if($compareDate>=0 )
+					{
+						$this->updateObject($data,$khoiGiaoLyServer,$this->KhoiGiaoLyMD);
+					}
+					continue;
+				}if($data["DeleteClient"]==0)
+				{
+				$idClient=$data["MaKhoi"];
+				$idServerNew=$this->KhoiGiaoLyMD->insert($data);
+				$this->csvimport->WriteData("MaKhoi",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+				}}
 			}
 		}
 	}

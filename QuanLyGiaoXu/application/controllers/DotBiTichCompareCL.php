@@ -9,29 +9,35 @@ class DotBiTichCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaDotBiTich"]!=null)
-			{
-				$dotBiTichServer=$this->findDotBiTich($data);
-				if($dotBiTichServer!=null)
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["MaDotBiTich"]!=null)
 				{
-					if(!empty($data["KhoaChinh"]))
+					$dotBiTichServer=$this->findDotBiTich($data);
+					if($dotBiTichServer!=null)
 					{
-						$this->csvimport->WriteData("MaDotBiTich",$data["MaDotBiTich"],$dotBiTichServer->MaDotBiTich,$this->dirData);
-						$data["MaDotBiTich"]=$dotBiTichServer->MaDotBiTich;
+						if(!empty($data["KhoaChinh"]))
+						{
+							$this->csvimport->WriteData("MaDotBiTich",$data["MaDotBiTich"],$dotBiTichServer->MaDotBiTich,$this->dirData,$this->MaGiaoXuRieng);
+							$data["MaDotBiTich"]=$dotBiTichServer->MaDotBiTich;
+						}
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$dotBiTichServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$dotBiTichServer,$this->DotBiTichMD);
+						}
+						continue;
 					}
-					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$dotBiTichServer->UpdateDate);
-					if($compareDate>=0 )
+					else 
 					{
-						$this->updateObject($data,$dotBiTichServer,$this->DotBiTichMD);
+						if($data["DeleteClient"]==0)
+						{
+							$idClient=$data["MaDotBiTich"];
+							$idServerNew=$this->DotBiTichMD->insert($data);
+							$this->csvimport->WriteData("MaDotBiTich",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+						}
 					}
-					continue;
-				}
-				else 
-				{
-				$idClient=$data["MaDotBiTich"];
-				$idServerNew=$this->DotBiTichMD->insert($data);
-				$this->csvimport->WriteData("MaDotBiTich",$idClient,$idServerNew,$this->dirData);
 				}
 			}
 		}

@@ -7,19 +7,31 @@ class GiaoXuMD extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-	//Do your magic here
 		$this->table="giaoxu";
 	}
+	//////
+	public function getGiaoXuByMaGiaoXuRieng($maGiaoXuRieng)
+	{
+		$this->db->where("MaGiaoXuRieng",$maGiaoXuRieng);
+		return $this->db->get($this->table)->row();
+	}
+	public function setLockSync($maGiaoXuRieng,$lock=0)
+	{
+		$this->db->set("lockSync",$lock);
+		$this->db->where("MaGiaoXuRieng",$maGiaoXuRieng);
+		$this->db->update($this->table);
+	}
+	//////////
+
+
 	public function getAllActive($maGiaoXu)
 	{
-
 		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
 		$this->db->where('DeleteSV', 0);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
-
 	}
 	public function checkStatus($maGiaoXuRieng)
 	{

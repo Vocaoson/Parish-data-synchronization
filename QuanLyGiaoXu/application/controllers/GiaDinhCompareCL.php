@@ -10,33 +10,39 @@ class GiaDinhCompareCL extends CompareCL {
 	
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaGiaDinh"]!=null)
-			{
-				if(!empty($data["KhoaNgoai"]))
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["MaGiaDinh"]!=null)
 				{
-					$ListDataKhoa = $this->csvimport->getListID("MaGiaoHo",$data[$data["KhoaNgoai"]]);
-					if($ListDataKhoa!=null)
-					$data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
-				}
-				$giaDinhServer=$this->findGiaDinh($data);
-				if($giaDinhServer!=null)
-				{
-					if(!empty($data["KhoaChinh"]))
+					if(!empty($data["KhoaNgoai"]))
 					{
-						$this->csvimport->WriteData("MaGiaDinh",$data["MaGiaDinh"],$giaDinhServer->MaGiaDinh,$this->dirData);
-						$data["MaGiaDinh"]=$giaDinhServer->MaGiaDinh;
+						$ListDataKhoa = $this->csvimport->getListID("MaGiaoHo",$data[$data["KhoaNgoai"]]);
+						if($ListDataKhoa!=null)
+						$data[$data["KhoaNgoai"]]=$ListDataKhoa["MaIDMayChu"];
 					}
-					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaDinhServer->UpdateDate);
-					if($compareDate>=0 )
+					$giaDinhServer=$this->findGiaDinh($data);
+					if($giaDinhServer!=null)
 					{
-						$this->updateObject($data,$giaDinhServer,$this->GiaDinhMD);
+						if(!empty($data["KhoaChinh"]))
+						{
+							$this->csvimport->WriteData("MaGiaDinh",$data["MaGiaDinh"],$giaDinhServer->MaGiaDinh,$this->dirData,$this->MaGiaoXuRieng);
+							$data["MaGiaDinh"]=$giaDinhServer->MaGiaDinh;
+						}
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaDinhServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$giaDinhServer,$this->GiaDinhMD);
+						}
+						continue;
 					}
-					continue;
+					if($data["DeleteClient"]==0)
+						{
+							$idClient=$data["MaGiaDinh"];
+							$idServerNew=$this->GiaDinhMD->insert($data);
+							$this->csvimport->WriteData("MaGiaDinh",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+						}
 				}
-				$idClient=$data["MaGiaDinh"];
-				$idServerNew=$this->GiaDinhMD->insert($data);
-				$this->csvimport->WriteData("MaGiaDinh",$idClient,$idServerNew,$this->dirData);
 			}
 		}
 	}
@@ -44,7 +50,7 @@ class GiaDinhCompareCL extends CompareCL {
 	{
 		if(empty($data["KhoaChinh"]))
 		{
-			$rs=$this->GiaoDinhMD->getByMaGiaDinh($data["MaGiaDinh"]);
+			$rs=$this->GiaDinhMD->getByMaGiaDinh($data["MaGiaDinh"]);
 			if ($rs) {
 				return $rs;
 			}

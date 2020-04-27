@@ -9,27 +9,33 @@ class ThanhVienGiaDinhCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaGiaDinh"]!=null)
-			{
-				//xử lý khóa chính
-				if(!empty($data["KhoaChinh"]))
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["MaGiaDinh"]!=null)
 				{
-					$data=$this->changeID($data);
-				}
-				if($data !== null)
-				{
-					$thanhVienGiaDinhServer=$this->findThanhVienGiaDinh($data);
-					if($thanhVienGiaDinhServer!=null)
+					//xử lý khóa chính
+					if(!empty($data["KhoaChinh"]))
 					{
-						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$thanhVienGiaDinhServer->UpdateDate);
-						if($compareDate>=0 )
-						{
-							$this->updateObject($data,$thanhVienGiaDinhServer,$this->ThanhVienGiaDinhMD);
-						}
-						continue;
+						$data=$this->changeID($data);
 					}
-					$this->ThanhVienGiaDinhMD->insert($data);
+					if($data !== null)
+					{
+						$thanhVienGiaDinhServer=$this->findThanhVienGiaDinh($data);
+						if($thanhVienGiaDinhServer!=null)
+						{
+							$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$thanhVienGiaDinhServer->UpdateDate);
+							if($compareDate>=0 )
+							{
+								$this->updateObject($data,$thanhVienGiaDinhServer,$this->ThanhVienGiaDinhMD);
+							}
+							continue;
+						}
+						if($data["DeleteClient"]==0)
+						{
+						$this->ThanhVienGiaDinhMD->insert($data);
+						}
+					}
 				}
 			}
 		}

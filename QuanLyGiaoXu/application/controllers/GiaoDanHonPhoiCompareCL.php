@@ -9,28 +9,34 @@ class GiaoDanHonPhoiCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) 
+		if($this->data!=null)
 		{
-			if($data["MaHonPhoi"]!=null)
+			foreach ($this->data as $data) 
 			{
-				//xử lý khóa chính
-				if(!empty($data["KhoaChinh"]))
+				if($data["MaHonPhoi"]!=null)
 				{
-					$data=$this->changeID($data);
-				}
-				if($data !== null)
-				{
-					$giaoDanHonPhoiServer=$this->findGiaoDanHonPhoi($data);
-					if($giaoDanHonPhoiServer!=null)
+					//xử lý khóa chính
+					if(!empty($data["KhoaChinh"]))
 					{
-						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoDanHonPhoiServer->UpdateDate);
-						if($compareDate>=0 )
-						{
-							$this->updateObject($data,$giaoDanHonPhoiServer,$this->GiaoDanHonPhoiMD);
-						}
-						continue;
+						$data=$this->changeID($data);
 					}
-					$this->GiaoDanHonPhoiMD->insert($data);
+					if($data !== null)
+					{
+						$giaoDanHonPhoiServer=$this->findGiaoDanHonPhoi($data);
+						if($giaoDanHonPhoiServer!=null)
+						{
+							$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$giaoDanHonPhoiServer->UpdateDate);
+							if($compareDate>=0 )
+							{
+								$this->updateObject($data,$giaoDanHonPhoiServer,$this->GiaoDanHonPhoiMD);
+							}
+							continue;
+						}
+						if($data["DeleteClient"]==0)
+						{
+						$this->GiaoDanHonPhoiMD->insert($data);
+						}
+					}
 				}
 			}
 		}

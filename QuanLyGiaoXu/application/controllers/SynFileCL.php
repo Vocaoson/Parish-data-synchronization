@@ -7,15 +7,16 @@ class SynFileCL extends CI_Controller
     public function __construct(){
         parent::__construct();
         $this->load->model('SynFileMD');
+        $this->load->model('GiaoXuMD');
         $this->dataDir = $this->config->item("data_dir");
         if(!is_dir($this->dataDir . '/temp_syn')) {
-           $check= mkdir($this->dataDir . '/temp_syn',0777,TRUE);
+            $check= mkdir($this->dataDir . '/temp_syn',0777,TRUE);
         }
         if(!is_dir($this->dataDir . '/syn')) {
-           $check= mkdir($this->dataDir . '/syn',0777,TRUE);
+            $check= mkdir($this->dataDir . '/syn',0777,TRUE);
         }
     }
-    public function getFileSyn($maGiaoXuSyn){
+    public function getFileSyn($maGiaoXuRieng){
         if(isset($_FILES) && count($_FILES) > 0){
             $zip = new ZipArchive();
             $dirTemp = $this->dataDir . '/temp_syn/';
@@ -27,10 +28,10 @@ class SynFileCL extends CI_Controller
             $res = $zip->open($file);
             if($res === true)
             {
-                $synId = $this->insert($maGiaoXuSyn);
+                $synId = $this->insert($maGiaoXuRieng);
                 if($synId) 
                 {
-                    $path = $this->getStorePath($maGiaoXuSyn,$synId);
+                    $path = $this->getStorePath($maGiaoXuRieng,$synId);
                     if(is_dir($path))
                     {
                         $zip->extractTo($path);

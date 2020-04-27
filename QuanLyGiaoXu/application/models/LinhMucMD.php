@@ -9,51 +9,63 @@ class LinhMucMD extends CI_Model {
 		parent::__construct();
 		$this->table="LinhMuc";
 	}
-
-	//Tạm xóa
-	/*
-	public function getAllActive($maGiaoXu)
+	public function insert($data)
 	{
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		unset($data['MaLinhMuc']);
+		unset($data['KhoaChinh']);
+		unset($data['DeleteClient']);
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
+	public function update($data)
+	{
+		$maLinhMuc=$data['MaLinhMuc'];
+		unset($data['MaLinhMuc']);
+		unset($data['KhoaChinh']);
+		unset($data['DeleteClient']);
+		$data['DeleteSV']=0;
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
+		$this->db->where('MaLinhMuc', $maLinhMuc);
+		$this->db->update($this->table, $data);
+	}
+	public function delete($objectSV)
+	{
+		$this->db->set('DeleteSV',1);
+		$this->db->where('MaLinhMuc', $objectSV->MaLinhMuc);
+		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->update($this->table);
+	}
+	public function getByInfo($dieuKien,$MaGiaoXuRieng)
+	{
+		$this->db->select('*');
+		$this->db->where($dieuKien);
+		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	}  
+	public function getByMaLinhMuc($maLinhMuc)
+	{
+		$this->db->select('*');
+		$this->db->where('MaLinhMuc', $maLinhMuc);
+		$query=$this->db->get($this->table);
+		return $query->row();
+	} 
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
+	{
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
+	}   
 
-	}
-	public function deleteById($maLinhMuc,$magiaoxurieng)
-	{
-		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);
-		$this->db->where('MaLinhMuc', $maLinhMuc);
-		$this->db->set('DeleteSV',1);
-		$this->db->update($this->table);
-	}
-	public function insert($linhMucArray)
-	{
-		unset($linhMucArray['MaLinhMuc']);
-		unset($linhMucArray['UpdateDate']);
-		$this->db->insert($this->table, $linhMucArray);
-		return $this->db->insert_id();
-	}
-	public function update($linhMucArray,$id)
-	{
-		unset($linhMucArray['MaLinhMuc']);
-		return $this->db->update($this->table, $linhMucArray,"MaLinhMuc='$id'");
-	}
+	//Tạm xóa
+	/*
 	public function getAll($MaGiaoXuRieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $MaGiaoXuRieng);
 		$this->db->where('DeleteSV', 0);
-		$query=$this->db->get($this->table);
-		return $query->result();
-	}
-	public function getByInfo($tenThanh,$hoTen,$chucVu,$maGiaoXuRieng) 
-	{
-		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
-		$this->db->where('DeleteSV', 0);
-		$this->db->where('TenThanh', $tenThanh);
-		$this->db->where('HoTen', $hoTen);
-		$this->db->where('ChucVu', $chucVu);
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}

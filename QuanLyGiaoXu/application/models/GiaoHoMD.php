@@ -55,6 +55,15 @@ class GiaoHoMD extends CI_Model {
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);	
 		$query=$this->db->get($this->table);
 		return $query->row();
+	}  
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
+	{
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaDinhDanh !=', $maDinhDanh);
+		$query=$this->db->get($this->table);
+		$data['field']=$this->db->list_fields($this->table);
+		$data['data']= $query->result();
+		return $data;
 	}
 
 	//
@@ -65,14 +74,6 @@ class GiaoHoMD extends CI_Model {
 		$this->db->where('MaGiaoHo', $data["MaGiaoHo"]);
 		$this->db->where('MaGiaoXuRieng', $data["MaGiaoXuRieng"]);
 		$this->db->update($this->table);
-	}
-	public function getAllActive($maGiaoXu)
-	{
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
-		$query=$this->db->get($this->table);
-		$data['field']=$this->db->list_fields($this->table);
-		$data['data']= $query->result();
-		return $data;
 	}
 	
 	public function getAllListIDGiaoHo($maGiaoXu)

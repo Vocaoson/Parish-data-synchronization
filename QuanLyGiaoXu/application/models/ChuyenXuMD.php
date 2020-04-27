@@ -46,18 +46,18 @@ class ChuyenXuMD extends CI_Model {
 		unset($data['DeleteClient']);;
 		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();
-	}
-
-	//Tạm xóa
-	/*
-	public function getAllActive($maGiaoXu)
+	}  
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
 	{
-		$this->db->where('MaGiaoXuRieng', $maGiaoXu);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);
 		$data['field']=$this->db->list_fields($this->table);
 		$data['data']= $query->result();
 		return $data;
 	}
+	//Tạm xóa
+	/*
 	public function deleteById($maChuyenXu,$magiaoxurieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $magiaoxurieng);

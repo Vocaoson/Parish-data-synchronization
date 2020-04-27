@@ -26,10 +26,12 @@ abstract class CompareCL extends CI_Controller {
         return $temp[count($temp)-2];
     }
     public function getData() {
-        $this->csvimport->setFileName($this->dir . '/' . $this->file);
-        $data = $this->csvimport->get();
-        $data = $this->toBool($data);
-        return $data;
+        if($this->csvimport->setFileName($this->dir . '/' . $this->file))
+        {
+            $data = $this->csvimport->get();
+            $data = $this->toBool($data);
+            return $data;
+        }
     }
     public function toBool($data){
         $datas = $data;
@@ -98,18 +100,30 @@ abstract class CompareCL extends CI_Controller {
 		{
 			$khoa=explode("+",$data[$key]);
 			//find Khoa 1
-			$temp1=$this->csvimport->getListID($khoa[0],$data[$khoa[0]]);
+            $temp1=$this->csvimport->getListID($khoa[0],$data[$khoa[0]]);
+            if($temp1==null)
+            {
+                return null;
+            }
 			$data[$khoa[0]]=$temp1["MaIDMayChu"];
 			//find Khoa 2
-			$temp2=$this->csvimport->getListID($khoa[1],$data[$khoa[1]]);
+            $temp2=$this->csvimport->getListID($khoa[1],$data[$khoa[1]]);
+            if($temp2==null)
+            {
+                return null;
+            }
 			$data[$khoa[1]]=$temp2["MaIDMayChu"];
-			$data[$key]="";
+            $data[$key]="";
 			return $data;
 		}
 		else
 		{
 			//find Khoa 
-			$temp=$this->csvimport->getListID($data[$key],$data[$data[$key]]);
+            $temp=$this->csvimport->getListID($data[$key],$data[$data[$key]]);
+            if($temp==null)
+            {
+                return null;
+            }
 			$data[$data[$key]]=$temp["MaIDMayChu"];
 			$data[$key]="";
 			return $data;

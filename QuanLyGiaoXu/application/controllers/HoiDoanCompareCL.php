@@ -9,29 +9,35 @@ class HoiDoanCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
-		foreach ($this->data as $data) {
-			if($data["MaHoiDoan"]!=null)
-			{
-				$hoiDoanServer=$this->findHoiDoan($data);
-				if($hoiDoanServer!=null)
+		if($this->data!=null)
+		{
+			foreach ($this->data as $data) {
+				if($data["MaHoiDoan"]!=null)
 				{
-					if(!empty($data["KhoaChinh"]))
+					$hoiDoanServer=$this->findHoiDoan($data);
+					if($hoiDoanServer!=null)
 					{
-						$this->csvimport->WriteData("MaHoiDoan",$data["MaHoiDoan"],$hoiDoanServer->MaHoiDoan,$this->dirData);
-						$data["MaHoiDoan"]=$hoiDoanServer->MaHoiDoan;
+						if(!empty($data["KhoaChinh"]))
+						{
+							$this->csvimport->WriteData("MaHoiDoan",$data["MaHoiDoan"],$hoiDoanServer->MaHoiDoan,$this->dirData,$this->MaGiaoXuRieng);
+							$data["MaHoiDoan"]=$hoiDoanServer->MaHoiDoan;
+						}
+						$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$hoiDoanServer->UpdateDate);
+						if($compareDate>=0 )
+						{
+							$this->updateObject($data,$hoiDoanServer,$this->HoiDoanMD);
+						}
+						continue;
 					}
-					$compareDate=$this->CompareTwoDateTime($data['UpdateDate'],$hoiDoanServer->UpdateDate);
-					if($compareDate>=0 )
+					else 
 					{
-						$this->updateObject($data,$hoiDoanServer,$this->HoiDoanMD);
+						if($data["DeleteClient"]==0)
+						{
+					$idClient=$data["MaHoiDoan"];
+					$idServerNew=$this->HoiDoanMD->insert($data);
+					$this->csvimport->WriteData("MaHoiDoan",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
 					}
-					continue;
 				}
-				else 
-				{
-				$idClient=$data["MaHoiDoan"];
-				$idServerNew=$this->HoiDoanMD->insert($data);
-				$this->csvimport->WriteData("MaHoiDoan",$idClient,$idServerNew,$this->dirData);
 				}
 			}
 		}

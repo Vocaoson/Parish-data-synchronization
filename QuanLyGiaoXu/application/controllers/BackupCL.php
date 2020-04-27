@@ -57,6 +57,10 @@ class BackupCL extends CI_Controller {
 			return;
 		}
 	}
+	public function alo()
+	{
+		echo "Doadnadnasd";
+	}
 	public function getAllFileByMaGiaoXuRieng($maGiaoXuRieng=-1)
 	{
 		if ($maGiaoXuRieng!=-1) {
