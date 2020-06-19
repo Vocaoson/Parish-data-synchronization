@@ -9,11 +9,13 @@ class DotBiTichMD extends CI_Model {
 		parent::__construct();
 		$this->table="dotbitich";
 	}
-	public function delete($objectSV)
+	public function delete($data)
 	{
 		$this->db->set('DeleteSV',1);
-		$this->db->where('MaDotBiTich', $objectSV->MaDotBiTich);
-		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->set('MaDinhDanh',$data['MaDinhDanh']);
+		$this->db->set('UpdateDate',$data['UpdateDate']);
+		$this->db->where('MaDotBiTich', $data['MaDotBiTich']);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$this->db->update($this->table);
 	}
 	public function update($data)
@@ -45,8 +47,9 @@ class DotBiTichMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}  
-	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien)
 	{
+		$this->db->where($dieukien);
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);

@@ -73,20 +73,20 @@ abstract class CompareCL extends CI_Controller {
     }
     public function updateObject($objectClient,$objectSV,$Model)
     {
-        //TH1 Client 0 , update return true
+        //TH1 Client 0 , update return
         if ($objectClient['DeleteClient']=='0') {
           //  $objectClient=$this->processDataNull($objectSV,$objectClient);
             $Model->update($objectClient);
-            return true;
+            return;
         }
-        //TH2 Client 1 Server 0 , delete =>return true
+        //TH2 Client 1 Server 0 , delete =>return
         if ($objectClient['DeleteClient']=='1'&&$objectSV->DeleteSV=='0') {
-            $Model->delete($objectSV);
-            return true;
+            $Model->delete($objectClient);
+            return;
         }
-        //TH3 Client 1 Server 1 , return true
+        //TH3 Client 1 Server 1 , return
         if ($objectClient['DeleteClient']=='1'&&$objectSV->DeleteSV=='1') {
-            return true;
+            return;
         }
     }
     public function changeID($data,$khoaNgoai=false)

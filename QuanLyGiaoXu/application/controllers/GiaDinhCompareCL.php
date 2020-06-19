@@ -62,11 +62,11 @@ class GiaDinhCompareCL extends CompareCL {
 				return $rs;
 			}
 		}
-		//find TenGiaDinh, DiaChi, DienThoai, GhiChu
+		//find  TenGiaDinh, DiaChi, DienThoai, GhiChu, MaGiaDinhRieng
 			// Khi có gia đình rồi, cần kiểm tra thêm là các thành viên trong gia đình 
 			// có giống nhau không, Nếu có 1 thành viên có 2 bên gia đình và cùng vai trò
 			// Suy ra 2 gia đình là 1
-		$rs=$this->GiaDinhMD->getByInfo($data["MaGiaoXuRieng"],$data["TenGiaDinh"],$data["DiaChi"],$data["DienThoai"]);
+		$rs=$this->GiaDinhMD->getByInfo($data["MaGiaoXuRieng"],$data["TenGiaDinh"],$data["DiaChi"],$data["DienThoai"],$data["MaGiaDinhRieng"]);
 		if ($rs) {
 			return $rs;
 		}

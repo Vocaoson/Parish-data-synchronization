@@ -9,10 +9,12 @@ class GiaoDanHonPhoiCompareCL extends CompareCL {
 	}
 	public function compare()
 	{
+		$temp=null;
 		if($this->data!=null)
 		{
 			foreach ($this->data as $data) 
 			{
+				$temp=$data;
 				if($data["MaHonPhoi"]!=null)
 				{
 					//xử lý khóa chính

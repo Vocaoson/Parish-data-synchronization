@@ -27,6 +27,16 @@ class GiaoDanCompareCL extends CompareCL {
                         //add maGiaoDan file csv
                         if(!empty($data["KhoaChinh"]))
                         {
+                            if($this->csvimport->getListID("MaGiaoDan","server+".$giaoDanServer->MaGiaoDan))
+                            {
+                                if($data["DeleteClient"]==0)
+                                {
+                                    $idClient=$data["MaGiaoDan"];
+                                    $idServerNew=$this->GiaoDanMD->insert($data);
+                                    $this->csvimport->WriteData("MaGiaoDan",$idClient,$idServerNew,$this->dirData,$this->MaGiaoXuRieng);
+                                    continue;
+                                }
+                            }
                             $this->csvimport->WriteData("MaGiaoDan",$data["MaGiaoDan"],$giaoDanServer->MaGiaoDan,$this->dirData,$this->MaGiaoXuRieng);
                             $data["MaGiaoDan"]=$giaoDanServer->MaGiaoDan;
                         }
@@ -70,6 +80,10 @@ class GiaoDanCompareCL extends CompareCL {
         {
             $dieuKien.=" and TenThanh = '".str_replace("'","\'",$data['TenThanh'])."'";
         }
+        if(!empty($data['MaGiaoHo']))
+        {
+            $dieuKien.=" and MaGiaoHo = '".str_replace("'","\'",$data['MaGiaoHo'])."'";
+        }
         if(!empty($data['HoTen']))
         {
             $dieuKien.=" and HoTen = '".str_replace("'","\'",$data['HoTen'])."'";
@@ -95,7 +109,7 @@ class GiaoDanCompareCL extends CompareCL {
             $dieuKien="true ".$dieuKien;
             $rs = $this->GiaoDanMD->getByInfo($dieuKien,$this->MaGiaoXuRieng);    
             if ($rs) {
-                //Check giáo dẫn existed in file DongBo
+                //Check giáo dân existed in file DongBo
                 // if($this->csvimport->getListID("MaGiaoDan","server+".$rs->MaGiaoDan))
                 // {
                 //     $maGiaoDan=$rs->MaGiaoDan;

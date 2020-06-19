@@ -53,28 +53,20 @@ class DotBiTichCompareCL extends CompareCL {
 		}
 		$maGiaoXuRieng=$data['MaGiaoXuRieng'];
 		$dieuKien="";
-		if(!empty($data['MoTa']))
-		{
-			$dieuKien.=" and MoTa = '".str_replace("'","\'",$data['MoTa'])."'";
-		}
-		if(!empty($data['NgayBiTich']))
-		{
-			$dieuKien.=" and NgayBiTich = '".str_replace("'","\'",$data['NgayBiTich'])."'";
-		}
-		if(!empty($data['Loai']))
-		{
-			$dieuKien.=" and Loai = '".str_replace("'","\'",$data['Loai'])."'";
-		}
-		if(!empty($data['LinhMuc']))
-		{
-			$dieuKien.=" and LinhMuc = '".str_replace("'","\'",$data['LinhMuc'])."'";
-		}
-		
+		$dieuKien.=" and MoTa = '".str_replace("'","\'",$data['MoTa'])."'";
+		$dieuKien.=" and NgayBiTich = '".str_replace("'","\'",$data['NgayBiTich'])."'";
+		$dieuKien.=" and LoaiBiTich = '".str_replace("'","\'",$data['LoaiBiTich'])."'";
+		$dieuKien.=" and NoiBiTich = '".str_replace("'","\'",$data['NoiBiTich'])."'";
+		$dieuKien.=" and LinhMuc = '".str_replace("'","\'",$data['LinhMuc'])."'";
 		if(!empty($dieuKien))
 		{
 			$dieuKien="true ".$dieuKien;
 			$rs=$this->DotBiTichMD->getByInfo($dieuKien,$maGiaoXuRieng);
 			if ($rs) {
+				if($this->csvimport->getListID("MaDotBiTich","server+".$rs->MaDotBiTich))
+				{
+					return null;
+				}
 				return $rs;
 			}
 		}

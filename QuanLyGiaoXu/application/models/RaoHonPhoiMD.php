@@ -6,13 +6,15 @@ class RaoHonPhoiMD extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->table="RaoHonPhoi";
+		$this->table="raohonphoi";
 	}
-	public function delete($objectSV)
+	public function delete($data)
 	{
 		$this->db->set('DeleteSV',1);
-		$this->db->where('MaRaoHonPhoi', $objectSV->MaRaoHonPhoi);
-		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->set('MaDinhDanh',$data['MaDinhDanh']);
+		$this->db->set('UpdateDate',$data['UpdateDate']);
+		$this->db->where('MaRaoHonPhoi', $data['MaRaoHonPhoi']);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$this->db->update($this->table);
 	}
 	public function update($data)
@@ -48,8 +50,9 @@ class RaoHonPhoiMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}  
-	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien)
 	{
+		$this->db->where($dieukien);
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);

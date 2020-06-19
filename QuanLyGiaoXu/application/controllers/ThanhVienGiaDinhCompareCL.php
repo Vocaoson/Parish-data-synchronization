@@ -33,7 +33,7 @@ class ThanhVienGiaDinhCompareCL extends CompareCL {
 						}
 						if($data["DeleteClient"]==0)
 						{
-						$this->ThanhVienGiaDinhMD->insert($data);
+							$this->ThanhVienGiaDinhMD->insert($data);
 						}
 					}
 				}

@@ -28,11 +28,13 @@ class GiaoDanMD extends CI_Model {
 		$this->db->where('MaGiaoDan', $maGiaoDan);
 		$this->db->update($this->table, $data);
   }
-  public function delete($objectSV)
+  public function delete($data)
   {
     $this->db->set('DeleteSV',1);
-		$this->db->where('MaGiaoDan', $objectSV->MaGiaoDan);
-		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->set('MaDinhDanh',$data['MaDinhDanh']);
+		$this->db->set('UpdateDate',$data['UpdateDate']);
+		$this->db->where('MaGiaoDan', $data['MaGiaoDan']);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$this->db->update($this->table);
   }
   public function getByInfo($dieuKien,$MaGiaoXuRieng){
@@ -55,8 +57,9 @@ class GiaoDanMD extends CI_Model {
     $query=$this->db->get($this->table);
     return $query->row();
   }  
-	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien)
 	{
+    $this->db->where($dieukien);
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);

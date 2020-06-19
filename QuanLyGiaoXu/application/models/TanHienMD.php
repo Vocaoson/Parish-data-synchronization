@@ -6,7 +6,7 @@ class TanHienMD extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->table="TanHien";
+		$this->table="tanhien";
 	}
 	public function getByMaTanHien($maTanHien){
 		$this->db->where("MaTanHien",$maTanHien);
@@ -40,15 +40,18 @@ class TanHienMD extends CI_Model {
 		$this->db->where('MaTanHien', $maTanHien);
 		$this->db->update($this->table, $data);
 	}
-	public function delete($objectSV)
+	public function delete($data)
 	{
 		$this->db->set('DeleteSV',1);
-		$this->db->where('maTanHien', $objectSV->maTanHien);
-		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->set('MaDinhDanh',$data['MaDinhDanh']);
+		$this->db->set('UpdateDate',$data['UpdateDate']);
+		$this->db->where('MaTanHien', $data['MaTanHien']);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$this->db->update($this->table);
-	}  
-	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
+	} 
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien)
 	{
+		$this->db->where($dieukien);
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);

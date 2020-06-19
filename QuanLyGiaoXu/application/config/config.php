@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // config mail
 $config['email']="doanvanhiepebn951@gmail.com";
 // config url
-$config['urlDashboard']="http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu";
+$config['urlDashboard']="https://ffcded0bf1ed.ngrok.io/Parish-data-synchronization/QuanLyGiaoXu";
 /* config so luong file luu server
 */
 $config["numfile"]=5;
@@ -34,7 +34,7 @@ $config["numrow"]=4;
 |
 */
 
-$config['base_url'] = 'http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu/';
+$config['base_url'] = 'https://ffcded0bf1ed.ngrok.io/Parish-data-synchronization/QuanLyGiaoXu/';
 
 /*
 |--------------------------------------------------------------------------

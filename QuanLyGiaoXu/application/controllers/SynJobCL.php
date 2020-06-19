@@ -8,7 +8,6 @@ class SynJobCL extends CI_Controller
     public function __construct(){
         parent::__construct();
         $this->load->model('SynFileMD');
-        $this->load->model('GiaoXuMD');
         $dataImport = array('header'=>true);
         $this->load->library('CsvImport',$dataImport);
         $this->dirData = $this->config->item('data_dir');
@@ -62,7 +61,7 @@ class SynJobCL extends CI_Controller
         require_once('DotBiTichCompareCL.php');
         $dotBiTichCompare=new DotBiTichCompareCL('DotBiTich.csv',$dir);
         $dotBiTichCompare->compare();
-        
+
         require_once('BiTichChiTietCompareCL.php');
         $biTichChiTiet=new BiTichChiTietCompareCL('BiTichChiTiet.csv',$dir);
         $biTichChiTiet->compare();
@@ -121,7 +120,6 @@ class SynJobCL extends CI_Controller
         
 
         $this->SynFileMD->setExe($idFile);
-        $this->GiaoXuMD->setLockSync($maGiaoXuRieng);
         $end = new DateTime();
         $diff = $begin->diff($end);
         //echo("Tổng thời gian: ");

@@ -62,28 +62,25 @@ class HonPhoiCompareCL extends CompareCL {
 		}
 		//find NgayHonPhoi, SoHonPhoi, TenHonPhoi
 		$dieuKien="";
-		if(!empty($data['NgayHonPhoi']))
-		{
-			$dieuKien.=" and NgayHonPhoi = '".str_replace("'","\'",$data['NgayHonPhoi'])."'";
-		}
-		if(!empty($data['SoHonPhoi']))
-		{
-			$dieuKien.=" and SoHonPhoi = '".str_replace("'","\'",$data['SoHonPhoi'])."'";
-		}
-		if(!empty($data['TenHonPhoi']))
-		{
-			$dieuKien.=" and TenHonPhoi = '".str_replace("'","\'",$data['TenHonPhoi'])."'";
-		}
-		if(!empty($dieuKien))
-		{
-			$dieuKien="true ".$dieuKien;
-			$rs=$this->HonPhoiMD->getByInfo($dieuKien,$maGiaoXuRieng);
-			if ($rs!=null) {
-				return $rs;
+		$dieuKien.=" and NgayHonPhoi = '".str_replace("'","\'",$data['NgayHonPhoi'])."'";
+		$dieuKien.=" and SoHonPhoi = '".str_replace("'","\'",$data['SoHonPhoi'])."'";
+		$dieuKien.=" and NoiHonPhoi = '".str_replace("'","\'",$data['NoiHonPhoi'])."'";
+		$dieuKien.=" and LinhMucChung = '".str_replace("'","\'",$data['LinhMucChung'])."'";
+		$dieuKien.=" and GhiChu = '".str_replace("'","\'",$data['GhiChu'])."'";
+		$dieuKien.=" and NguoiChung1 = '".str_replace("'","\'",$data['NguoiChung1'])."'";
+		$dieuKien.=" and NguoiChung2 = '".str_replace("'","\'",$data['NguoiChung2'])."'";
+		$dieuKien.=" and TenHonPhoi = '".str_replace("'","\'",$data['TenHonPhoi'])."'";
+		$dieuKien="true ".$dieuKien;
+		$rs=$this->HonPhoiMD->getByInfo($dieuKien,$maGiaoXuRieng);
+		if ($rs!=null) {
+			if($this->csvimport->getListID("MaHonPhoi","server+".$rs->MaHonPhoi))
+			{
+				return null;
 			}
+			return $rs;
 		}
 		return null;
-	}
+	} 
 }
 
 /* End of file HonPhoiCompareCL.php */

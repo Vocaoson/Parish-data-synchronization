@@ -122,7 +122,7 @@ class CsvImport
             $values["MaIDMayKhach"]=$IDClient;
             $values["MaIDMayChu"]=$IDServer;
             $values["UpdateDate"]=$nowUTC;
-            if($tableName=="GiaoDan")
+            if($tableName=="GiaoDan" || $tableName=="DotBiTich"|| $tableName=="HonPhoi")
             {
                 $keyServer=$tableName."+server+".$IDServer;
                 $this->setListID($keyServer,$values);
@@ -141,9 +141,8 @@ class CsvImport
     public function getListID($id,$IDClient)
     {
         $tableName="GiaoDan";
-        if($id != "MaGiaoDan1" && $id != "MaGiaoDan2")
+        if($id != "MaGiaoDan" && $id != "MaGiaoDan1" && $id != "MaGiaoDan2")
         {
-
             $tableName=$this->getTableNameByID($id);
         }
         $keyIDClient=$tableName."+".$IDClient;

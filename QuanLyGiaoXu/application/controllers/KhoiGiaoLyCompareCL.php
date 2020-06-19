@@ -56,23 +56,14 @@ class KhoiGiaoLyCompareCL extends CompareCL {
 		//find TenKhoi, NguoiQuanLy
 		$maGiaoXuRieng=$data['MaGiaoXuRieng'];
 		$dieuKien="";
-		if(!empty($data['TenKhoi']))
-		{
-			$dieuKien.=" and TenKhoi = '".str_replace("'","\'",$data['TenKhoi'])."'";
+		$dieuKien.=" and TenKhoi = '".str_replace("'","\'",$data['TenKhoi'])."'";
+		$dieuKien.=" and NguoiQuanLy = '".str_replace("'","\'",$data['NguoiQuanLy'])."'";
+		$dieuKien.=" and GhiChu = '".str_replace("'","\'",$data['GhiChu'])."'";
+		$dieuKien="true ".$dieuKien;
+		$rs=$this->KhoiGiaoLyMD->getByInfo($dieuKien,$maGiaoXuRieng);
+		if ($rs) {
+			return $rs;
 		}
-		if(!empty($data['NguoiQuanLy']))
-		{
-			$dieuKien.=" and NguoiQuanLy = '".str_replace("'","\'",$data['NguoiQuanLy'])."'";
-		}
-		if(!empty($dieuKien))
-		{
-			$dieuKien="true ".$dieuKien;
-			$rs=$this->KhoiGiaoLyMD->getByInfo($dieuKien,$maGiaoXuRieng);
-			if ($rs) {
-				return $rs;
-			}
-		}
-		
 		return null;
 	}
 	

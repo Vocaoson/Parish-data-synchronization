@@ -7,7 +7,7 @@ class GiaDinhMD extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->table='GiaDinh';
+		$this->table='giadinh';
 	}
 	
 	public function getByMaGiaDinh($maGiaDinh) {
@@ -23,20 +23,23 @@ class GiaDinhMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-	public function getByInfo($maGiaoXuRieng,$tenGiaDinh,$diaChi,$sdt)
+	public function getByInfo($maGiaoXuRieng,$tenGiaDinh,$diaChi,$sdt,$maGiaDinhRieng)
 	{
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->where('TenGiaDinh', $tenGiaDinh);
 		$this->db->where('DiaChi', $diaChi);
 		$this->db->where('DienThoai', $sdt);
+		$this->db->where('MaGiaDinhRieng', $maGiaDinhRieng);
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-	public function delete($objectSV)
+	public function delete($data)
 	{
 		$this->db->set('DeleteSV',1);
-		$this->db->where('MaGiaDinh', $objectSV->MaGiaDinh);
-		$this->db->where('MaGiaoXuRieng', $objectSV->MaGiaoXuRieng);
+		$this->db->set('MaDinhDanh',$data['MaDinhDanh']);
+		$this->db->set('UpdateDate',$data['UpdateDate']);
+		$this->db->where('MaGiaDinh', $data['MaGiaDinh']);
+		$this->db->where('MaGiaoXuRieng', $data['MaGiaoXuRieng']);
 		$this->db->update($this->table);
 	}
 	public function update($data)
@@ -60,8 +63,9 @@ class GiaDinhMD extends CI_Model {
 		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();
 	}  
-	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh)
+	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien)
 	{
+		$this->db->where($dieukien);
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->where('MaDinhDanh !=', $maDinhDanh);
 		$query=$this->db->get($this->table);
