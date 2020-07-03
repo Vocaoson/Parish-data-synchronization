@@ -18,8 +18,7 @@ class MayNhapMD extends CI_Model {
 			"MaDinhDanh"=>$maDinhDanh,
 			"TenMay"=>$tenMay,
 			"MaGiaoXuRieng"=>$maGiaoXuRieng,
-			"PushDateOld"=>"1970-01-01 00:00:00",
-			"PushDateNew"=>$nowUTC
+			"PushDate"=>"1970-01-01 00:00:00"
 			);
 		$this->db->insert($this->table, $objectMayNhap);
 		return $this->db->insert_id();
@@ -35,7 +34,7 @@ class MayNhapMD extends CI_Model {
 	{
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->where('MaDinhDanh !=', $maDinhDanh);
-		$this->db->where("PushDateNew >",date('Y-m-d H:i:s', $timestamp));
+		$this->db->where("PushDate >",date('Y-m-d H:i:s', $timestamp));
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
@@ -56,14 +55,7 @@ class MayNhapMD extends CI_Model {
 	}
 	public function setPushDate($maGiaoXuRieng,$maDinhDanh,$pushDateNew)
 	{
-		//getpushdatenew
-		$this->db->select('PushDateNew');
-		$this->db->where('MaGiaoXuRieng',$maGiaoXuRieng);
-		$this->db->where('MaDinhDanh',$maDinhDanh);
-		$pushdateold=$this->db->get($this->table)->row();
-		//update
-		$this->db->set('PushDateOld',$pushdateold->PushDateNew);
-		$this->db->set('PushDateNew', $pushDateNew);
+		$this->db->set('PushDate', $pushDateNew);
 		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
 		$this->db->where('MaDinhDanh', $maDinhDanh);
 		$this->db->update($this->table);
