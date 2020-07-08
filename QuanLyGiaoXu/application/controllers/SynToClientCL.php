@@ -45,17 +45,17 @@ class SynToClientCL extends CI_Controller {
 				$result.="&";
 			}
 		}
-		if($result=="")
-		{
-			$timestamp = time()+date("Z");
-			$nowUTC= gmdate("Y-m-d H:i:s",$timestamp);
-			//set lock's parish =0;
-			$this->GiaoXuMD->setLockSync($maGiaoXuRieng);
-			// update push date for maynhap
-			$this->MayNhapMD->setPushDate($maGiaoXuRieng,$maDinhDanh,$nowUTC);
-			echo $nowUTC;
-			return;
-		}
+		// if($result=="")
+		// {
+		// 	$timestamp = time()+date("Z");
+		// 	$nowUTC= gmdate("Y-m-d H:i:s",$timestamp);
+		// 	//set lock's parish =0;
+		// 	$this->GiaoXuMD->setLockSync($maGiaoXuRieng);
+		// 	// update push date for maynhap
+		// 	$this->MayNhapMD->setPushDate($maGiaoXuRieng,$maDinhDanh,$nowUTC);
+		// 	echo $nowUTC;
+		// 	return;
+		// }
 		echo $result;
 		return;
 	}
@@ -78,26 +78,29 @@ class SynToClientCL extends CI_Controller {
 			}
 		
 		$data=null;
-		$data['BiTichChiTiet']=$this->BiTichChiTietMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['CauHinh']=$this->CauHinhMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['ChiTietHoiDoan']=$this->ChiTietHoiDoanMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['ChiTietLopGiaoLy']=$this->ChiTietLopGiaoLyMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['ChuyenXu']=$this->ChuyenXuMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['DotBiTich']=$this->DotBiTichMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['GiaDinh']=$this->GiaDinhMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['GiaoDanHonPhoi']=$this->GiaoDanHonPhoiMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['GiaoHo']=$this->GiaoHoMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['GiaoDan']=$this->GiaoDanMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['GiaoLyVien']=$this->GiaoLyVienMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['HoiDoan']=$this->HoiDoanMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['HonPhoi']=$this->HonPhoiMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['KhoiGiaoLy']=$this->KhoiGiaoLyMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['LinhMuc']=$this->LinhMucMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['LopGiaoLy']=$this->LopGiaoLyMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['RaoHonPhoi']=$this->RaoHonPhoiMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['TanHien']=$this->TanHienMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		$data['ThanhVienGiaDinh']=$this->ThanhVienGiaDinhMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
-		
+		if(trim($dieukien)!="")
+		{
+			$data['BiTichChiTiet']=$this->BiTichChiTietMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['CauHinh']=$this->CauHinhMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['ChiTietHoiDoan']=$this->ChiTietHoiDoanMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['ChiTietLopGiaoLy']=$this->ChiTietLopGiaoLyMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['ChuyenXu']=$this->ChuyenXuMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['DotBiTich']=$this->DotBiTichMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['GiaDinh']=$this->GiaDinhMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['GiaoDanHonPhoi']=$this->GiaoDanHonPhoiMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['GiaoHo']=$this->GiaoHoMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['GiaoDan']=$this->GiaoDanMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['GiaoLyVien']=$this->GiaoLyVienMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['HoiDoan']=$this->HoiDoanMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['HonPhoi']=$this->HonPhoiMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['KhoiGiaoLy']=$this->KhoiGiaoLyMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['LinhMuc']=$this->LinhMucMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['LopGiaoLy']=$this->LopGiaoLyMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['RaoHonPhoi']=$this->RaoHonPhoiMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['TanHien']=$this->TanHienMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			$data['ThanhVienGiaDinh']=$this->ThanhVienGiaDinhMD->getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien);
+			
+		}
 		//move file DongBoID to csv to client
 		if(!copy($this->config->item("data_dir").'/dongboID/'.$maGiaoXuRieng.'/dongbo.csv',$dirtemp.'/dongbo.csv')){
 			echo -1;
