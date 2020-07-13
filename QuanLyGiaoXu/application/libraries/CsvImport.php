@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class CsvImport
 { 
+    private $ListIDClient=null;
     private $enclosure;
     private $fp; 
     private $parse_header; 
@@ -140,6 +141,8 @@ class CsvImport
     }
     public function getListID($id,$IDClient)
     {
+        if($this->ListIDClient==null)
+        return null;
         $tableName="GiaoDan";
         if($id != "MaGiaoDan" && $id != "MaGiaoDan1" && $id != "MaGiaoDan2")
         {
@@ -151,6 +154,6 @@ class CsvImport
         return null;
     }
     
-    //-------------------------------------------------------------------- 
+    //---------  ----------------------------------------------------------- 
 } 
 ?>

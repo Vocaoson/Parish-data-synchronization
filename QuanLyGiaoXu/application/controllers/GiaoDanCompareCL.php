@@ -27,7 +27,9 @@ class GiaoDanCompareCL extends CompareCL {
                         //add maGiaoDan file csv
                         if(!empty($data["KhoaChinh"]))
                         {
-                            if($this->csvimport->getListID("MaGiaoDan","server+".$giaoDanServer->MaGiaoDan))
+                            //Kiểm tra xem. Khi tìm thấy 1 người. Nhưng ID server của họ đã có trong list id temp
+                            // Chứng tỏ mới thêm. Nên người được tìm sẽ add mới.
+                                if($this->csvimport->getListID("MaGiaoDan","server+".$giaoDanServer->MaGiaoDan)!=null)
                             {
                                 if($data["DeleteClient"]==0)
                                 {

@@ -52,7 +52,7 @@ abstract class CompareCL extends CI_Controller {
             if ($dataSV->{$key}!=""&&$value=="") {
                 $dataClient[$key]=$dataSV->{$key};
             }
-        }
+        } 
         return $dataClient;
     }
     public function CompareTwoDateTime($datetime1,$datetime2){

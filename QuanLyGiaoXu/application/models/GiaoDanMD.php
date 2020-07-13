@@ -54,7 +54,7 @@ class GiaoDanMD extends CI_Model {
   public function getByMaGiaoDan($maGiaoDan) {
     $this->db->select('*');
     $this->db->where('MaGiaoDan', $maGiaoDan);
-    $query=$this->db->get($this->table);
+    $query=$this->db->get($this->table); 
     return $query->row();
   }  
 	public function getAllByMaGiaoXuRiengAndDiffMaDinhDanh($maGiaoXuRieng,$maDinhDanh,$dieukien)

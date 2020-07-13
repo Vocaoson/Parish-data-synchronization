@@ -18,7 +18,7 @@ class ThanhVienGiaDinhCompareCL extends CompareCL {
 					if(!empty($data["KhoaChinh"]))
 					{
 						$data=$this->changeID($data);
-					}
+					} 
 					if($data !== null)
 					{
 						$thanhVienGiaDinhServer=$this->findThanhVienGiaDinh($data);
