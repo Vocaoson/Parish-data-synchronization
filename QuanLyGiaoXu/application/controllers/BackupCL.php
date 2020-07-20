@@ -21,7 +21,7 @@ class BackupCL extends CI_Controller {
 			
 		}
 	}
-	public function dowloadFile($id=-1)
+	public function downloadFile($id=-1)
 	{
 		if ($id!=-1) {
 			$file=$this->BackupMD->getPathByID($id)->PathFile;
@@ -37,7 +37,6 @@ class BackupCL extends CI_Controller {
 				exit;
 			}
 		}
-
 	}
 	public function getBackup($id=-1,$maDinhDanh)
 	{
@@ -82,7 +81,7 @@ class BackupCL extends CI_Controller {
 							$noidung.='<div style="margin-top:-10px" class="row">';
 							$noidung.='<div class="col-xs-4">';
 							$noidung.='<input type="hidden" name="" value="'.$rsListFile[$j]->ID.'">';
-							$noidung.='<p class="btnDowload" data-id="'.$rsListFile[$j]->ID.'" data-path="'.$rsListFile[$j]->PathFile.'"><i class="fa fa-file-archive"></i> '.$rsListFile[$j]->Name.'</p>';
+							$noidung.='<p class="btnDownloadFile" data-id="'.$rsListFile[$j]->ID.'" data-path="'.$rsListFile[$j]->PathFile.'"><i class="fa fa-file-archive"></i> '.$rsListFile[$j]->Name.'</p>';
 							$noidung.='</div>';
 							$noidung.='<div class="col-xs-3">'.$rsListFile[$j]->Time.'</div>';
 							$noidung.='<div class="col-xs-2">';

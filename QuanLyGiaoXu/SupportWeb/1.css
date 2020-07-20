@@ -132,13 +132,13 @@ body.wait *, body.wait
 
 	color: red;
 }
-p.btnDowload:hover{
+p.btnDownloadFile:hover{
 	color: #0c0ce4;
 }
 .wrap-giaoxu p{
 	font-size: 20px;
 }
-.btnDowload{
+.btnDownloadFile{
 	cursor: pointer;
 }
 .left{
