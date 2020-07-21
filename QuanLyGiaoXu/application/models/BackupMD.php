@@ -26,22 +26,20 @@ class BackupMD extends CI_Model {
 			$this->db->delete($this->table);		
 		}
 	}
-	public function getIdRemove($idgx)
+	public function getIdRemove($maGiaoXuRieng,$maDinhDanh)
 	{
-		$this->db->select('backup.ID,backup.PathFile');
-		$this->db->from('giaoxu,backup');
-		$this->db->where('giaoxu.ID', $idgx);
-		$this->db->where('backup.ID=(SELECT backup.ID
-			FROM backup
-			WHERE backup.MaGiaoXuRieng=giaoxu.ID
-			ORDER  by backup.ID ASC LIMIT 1
-		)');
-		$query=$this->db->get();
+		$this->db->select('ID,PathFile');
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaDinhDanh', $maDinhDanh);
+		$this->db->order_by('ID', 'ASC');
+		$this->db->limit(1); 
+		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-	public function countFile($id)
+	public function countFile($maGiaoXuRieng,$maDinhDanh)
 	{
-		$this->db->where('MaGiaoXuRieng', $id);
+		$this->db->where('MaGiaoXuRieng', $maGiaoXuRieng);
+		$this->db->where('MaDinhDanh', $maDinhDanh);
 		return $this->db->count_all_results($this->table);
 	}
 	public function getBackupGx($idgx,$maDinhDanh)
@@ -55,6 +53,7 @@ class BackupMD extends CI_Model {
 	{
 		$this->db->where('MaDinhDanh',$maDinhDanh);
 		$this->db->where('MaGiaoXuRieng',$maGiaoXuRieng);
+		$this->db->order_by('ID', 'DESC');
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
@@ -65,7 +64,7 @@ class BackupMD extends CI_Model {
 		$query=$this->db->get($this->table);
 		return $query->row();
 	}
-	public function insertGiaoXuBackupMD($name,$path,$idgx,$dateUL,$maDinhDanh,$tenMay)
+	public function insertGiaoXuBackupMD($name,$path,$idgx,$dateUL,$maDinhDanh,$tenMay,$tongGiaoHo,$tongGiaoDan,$tongGiaDinh,$tongHonPhoi)
 	{
 		$objectBK=array(
 			"Name"=>$name,
@@ -73,7 +72,12 @@ class BackupMD extends CI_Model {
 			"Time"=>$dateUL,
 			"MaGiaoXuRieng"=>$idgx,
 			"MaDinhDanh"=>$maDinhDanh,
-			"TenMay"=>$tenMay);
+			"TenMay"=>$tenMay,
+			"TongGiaoHo"=>$tongGiaoHo,
+			"TongGiaoDan"=>$tongGiaoDan,
+			"TongGiaDinh"=>$tongGiaDinh,
+			"TongHonPhoi"=>$tongHonPhoi
+	);
 		$this->db->insert($this->table, $objectBK);
 		return $this->db->affected_rows();
 	}

@@ -56,10 +56,6 @@ class BackupCL extends CI_Controller {
 			return;
 		}
 	}
-	public function alo()
-	{
-		echo "Doadnadnasd";
-	}
 	public function getAllFileByMaGiaoXuRieng($maGiaoXuRieng=-1)
 	{
 		if ($maGiaoXuRieng!=-1) {
@@ -120,7 +116,7 @@ class BackupCL extends CI_Controller {
 			echo $rs;
 		}
 	}
-	public function uploadFile($maGiaoXuRieng,$maDinhDanh,$tenMay)
+	public function uploadFile($maGiaoXuRieng,$maDinhDanh,$tenMay,$tongGiaoHo,$tongGiaoDan,$tongGiaDinh,$tongHonPhoi)
 	{
 		if (isset($_FILES) && count($_FILES) > 0) {
 			$status=$this->GiaoXuMD->checkStatus($maGiaoXuRieng);
@@ -137,7 +133,7 @@ class BackupCL extends CI_Controller {
 			if (move_uploaded_file($_FILES["file"]["tmp_name"],$serverPath.'/'.$_FILES["file"]["name"])) {
 				//luu thong tin file lai
 				$dateUL=date("Y-m-d H:i:s");
-				$rs=$this->BackupMD->insertGiaoXuBackupMD($_FILES["file"]["name"],$serverPath.'/'.$_FILES["file"]["name"],$maGiaoXuRieng,$dateUL,$maDinhDanh,$tenMay);
+				$rs=$this->BackupMD->insertGiaoXuBackupMD($_FILES["file"]["name"],$serverPath.'/'.$_FILES["file"]["name"],$maGiaoXuRieng,$dateUL,$maDinhDanh,$tenMay,$tongGiaoHo,$tongGiaoDan,$tongGiaDinh,$tongHonPhoi);
 				if ($rs>0) {
 					echo $dateUL;
 				}
@@ -153,15 +149,13 @@ class BackupCL extends CI_Controller {
 			echo -1;
 		}
 	}
-	public function checkNumFileBackup($idgx=-1)
+	public function checkNumFileBackup($maGiaoXuRieng,$maDinhDanh)
 	{
-		if ($idgx!=-1) {
-			$totalFile=$this->BackupMD->countFile($idgx);
-			if ($totalFile>=$this->vartest) {
-				$file=$this->BackupMD->getIdRemove($idgx);
-				unlink($file->PathFile);
-				$this->BackupMD->removeFile($file->ID);
-			}
+		$totalFile=$this->BackupMD->countFile($maGiaoXuRieng,$maDinhDanh);
+		if ($totalFile>=$this->vartest) {
+			$file=$this->BackupMD->getIdRemove($maGiaoXuRieng,$maDinhDanh);
+			unlink($file->PathFile);
+			$this->BackupMD->removeFile($file->ID);
 		}
 	}
 	public function insertGiaoXuBackup()
