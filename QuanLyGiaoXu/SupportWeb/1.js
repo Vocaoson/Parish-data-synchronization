@@ -387,7 +387,11 @@
 				$('.CopyFile').addClass('active');
 			}
 			else {
-				alert("Hiện tại giáo xứ chỉ có duy nhất một máy nhập");
+				$('#errorinfo').html("Hiện tại giáo xứ chỉ có duy nhất một máy nhập.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			}
 		});;
 
@@ -415,7 +419,11 @@
 		}
 		$maynhap = $('#cb-MayNhap').val();
 		if ($maynhap == null) {
-			alert("Vui lòng chọn máy nhập cần chuyển tệp tin");
+			$('#errorinfo').html("Vui lòng chọn máy nhập cần chuyển tệp tin.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			return;
 		}
 
@@ -440,11 +448,19 @@
 			}
 		}).always(function (data) {
 			if (data != -1) {
-				alert("Đã chuyển file thành công!");
+				$('#successinfo').html("Đã chuyển file thành công.")
+				$('.EmailSuccess').addClass('active');
+				setTimeout(function () {
+					$('.EmailSuccess').removeClass('active');
+				}, 2000);
 				$('.CopyFile').removeClass('active');
 			}
 			else {
-				alert("Hiện tại giáo xứ chỉ có duy nhất một máy nhập");
+				$('#errorinfo').html("Hiện tại giáo xứ chỉ có duy nhất một máy nhập.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			}
 		});;
 	});
@@ -517,9 +533,17 @@
 			}
 		}).done(function (data) {
 			if (data.success == 'success') {
-				alert('Từ chối thành công');
+				$('#successinfo').html("Từ chối thành công.")
+				$('.EmailSuccess').addClass('active');
+				setTimeout(function () {
+					$('.EmailSuccess').removeClass('active');
+				}, 2000);
 			} else {
-				alert('Từ chối thất bại');
+				$('#errorinfo').html("Từ chối thất bại.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			}
 			$('#edit-modal').modal('hide');
 			getGiaoXusRequest();
@@ -591,7 +615,11 @@
 			}
 			$("#cb-giaoxu-list").html(html);
 			if (html == "") {
-				alert("Hiện tại giáo hạt chưa có giáo xứ nào");
+				$('#errorinfo').html("Hiện tại giáo hạt chưa có giáo xứ nào.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			}
 		});
 	}
@@ -604,15 +632,27 @@
 	});
 	$("#btnmove-giaoxu-info").click(function () {
 		if ($("#cb-giaophan-list").val() <= 0) {
-			alert("Vui lòng chọn giáo phận");
+			$('#errorinfo').html("Vui lòng chọn giáo phận.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			return;
 		}
 		if ($("#cb-giaohat-list").val() <= 0) {
-			alert("Vui lòng chọn giáo hạt");
+			$('#errorinfo').html("Vui lòng chọn giáo hạt.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			return;
 		}
 		if ($("#cb-giaoxu-list").val() <= 0) {
-			alert("Vui lòng chọn giáo xứ");
+			$('#errorinfo').html("Vui lòng chọn giáo xứ.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			return;
 		}
 		//chuyển
@@ -635,9 +675,17 @@
 			dataType: 'json'
 		}).always((data) => {
 			if (data.success == 'success') {
-				alert('Chuyển thành công');
+				$('#successinfo').html("Chuyển thành công.")
+				$('.EmailSuccess').addClass('active');
+				setTimeout(function () {
+					$('.EmailSuccess').removeClass('active');
+				}, 2000);
 			} else {
-				alert('Chuyển thất bại');
+				$('#errorinfo').html("Chuyển thất bại.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			}
 			$('#move-giaoxu-modal').modal('hide');
 			getGiaoXusRequest();
@@ -645,11 +693,19 @@
 	});
 	$("#submit-giaoxu-info").click(function () {
 		if ($("#cb-giaophan-name").val() <= 0) {
-			alert("Vui lòng chọn giáo phận");
+			$('#errorinfo').html("Vui lòng chọn giáo phận.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			return;
 		}
 		if ($("#cb-giaohat-name").val() <= 0) {
-			alert("Vui lòng chọn giáo hạt");
+			$('#errorinfo').html("Vui lòng chọn giáo hạt.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			return;
 		}
 		var status = $("#status").val();
@@ -681,9 +737,17 @@
 			}
 		}).done(function (data) {
 			if (data.success == 'success') {
-				alert('Cập nhật thông tin thành công');
+				$('#successinfo').html("Cập nhật thông tin thành công.")
+				$('.EmailSuccess').addClass('active');
+				setTimeout(function () {
+					$('.EmailSuccess').removeClass('active');
+				}, 2000);
 			} else {
-				alert('Cập nhật thông tin thất bại');
+				$('#errorinfo').html("Cập nhật thông tin thất bại.")
+				$('.EmailError').addClass('active');
+				setTimeout(function () {
+					$('.EmailError').removeClass('active');
+				}, 2000);
 			}
 			$('#edit-modal').modal('hide');
 			getGiaoXusRequest();

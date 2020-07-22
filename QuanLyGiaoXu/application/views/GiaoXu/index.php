@@ -1,10 +1,10 @@
 <div class="wrap-trum">
 	<div class="container">
 		<div class="alert alert-success EmailSuccess emailAlert" role="alert">
-			<strong>Gửi email thành công!</strong>
+			<strong id="successinfo">Gửi email thành công!</strong>
 		</div>
 		<div class="alert alert-danger EmailError emailAlert" role="alert">
-			<strong>Gửi email thất bại!</strong>
+			<strong id="errorinfo">Gửi email thất bại!</strong>
 		</div>
 		<div class="row">
 			<div class="col-xs-6">

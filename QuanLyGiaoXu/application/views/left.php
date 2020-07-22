@@ -8,6 +8,6 @@
 	<li class="btnGX"><i class="fa fa-user"></i> <a href="#">Quản lý</a><i class="fa fa-chevron-down down-management"></i></li>
 	<div id="child-management">
 	<li class="btnGX child-menu" id="management"><i class="fa fa-allergies"></i> <a href="#">Yêu cầu</a></li>
-	<li class="btnGX child-menu"><i class="fa fa-user-edit"></i> <a href="/Parish-data-synchronization/QuanLyGiaoXu">Giáo xứ</a></li>
+	<a href="/Parish-data-synchronization/QuanLyGiaoXu"><li class="btnGX child-menu"><i class="fa fa-user-edit"></i> Giáo xứ</li></a>
 	</div>
 </div>
