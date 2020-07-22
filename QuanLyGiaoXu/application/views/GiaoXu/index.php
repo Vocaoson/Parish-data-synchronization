@@ -72,13 +72,16 @@
 				<h2 id="nameGx"></h2>
 				<hr>
 				<div class="row">
-					<div class="col-xs-4">Tên file</div>
-					<div class="col-xs-3">Thời gian tải lên</div>
-					<div class="col-xs-2">Gửi mail</div>
-					<div style ="margin-left:-49px" class="col-xs-3">Chuyển file</div> 
+					<div class="col-xs-3">Tên file</div>
+					<div class="col-xs-2">Thời gian tải lên</div>
+					<div class="col-xs-4" style="text-align:center"> Tổng<br> Giáo họ - Giáo dân - Gia đình - Hôn phối</div>
+					<div class="col-xs-3">
+<p> Gửi Mail <span style="margin-left:30px"> Chuyển file</span></p>
+					</div>
+					<!-- <div style ="margin-left:-49px" class="col-xs-3">Chuyển file</div>  -->
 				</div>
 				
-	<div style="overflow-y:scroll; height:420px;width:96%; display:block" >
+	<div style="overflow-y:scroll; height:400px;width:100%; display:block" >
 				<div class="wrap-backup">
 				</div>
 				</div>
@@ -314,6 +317,7 @@
         			</div>
 				</div>
 				<input type="hidden" id="pathName">
+				<input type="hidden" id="info">
         		<div class="form-group row">
         			<b class="btn btn-primary" id="btnCopyFile" data-path="">Chuyển</b>
         		</div>

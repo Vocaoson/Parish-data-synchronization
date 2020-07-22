@@ -276,7 +276,6 @@
 			},
 		})
 			.always(function (data) {
-				console.log(data);
 				if (data == 1) {
 					closeEmail();
 					$('.EmailSuccess').addClass('active');
@@ -365,6 +364,7 @@
 		//Call ajax Lấy máy nhập
 		var father = $(this).closest('.one-file');
 		var pathBackup = father.find('.btnDownloadFile').data('path');
+		var info = father.find('.btnDownloadFile').data('info');
 		var name = father.find('.btnDownloadFile').text();
 		var contentMail = "Hiện tại hệ thống qlgx.net đã chuyển tệp tin có tên " + name;
 		contentMail += " vào máy của bạn. Vui lòng mở ứng dụng qlgx và vào";
@@ -383,6 +383,7 @@
 				$('#inputSubjectCopyFile').val('Yêu cầu nhận tệp tin từ máy nhập khác');
 				$('#txtContentEmailCopyFile').val(contentMail);
 				$('#pathName').val(pathBackup);
+				$('#info').val(info);
 				$('.CopyFile').addClass('active');
 			}
 			else {
@@ -403,6 +404,7 @@
 	//Button gửi
 	$('body').on('click', '#btnCopyFile', function () {
 		$pathBackup = $('#pathName').val().split('/');
+		$info=$('#info').val().split('/');
 		var email = $('#inputToCopyFile').val();
 		if (!validateEmail(email)) {
 			$('.tooltip').addClass('active');
@@ -427,6 +429,10 @@
 				"MaDinhDanhMayNhan": $('#cb-MayNhap').val(),
 				"MaDinhDanhMayGui": $pathBackup[2],
 				"FileName": $pathBackup[3],
+				"TongGiaoHo": $info[0],
+				"TongGiaoDan": $info[1],
+				"TongGiaDinh": $info[2],
+				"TongHonPhoi": $info[3],
 				"TenMayNhan": $('#cb-MayNhap option:selected').text(),
 				"To": $('#inputToCopyFile').val(),
 				"Subject": $('#inputSubjectCopyFile').val(),

@@ -75,19 +75,18 @@ class BackupCL extends CI_Controller {
 							$noidung.='<div style="height:20px" class="one-file">';
 							$noidung.='<hr>';
 							$noidung.='<div style="margin-top:-10px" class="row">';
-							$noidung.='<div class="col-xs-4">';
-							$noidung.='<input type="hidden" name="" value="'.$rsListFile[$j]->ID.'">';
-							$noidung.='<p class="btnDownloadFile" data-id="'.$rsListFile[$j]->ID.'" data-path="'.$rsListFile[$j]->PathFile.'"><i class="fa fa-file-archive"></i> '.$rsListFile[$j]->Name.'</p>';
-							$noidung.='</div>';
-							$noidung.='<div class="col-xs-3">'.$rsListFile[$j]->Time.'</div>';
-							$noidung.='<div class="col-xs-2">';
-							$noidung.='<b style="margin-left:24px" class="btn btn-danger btn-sm btnNewEmail">Soạn Email</b>';
-							$noidung.='</div>';
 							$noidung.='<div class="col-xs-3">';
-							$noidung.='<b style="margin-left:-12px" class="btn btn-primary btn-sm btnCopyFile">Chuyển File</b>';
+							$noidung.='<input type="hidden" name="" value="'.$rsListFile[$j]->ID.'">';
+							$noidung.='<p class="btnDownloadFile" data-id="'.$rsListFile[$j]->ID.'" data-path="'.$rsListFile[$j]->PathFile.'"data-info="'.$rsListFile[$j]->TongGiaoHo.'/'.$rsListFile[$j]->TongGiaoDan.'/'.$rsListFile[$j]->TongGiaDinh.'/'.$rsListFile[$j]->TongHonPhoi.'"><i class="fa fa-file-archive"></i> '.$rsListFile[$j]->Name.'</p>';
+							$noidung.='</div>';
+							$noidung.='<div class="col-xs-2">'.$rsListFile[$j]->Time.'</div>';
+							$noidung.='<div class="col-xs-4" style="text-align:center">'.$rsListFile[$j]->TongGiaoHo.' - '.$rsListFile[$j]->TongGiaoDan.' - '.$rsListFile[$j]->TongGiaDinh.' - '.$rsListFile[$j]->TongHonPhoi.'</div>';
+							$noidung.='<div class="col-xs-3">';
+							$noidung.='<b class="btn btn-danger btn-sm btnNewEmail">Soạn Email</b>';
+							$noidung.='<b style="margin-left:25px" class="btn btn-primary btn-sm btnCopyFile">Chuyển File</b>';
 							$noidung.='</div>';
 							$noidung.='</div>';
-							$noidung.='</div>'; 
+							$noidung.='</div>';
 						}
 					}
 				}
@@ -195,7 +194,7 @@ class BackupCL extends CI_Controller {
 		echo json_encode($success);
 		return;
 	}
-	public function copyFileAndInsertTable($maGiaoXuRieng,$maDinhDanhMayNhan,$maDinhDanhMayGui,$fileName,$tenMayNhan)
+	public function copyFileAndInsertTable($maGiaoXuRieng,$maDinhDanhMayNhan,$maDinhDanhMayGui,$fileName,$tenMayNhan,$tongGiaoHo,$tongGiaoDan,$tongGiaDinh,$tongHonPhoi)
 	{
 		$serverPathNhan='files/'.$maGiaoXuRieng.'/'.$maDinhDanhMayNhan;
 		$serverPathGui='files/'.$maGiaoXuRieng.'/'.$maDinhDanhMayGui;
@@ -205,7 +204,7 @@ class BackupCL extends CI_Controller {
 		if (copy($serverPathGui.'/'.$fileName,$serverPathNhan.'/'.$fileName)) {
 			//luu thong tin file lai
 			$dateUL=date("Y-m-d H:i:s");
-			$rs=$this->BackupMD->insertGiaoXuBackupMD($fileName,$serverPathNhan.'/'.$fileName,$maGiaoXuRieng,$dateUL,$maDinhDanhMayNhan,$tenMayNhan);
+			$rs=$this->BackupMD->insertGiaoXuBackupMD($fileName,$serverPathNhan.'/'.$fileName,$maGiaoXuRieng,$dateUL,$maDinhDanhMayNhan,$tenMayNhan,$tongGiaoHo,$tongGiaoDan,$tongGiaDinh,$tongHonPhoi);
 			if ($rs>0) {
 				return 1;
 			}
@@ -228,12 +227,16 @@ class BackupCL extends CI_Controller {
 		$maDinhDanhMayGui=$this->input->post('MaDinhDanhMayGui');
 		$fileName=$this->input->post('FileName');
 		$tenMayNhan=$this->input->post('TenMayNhan');
+		$tongGiaoHo=$this->input->post('TongGiaoHo');
+		$tongGiaoDan=$this->input->post('TongGiaoDan');
+		$tongGiaDinh=$this->input->post('TongGiaDinh');
+		$tongHonPhoi=$this->input->post('TongHonPhoi');
 		
 		$to=$this->input->post('To');
 		$subject=$this->input->post('Subject');
 		$body=$this->input->post('Body');
 		//Thực hiện công việc chuyển file
-		$cpfile=$this->copyFileAndInsertTable($maGiaoXuRieng,$maDinhDanhMayNhan,$maDinhDanhMayGui,$fileName,$tenMayNhan);
+		$cpfile=$this->copyFileAndInsertTable($maGiaoXuRieng,$maDinhDanhMayNhan,$maDinhDanhMayGui,$fileName,$tenMayNhan,$tongGiaoHo,$tongGiaoDan,$tongGiaDinh,$tongHonPhoi);
 		if($cpfile==0)
 		{
 			echo json_encode(-1);

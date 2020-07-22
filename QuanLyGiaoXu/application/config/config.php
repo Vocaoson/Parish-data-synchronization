@@ -12,6 +12,10 @@ $config["numfile"]=5;
 $config["numrow"]=4;
 
 
+/**
+ * Variable store directory file csv
+ */
+$config['data_dir'] = $_SERVER['DOCUMENT_ROOT'].'/Parish-data-synchronization/data';
 
 /*
 |--------------------------------------------------------------------------
@@ -532,8 +536,3 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
-
-/**
- * Variable store directory file csv
- */
-$config['data_dir'] = $_SERVER['DOCUMENT_ROOT'].'/Parish-data-synchronization/data';
