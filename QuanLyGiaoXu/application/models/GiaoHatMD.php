@@ -22,12 +22,13 @@ class GiaoHatMD extends CI_Model {
 		return $data;
 
 	}
-	public function insertMD($maGiaoPhan,$name,$note)
+	public function insertMD($maGiaoPhan,$name,$note,$status=0)
 	{
 		$objectGH=array(
 			"MaGiaoPhan"=>$maGiaoPhan,
 			"TenGiaoHat"=>$name,
-			"GhiChu"=>$note);
+			"GhiChu"=>$note,
+			"status"=>$status);
 		$this->db->insert($this->table, $objectGH);
 		return $this->db->insert_id();
 	}

@@ -139,7 +139,6 @@
 					<div  class="form-group cb">
 						<label for="cb-giaophan-name" id="thuocgiaophan">Thuộc giáo phận: </label>
 						<select name="cb-giaophan-name" class="form-control" id="cb-giaophan-name">
-
 						</select>
 						<input type="hidden" id='hidden-giaophan' name="hidden-giaophan">
 						<p class="text-danger giaophan-note">Lưu ý : Tác vụ sẽ tạo ra 1 giáo phận mới, hãy kiểm tra lại danh sách giáo phận và chọn ra giáo phận phù hợp nếu có.</p>

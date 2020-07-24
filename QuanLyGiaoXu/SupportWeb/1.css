@@ -79,7 +79,7 @@ body.wait *, body.wait
 	top: 0;
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 10;
+	z-index: 999999;
 	visibility: hidden;
 }
 .tooltip.active{

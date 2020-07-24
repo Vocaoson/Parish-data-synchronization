@@ -307,6 +307,24 @@ class GiaoXuCL extends CI_Controller {
 			$status=1;
 			$tenGiaoPhan=$this->input->post('cb-giaophan-nameTen');
 			$maGiaoPhan=$this->input->post('cb-giaophan-nameMa');
+			
+			if($maGiaoPhan==0)
+			{
+				$tenGiaoPhan= trim(substr( $tenGiaoPhan, 0, strlen($tenGiaoPhan)-13));
+				//add Giáo phân và update mã giáo phận
+				$maGiaoPhan=$this->GiaoPhanMD->insertMD($tenGiaoPhan,"",1);
+			}
+
+			if($maGiaoHat==0)
+			{
+				if($maGiaoPhan==0)
+				{
+					die(json_encode(array('success'=>'error')));
+				}
+				$tenGiaoHat=trim(substr( $tenGiaoHat, 0, strlen($tenGiaoHat)-13));
+				//add Giáo Hạt và update mã giáo hạt
+				$maGiaoHat=$this->GiaoHatMD->insertMD($maGiaoPhan,$tenGiaoHat,"",1);
+			}
 			$maGiaoXuRieng=random_string('alpha', 16);
 			$maGiaoXu = $this->GiaoXuMD->insertMD($tenGiaoXu,$diaChi,$dienThoai,$email,$website,$hinh,$ghiChu,$maGiaoHat,$status,$maGiaoXuRieng);
 			if($maGiaoXu > 0){
@@ -324,43 +342,6 @@ class GiaoXuCL extends CI_Controller {
 			}
 			die(json_encode(array('success'=>'error')));
 		}
-	}
-	//hiện tại k dùng
-	public function insertInfo()
-	{
-		if(isset($_POST) && count($_POST) > 0){
-			if($this->input->post('hidden-giaophan') == 0){
-				// update status to 1
-				$rs = $this->GiaoPhanMD->updateStatus($this->input->post('cb-giaophan-name'));
-				if(!$rs){
-					return json_encode(array('success'=>'error'));
-				}
-			}
-			if($this->input->post('hidden-giaohat') == 0){
-				//update status to 1
-				$rs = $this->GiaoHatMD->updateStatus($this->input->post('cb-giaohat-name'));
-				if(!$rs){
-					return json_encode(array('success'=>'error'));
-				}
-			}
-			$id=$this->input->post('txt-giaoxu-id');
-			$name=$this->input->post('txt-giaoxu-name');
-			$address = $this->input->post('txt-diachi');
-			$phone = $this->input->post('txt-sdt');
-			$email = $this->input->post('txt-email');
-			$website = $this->input->post('txt-website');
-			$img = '';
-			$note = '';
-			$magiaohat = $this->input->post('cb-giaohat-name');
-			$result = $this->GiaoXuMD->update($id,$name,$address,$phone,$email,$website,$img,$note,$magiaohat);
-			if($result >= 0){
-				$json = json_encode(array('success'=>'success'));
-				die($json);
-			}
-			die(json_encode(array('success'=>'error')));
-			//insert giao xu
-		}
-
 	}
 	public function insertGiaoXuDoi()
 	{
@@ -402,6 +383,44 @@ class GiaoXuCL extends CI_Controller {
 		echo json_encode($maGiaoXuDoi);
 		return;
 	}
+	//hiện tại k dùng
+	public function insertInfo()
+	{
+		if(isset($_POST) && count($_POST) > 0){
+			if($this->input->post('hidden-giaophan') == 0){
+				// update status to 1
+				$rs = $this->GiaoPhanMD->updateStatus($this->input->post('cb-giaophan-name'));
+				if(!$rs){
+					return json_encode(array('success'=>'error'));
+				}
+			}
+			if($this->input->post('hidden-giaohat') == 0){
+				//update status to 1
+				$rs = $this->GiaoHatMD->updateStatus($this->input->post('cb-giaohat-name'));
+				if(!$rs){
+					return json_encode(array('success'=>'error'));
+				}
+			}
+			$id=$this->input->post('txt-giaoxu-id');
+			$name=$this->input->post('txt-giaoxu-name');
+			$address = $this->input->post('txt-diachi');
+			$phone = $this->input->post('txt-sdt');
+			$email = $this->input->post('txt-email');
+			$website = $this->input->post('txt-website');
+			$img = '';
+			$note = '';
+			$magiaohat = $this->input->post('cb-giaohat-name');
+			$result = $this->GiaoXuMD->update($id,$name,$address,$phone,$email,$website,$img,$note,$magiaohat);
+			if($result >= 0){
+				$json = json_encode(array('success'=>'success'));
+				die($json);
+			}
+			die(json_encode(array('success'=>'error')));
+			//insert giao xu
+		}
+
+	}
+	
 	
 
 	public function insert()

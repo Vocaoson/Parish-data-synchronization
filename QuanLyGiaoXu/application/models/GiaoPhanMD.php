@@ -19,11 +19,12 @@ class GiaoPhanMD extends CI_Model {
 		return $data;
 
 	}
-	public function insertMD($name,$note)
+	public function insertMD($name,$note,$status=0)
 	{
 		$objectGP=array(
 			"TenGiaoPhan"=>$name,
-			"GhiChu"=>$note);
+			"GhiChu"=>$note,
+			"status"=>$status);
 		$this->db->insert($this->table, $objectGP);
 		return $this->db->insert_id();	
 	}

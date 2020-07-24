@@ -124,6 +124,8 @@
 			let maGiaoHat;
 			$("#thuocgiaophan").text("Thuộc giáo phận: " + giaoXu.TenGiaoPhan);
 			$("#thuocgiaohat").text("Thuộc giáo hạt: " + giaoXu.TenGiaoHat);
+			/* $("#thuocgiaophan").val(giaoXu.TenGiaoPhan);
+			$("#thuocgiaohat").val(giaoXu.TenGiaoHat); */
 			$("#txt-giaophan-name").val(giaoXu.TenGiaoPhan);
 			$("#txt-giaohat-name").val(giaoXu.TenGiaoHat);
 			$("#txt-giaoxu-name").val(giaoXu.TenGiaoXu);
@@ -147,6 +149,8 @@
 				maGiaoPhan = giaoXu.MaGiaoPhanRieng;
 				maGiaoHat = giaoXu.MaGiaoHatRieng;
 			}
+			$("#thuocgiaophan").val(maGiaoPhan);
+			$("#thuocgiaohat").val(maGiaoHat);
 			getGiaoPhan(maGiaoPhan, maGiaoHat);
 		});
 	}
@@ -162,6 +166,16 @@
 			dataType: 'json',
 		}).always((data) => {
 			let html = "";
+			if(giaoHatCurrentId==0)
+			{
+				let tenGiaoHat=$("#thuocgiaohat").text().split(':')[1].trim();
+				html += `<option value='0' >`+tenGiaoHat+` (Tạo mới)</option>`;
+				$(".giaohat-note").css('display', 'block');
+			}
+			else
+			{
+				$(".giaohat-note").css('display', 'none');
+			}
 			for (let i = 0; i < data.length; i++) {
 				if (data[i].status == 0) {
 					html += `<option value='${data[i].MaGiaoHat}' status='${data[i].status}'>${data[i].TenGiaoHat + " (Tạo mới) "}</option>`;
@@ -171,11 +185,12 @@
 			}
 			$("#cb-giaohat-name").html(html);
 			$("#cb-giaohat-name").val(giaoHatCurrentId);
-			if ($("#cb-giaohat-name").find(":selected").attr('status') == 0) {
+			
+		/* 	if ($("#cb-giaohat-name").find(":selected").attr('status') == 0) {
 				$(".giaohat-note").css('display', 'block');
 			} else {
 				$(".giaohat-note").css('display', 'none');
-			}
+			} */
 		});
 	}
 
@@ -190,6 +205,16 @@
 			dataType: 'json',
 		}).always((data) => {
 			let html = "";
+			if(maGiaoPhanCurrent==0)
+			{
+				let tenGiaoPhan=$("#thuocgiaophan").text().split(':')[1].trim();
+				html += `<option value='0' >`+tenGiaoPhan+` (Tạo mới)</option>`;
+				$(".giaophan-note").css('display', 'block');
+			}
+			else
+			{
+				$(".giaophan-note").css('display', 'none');
+			}
 			for (let i = 0; i < data.length; i++) {
 				if (data[i].status == 0) {
 					html += `<option value='${data[i].MaGiaoPhan}' status='${data[i].status}'>${data[i].TenGiaoPhan + " (Tạo mới) "}</option>`;
@@ -200,11 +225,11 @@
 			$("#cb-giaophan-name").html(html);
 			$("#cb-giaophan-name").val(maGiaoPhanCurrent);
 			let selectd = $("#cb-giaophan-name").find(":selected");
-			if (selectd.attr('status') == 0) {
+		/* 	if (selectd.attr('status') == 0) {
 				$(".giaophan-note").css('display', 'block');
 			} else {
-				$(".giaophan-note").css('display', 'none');
-			}
+				$(".giaophan-note").css('display', 'none'); 
+			} */
 			getGiaoHat(maGiaoPhanCurrent, maGiaoHatCurrent);
 		})
 	}
@@ -503,7 +528,7 @@
 	SetAnimation();
 	$("#cb-giaohat-name").on('change', function () {
 		let selectd = $("#cb-giaohat-name").find(":selected");
-		if (selectd.attr('status') == 0) {
+		if (selectd.val() == 0) {
 			$(".giaohat-note").css('display', 'block');
 		} else {
 			$(".giaohat-note").css('display', 'none');
@@ -512,15 +537,17 @@
 	})
 	$("#cb-giaophan-name").on('change', () => {
 		let selectd = $("#cb-giaophan-name").find(":selected");
-		if (selectd.attr('status') == 0) {
+		let giaoPhanId = selectd.val();
+		let giaoHatID=$("#thuocgiaohat").val();
+		if (giaoPhanId == 0) {
 			$(".giaophan-note").css('display', 'block');
 		} else {
 			$(".giaophan-note").css('display', 'none');
 		}
 		$("#hidden-giaophan").val(selectd.attr('status'));
-		let giaoPhanId = selectd.val();
-		getGiaoHat(giaoPhanId);
+		getGiaoHat(giaoPhanId,giaoHatID);
 	});
+	//Từ chối giáo xứ đợi
 	$("#deny-giaoxu-info").click(function () {
 
 		$.ajax({
@@ -549,6 +576,7 @@
 			getGiaoXusRequest();
 		})
 	});
+	//Chuyển giáo xứ đợi
 	$("#move-giaoxu-info").click(function () {
 		let giaoXuId = $("#txt-giaoxu-id").val();
 		let title = $("#txt-giaoxu-name").val();
@@ -692,7 +720,7 @@
 		});
 	});
 	$("#submit-giaoxu-info").click(function () {
-		if ($("#cb-giaophan-name").val() <= 0) {
+		if ($("#cb-giaophan-name").val() < 0) {
 			$('#errorinfo').html("Vui lòng chọn giáo phận.")
 				$('.EmailError').addClass('active');
 				setTimeout(function () {
@@ -700,7 +728,7 @@
 				}, 2000);
 			return;
 		}
-		if ($("#cb-giaohat-name").val() <= 0) {
+		if ($("#cb-giaohat-name").val() < 0) {
 			$('#errorinfo').html("Vui lòng chọn giáo hạt.")
 				$('.EmailError').addClass('active');
 				setTimeout(function () {
@@ -712,7 +740,8 @@
 		let urlparam = "";
 		if (status == 0) {
 			urlparam = path + 'GiaoXuCL/insertGiaoXu';
-		} else {
+		} else 
+		{
 			urlparam = path + 'GiaoXuCL/updateGiaoXu';
 		}
 		$.ajax({
