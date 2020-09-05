@@ -210,7 +210,8 @@ p.btnDownloadFile:hover{
 .wrap-giaoxu2{
 	height: 408px;
     overflow-y: auto;
-    overflow-x: hidden;
+	overflow-x: hidden;
+	font-size: 15px;
 }
 .wrap-giaoxu2 .txtWeb{
 	word-wrap: break-word;
@@ -327,4 +328,8 @@ p.btnDownloadFile:hover{
 		margin: 0!important;
 		padding: 0!important;
 	}
+	
+.sizeChuan{
+	font-size: 15px;
+}
 }

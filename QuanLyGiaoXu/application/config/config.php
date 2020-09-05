@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// config mail
+// config mail admin
 $config['email']="doanvanhiepebn951@gmail.com";
 // config url
 $config['urlDashboard']="http://localhost:81/Parish-data-synchronization/QuanLyGiaoXu";

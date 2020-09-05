@@ -79,7 +79,7 @@ class BackupCL extends CI_Controller {
 							$noidung.='<input type="hidden" name="" value="'.$rsListFile[$j]->ID.'">';
 							$noidung.='<p class="btnDownloadFile" data-id="'.$rsListFile[$j]->ID.'" data-path="'.$rsListFile[$j]->PathFile.'"data-info="'.$rsListFile[$j]->TongGiaoHo.'/'.$rsListFile[$j]->TongGiaoDan.'/'.$rsListFile[$j]->TongGiaDinh.'/'.$rsListFile[$j]->TongHonPhoi.'"><i class="fa fa-file-archive"></i> '.$rsListFile[$j]->Name.'</p>';
 							$noidung.='</div>';
-							$noidung.='<div class="col-xs-2">'.$rsListFile[$j]->Time.'</div>';
+							$noidung.='<div class="col-xs-2">'.date('d-m-Y H:i:s',strtotime($rsListFile[$j]->Time)).'</div>';
 							$noidung.='<div class="col-xs-4" style="text-align:center">'.$rsListFile[$j]->TongGiaoHo.' - '.$rsListFile[$j]->TongGiaoDan.' - '.$rsListFile[$j]->TongGiaDinh.' - '.$rsListFile[$j]->TongHonPhoi.'</div>';
 							$noidung.='<div class="col-xs-3">';
 							$noidung.='<b class="btn btn-danger btn-sm btnNewEmail">Soạn Email</b>';

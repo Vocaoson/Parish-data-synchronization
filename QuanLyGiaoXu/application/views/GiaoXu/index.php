@@ -21,20 +21,29 @@
 				</div>
 			</div>
 		</div>
-		<div class="wrap-giaoxu">
+		<div class="sizeChuan">
 			<hr>
-			<div class="row">
-				<div class="col-xs-4">
+			<div class="row" >
+				<div class="col" style="margin-right:20px;margin-left:17px" >
+					<p>Tên giáo phận</p>
+				</div>
+				<div class="col" style="margin-right:20px" >
+					<p>Tên giáo hạt</p>
+				</div>
+				<div class="col" style="margin-right:20px">
 					<p>Tên giáo xứ</p>
 				</div>
-				<div class="col-xs-2">
+				<div class="col" style="margin-right:20px">
 					<p>Số điện thoại</p>
 				</div>
-				<div class="col-xs-3">
-					<p>Website</p>
+				<div class="col" style="margin-right:197px">
+					<p>Email</p>
 				</div>
-				<div class="col-xs-3">
-					<p>Chi tiết</p>
+				<div class="col" style="margin-right:172px">
+					<p>Địa chỉ</p>
+				</div>
+				<div class="col" style="margin-right:20px">
+					<p>Chi tiêt</p> 
 				</div>
 			</div>
 			<div class="wrap-giaoxu2">
@@ -42,14 +51,15 @@
 					<?php foreach ($data as $value): ?>
 						<hr>
 						<div class="row">
-							<div class="col-xs-4"><?= $value->TenGiaoXu ?></div>
-							<div class="col-xs-2"><?= $value->DienThoai ?></div>
-							<div class="col-xs-3 txtWeb">
-								<a href="<?= $value->Website ?>" target="_blank"><?= $value->Website ?></a>
-							</div>
-							<div class="col-xs-3">
+							<div class="col" style="margin-right:20px;margin-left:17px;width:100px;word-wrap: break-word;" ><?= $value->TenGiaoPhan ?></div>
+							<div class="col" style="margin-right:20px;width:88px;word-wrap: break-word;" ><?= $value->TenGiaoHat ?></div>
+							<div class="col" style="margin-right:20px;width:78px;word-wrap: break-word;" ><?= $value->TenGiaoXu ?></div>
+							<div class="col" style="margin-right:20px;width:93px;word-wrap: break-word;"><?= $value->DienThoai ?></div>
+							<div class="col" style="margin-right:20px;width:215px;word-wrap: break-word;"><?= $value->Email ?></div>
+							<div class="col" style="margin-right:20px;width:200px;word-wrap: break-word;"><?= $value->DiaChi ?></div>
+							<div class="col" style="margin-right:20px;width:150px;word-wrap: break-word;"> 
 								<b class="btn btn-success btnDetail"data-name="<?= $value->TenGiaoXu ?>" data-id="<?= $value->MaGiaoXuRieng ?>">Tệp</b>
-								<b class="btn btn-primary btn-edit"data-name="<?= $value->TenGiaoXu ?>" data-id="<?= $value->MaGiaoXuRieng ?>">Sửa giáo xứ</b>
+								<b class="btn btn-primary btn-edit"data-name="<?= $value->TenGiaoXu ?>" data-id="<?= $value->MaGiaoXuRieng ?>">Sửa GX</b>
 							</div>
 						</div>
 					<?php endforeach ?>
@@ -69,7 +79,7 @@
 		<div class="content">
 			<i class="fa fa-times fa-2x btnCancel"></i>
 			<div class="container ml-3 mt-2">
-				<h2 id="nameGx"></h2>
+				<h2 id="nameGx" style="word-wrap: break-word;"></h2>
 				<hr>
 				<div class="row">
 					<div class="col-xs-3">Tên file</div>
@@ -128,7 +138,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title edit"></h4>
+				<h4 class="modal-title edit" style="word-wrap: break-word;"></h4>
 			</div>
 			<div class="modal-body">
 				<form id="giaoxu-info-form">
@@ -197,7 +207,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close btnclosemove" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title edit"></h4>
+				<h4 class="modal-title edit" style="word-wrap: break-word;"></h4>
 			</div>
 			<div class="modal-body">
 				<form id="move-giaoxu-info-form">

@@ -19,13 +19,16 @@
 		for (var i = 0; i < data.length; i++) {
 			noidung += '<hr>';
 			noidung += '<div class="row">';
-			noidung += '<div class="col-xs-4">' + data[i].TenGiaoXu + '</div>';
-			noidung += '<div class="col-xs-2">' + data[i].DienThoai + '</div>';
-			noidung += '<div class="col-xs-3 txtWeb"><a target="_blank" href="' + data[i].Website + '">' + data[i].Website + '</a></div>';
-			noidung += '<div class="col-xs-3">';
-			noidung += '<b class="btn btn-success btnDetail"data-name="' + data[i].TenGiaoXu + '" data-id="' + data[i].MaGiaoXuRieng + '">Tệp</b>';
-			noidung += " ";
-			noidung += '<b class="btn btn-primary btn-edit" data-name="' + data[i].TenGiaoXu + '" data-id="' + data[i].MaGiaoXuRieng + '">Sửa giáo xứ</b>';
+			noidung += '<div class="col" style="margin-right:20px;margin-left:17px;width:100px;word-wrap: break-word;" >' + data[i].TenGiaoPhan + '</div>';
+			noidung += '<div class="col" style="margin-right:20px;width:88px;word-wrap: break-word;" >' + data[i].TenGiaoHat + '</div>';
+			noidung += '<div class="col" style="margin-right:20px;width:78px;word-wrap: break-word;" >' + data[i].TenGiaoXu + '</div>';
+			noidung += '<div class="col" style="margin-right:20px;width:93px;word-wrap: break-word;">' + data[i].DienThoai + '</div>';
+			noidung += '<div class="col" style="margin-right:20px;width:215px;word-wrap: break-word;">' + data[i].Email + '</div>';
+			noidung += '<div class="col" style="margin-right:20px;width:200px;word-wrap: break-word;">' + data[i].DiaChi + '</div>';
+			noidung += '<div class="col" style="margin-right:15px;width:155px">';
+			noidung += '<b class="btn btn-success btnDetail" style="margin-right: 5px;" data-name="'+data[i].TenGiaoXu+'" data-id="'+data[i].MaGiaoXuRieng+'">Tệp</b>';
+			noidung += '<b class="btn btn-primary btn-edit"data-name="'+data[i].TenGiaoXu+'" data-id="'+data[i].MaGiaoXuRieng+'">Sửa GX</b>';
+			noidung += '</div>';
 			noidung += '</div>';
 			noidung += '</div>';
 		}
@@ -78,7 +81,7 @@
 			let html = "";
 			for (let i = 0; i < data.length; i++) {
 				html += "<tr>"
-				html += `<td>${data[i].UploadedDate}</td>`;
+				html += `<td>${convertDateToString(data[i].UploadedDate)}</td>`;
 				html += `<td>${data[i].TenGiaoXu}</td>`;
 				html += `<td><a href="#" class="consider" data-id='${data[i].MaGiaoXuDoi}' data-name='${data[i].TenGiaoXu}'>Xem xét</a></td>`
 				html += "</tr>"
@@ -98,6 +101,18 @@
 				$('#edit-modal').modal('show');
 			});
 		});
+	}
+	// dateInput:  yyyy-MM-dd hh:mm:ss
+	// dateOutput: dd-MM-yyyy hh:mm:ss
+	function convertDateToString(dateInput)
+	{
+		let dateTimeTemp=new Date(dateInput);
+		let monthTemp=("0"+(dateTimeTemp.getMonth()+1)).slice(-2);
+		let dateTemp=("0"+(dateTimeTemp.getDate())).slice(-2);
+		let hoursTemp=("0"+(dateTimeTemp.getHours())).slice(-2);
+		let minutesTemp=("0"+(dateTimeTemp.getMinutes())).slice(-2);
+		let secondsTemp=("0"+(dateTimeTemp.getSeconds())).slice(-2);
+		return dateTemp+"-"+monthTemp+"-"+dateTimeTemp.getFullYear()+" "+hoursTemp+":"+minutesTemp+":"+secondsTemp;
 	}
 	function getGiaoXuEdit(giaoXuId, title, edit = false) {
 		$(".edit").text("Giáo xứ " + title);
@@ -717,6 +732,7 @@
 			}
 			$('#move-giaoxu-modal').modal('hide');
 			getGiaoXusRequest();
+			// refresh dsgx
 		});
 	});
 	$("#submit-giaoxu-info").click(function () {
@@ -780,6 +796,8 @@
 			}
 			$('#edit-modal').modal('hide');
 			getGiaoXusRequest();
+			//refresh dsgx
+			showData("GX", "GiaoXuCL/index/0/1", "Giáo xứ trên hệ thống");
 		})
 	})
 });

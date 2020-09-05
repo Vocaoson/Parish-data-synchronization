@@ -544,7 +544,7 @@ class GiaoXuCL extends CI_Controller {
 		$totalRow=$this->GiaoXuMD->countRow();
 		$numPage=$this->config->item('numrow');
 		$rs=$this->GiaoXuMD->getPhanTrang($numPage,$offset);
-		$this->configPagi($numPage,$totalRow,base_url().'GiaoXuCL/index',0);
+			$this->configPagi($numPage,$totalRow,base_url().'GiaoXuCL/index',0);
 		$data["pagi"]=$this->pagination->create_links();
 		if (count($rs)>=0) {
 			if ($option==0) {
@@ -687,7 +687,11 @@ class GiaoXuCL extends CI_Controller {
 			}
 			die(json_encode(array('success'=>'error')));
 	}
-
+function a()
+{
+	$mya=$this->getallheader->getAllHeaders();
+	$myHeader=$this->input->request_headers();
+}
 }
 
 /* End of file GiaoXuCL.php */

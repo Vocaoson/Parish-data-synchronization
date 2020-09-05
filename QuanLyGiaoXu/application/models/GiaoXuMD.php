@@ -107,13 +107,17 @@ class GiaoXuMD extends CI_Model {
 	public function getFind($value)
 	{
 		$this->db->like('TenGiaoXu', $value, 'both');
-		$this->db->where('status = 1');
+		$this->db->where('giaoxu.status = 1');
+		$this->db->join('giaohat', 'giaohat.MaGiaoHat = giaoxu.Ma_GiaoHat');
+		$this->db->join('giaophan', 'giaophan.MaGiaoPhan = giaohat.MaGiaoPhan');
 		$query=$this->db->get($this->table);
 		return $query->result();
 	}
 	public function getPhanTrang($numPage,$offset)
 	{
-		$this->db->where('status',1);
+		$this->db->where('giaoxu.status',1);
+		$this->db->join('giaohat', 'giaohat.MaGiaoHat = giaoxu.Ma_GiaoHat');
+		$this->db->join('giaophan', 'giaophan.MaGiaoPhan = giaohat.MaGiaoPhan');
 		$query=$this->db->get($this->table,$numPage,$offset);
 		return $query->result();
 	}
